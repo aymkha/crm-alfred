@@ -1,0 +1,14 @@
+<div class="d-flex align-items-center gap-2">
+  <!-- rendu standard du champ (dropdown) -->
+  <scrm-field [field]="field" [record]="record"></scrm-field>
+
+  <button
+    type="button"
+    class="btn btn-sm btn-primary"
+    (click)="onCreateAction()"
+    [disabled]="loading"
+    style="white-space: nowrap;"
+  >
+    {{ loading ? 'Création...' : 'Créer action' }}
+  </button>
+</div>

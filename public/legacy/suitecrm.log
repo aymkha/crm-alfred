@@ -1,0 +1,88 @@
+Wed Dec 17 22:01:57 2025 [69625][1][SECURITY] OutboundEmail::checkSavePermissions - not logged in - skipping check
+Wed Dec 17 22:01:57 2025 [69625][1][FATAL] User update error: Temp User is not retrieved at ID 1, boolean given
+Wed Dec 17 22:01:57 2025 [69625][1][FATAL] Email address save error
+Wed Dec 17 22:02:03 2025 [69625][1][SECURITY] Invalid ext  logger_file_ext : ''.
+Wed Dec 17 22:02:03 2025 [69625][1][SECURITY] Setting logger_file_ext to '.log'.
+Wed Dec 17 22:02:03 2025 [69625][1][SECURITY] Setting logger_file_name to ''.
+Wed Dec 17 22:02:03 2025 [69625][1][SECURITY] Log file extension can't be blank.
+Wed Dec 17 22:02:03 2025 [69625][1][SECURITY] Setting logger_file_name to ''.
+Wed Dec 17 22:02:03 2025 [69625][1][SECURITY] Log file extension can't be blank.
+Thu Dec 18 10:39:43 2025 [93342][1][FATAL] Class Connectors does not exist, unable to rename.
+Thu Dec 18 10:39:43 2025 [93342][1][FATAL] Class Version does not exist, unable to rename.
+Thu Dec 18 10:39:43 2025 [93342][1][FATAL] Class CustomFields does not exist, unable to rename.
+Thu Dec 18 11:09:21 2025 [69625][1][FATAL] Class Connectors does not exist, unable to rename.
+Thu Dec 18 11:09:21 2025 [69625][1][FATAL] Class Version does not exist, unable to rename.
+Thu Dec 18 11:09:21 2025 [69625][1][FATAL] Class CustomFields does not exist, unable to rename.
+Fri Dec 19 18:49:49 2025 [146358][1][FATAL] Email address save error
+Sat Dec 20 12:07:26 2025 [175226][1][FATAL] Invalid import file name
+Sat Dec 20 16:48:10 2025 [146358][1][FATAL] Caught error: stat(): stat failed for upload/import/status_1.csv
+Sat Dec 20 16:48:10 2025 [146358][1][FATAL] Caught error: touch(): UploadStream::stream_metadata is not implemented!
+Sat Dec 20 16:58:13 2025 [146405][1][FATAL] User update error: Temp User is not retrieved at ID d5419357-f586-6344-066a-6946c7ac43cc, boolean given
+Sat Dec 20 16:58:14 2025 [146405][1][FATAL] Email address save error
+Sat Dec 20 23:31:42 2025 [194703][1][FATAL] Class Connectors does not exist, unable to rename.
+Sat Dec 20 23:31:42 2025 [194703][1][FATAL] Class Version does not exist, unable to rename.
+Sat Dec 20 23:31:42 2025 [194703][1][FATAL] Class CustomFields does not exist, unable to rename.
+Sat Dec 20 23:31:50 2025 [193626][1][FATAL] Class Connectors does not exist, unable to rename.
+Sat Dec 20 23:31:50 2025 [193626][1][FATAL] Class Version does not exist, unable to rename.
+Sat Dec 20 23:31:50 2025 [193626][1][FATAL] Class CustomFields does not exist, unable to rename.
+Sat Dec 20 23:31:53 2025 [193626][1][FATAL] Class Connectors does not exist, unable to rename.
+Sat Dec 20 23:31:53 2025 [193626][1][FATAL] Class Version does not exist, unable to rename.
+Sat Dec 20 23:31:53 2025 [193626][1][FATAL] Class CustomFields does not exist, unable to rename.
+Mon Dec 22 12:19:01 2025 [198983][1][FATAL] Caught error: stat(): stat failed for upload/import/error_1.csv
+Mon Dec 22 12:19:01 2025 [198983][1][FATAL] Caught error: touch(): UploadStream::stream_metadata is not implemented!
+Mon Dec 22 12:19:01 2025 [198983][1][FATAL] Caught error: stat(): stat failed for upload/import/status_1.csv
+Mon Dec 22 12:19:01 2025 [198983][1][FATAL] Caught error: touch(): UploadStream::stream_metadata is not implemented!
+Mon Dec 22 12:46:22 2025 [199013][1][FATAL] User update error: Temp User is not retrieved at ID 60df4eb8-54ba-2a3e-e217-69492f0891b6, boolean given
+Mon Dec 22 12:46:22 2025 [199013][1][FATAL] Email address save error
+Mon Dec 22 12:52:07 2025 [198983][1][FATAL] Caught error: stat(): stat failed for upload/import/status_1.csv
+Mon Dec 22 12:52:07 2025 [198983][1][FATAL] Caught error: touch(): UploadStream::stream_metadata is not implemented!
+Mon Dec 22 13:01:52 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 504306.99999999994 to int loses precision
+Mon Dec 22 13:01:53 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 521966.99999999994 to int loses precision
+Mon Dec 22 13:01:56 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 64172.99999999999 to int loses precision
+Mon Dec 22 13:01:56 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 128784.00000000001 to int loses precision
+Mon Dec 22 13:01:56 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 518812.00000000006 to int loses precision
+Mon Dec 22 13:01:57 2025 [198569][1][FATAL] Caught error: stat(): stat failed for upload/import/status_1.csv
+Mon Dec 22 13:01:57 2025 [198569][1][FATAL] Caught error: touch(): UploadStream::stream_metadata is not implemented!
+Mon Dec 22 13:01:58 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 502407.99999999994 to int loses precision
+Mon Dec 22 13:01:59 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 259716.99999999997 to int loses precision
+Mon Dec 22 13:02:00 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 129065.99999999999 to int loses precision
+Mon Dec 22 13:02:00 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 258548.99999999997 to int loses precision
+Mon Dec 22 13:02:00 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 522692.00000000006 to int loses precision
+Mon Dec 22 13:02:01 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 521622.00000000006 to int loses precision
+Mon Dec 22 13:02:05 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 513182.99999999994 to int loses precision
+Mon Dec 22 13:02:06 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 506472.00000000006 to int loses precision
+Mon Dec 22 13:02:08 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 259435.00000000003 to int loses precision
+Mon Dec 22 13:02:09 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 518325.99999999994 to int loses precision
+Mon Dec 22 13:02:10 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 507515.00000000006 to int loses precision
+Mon Dec 22 13:02:11 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 511036.99999999994 to int loses precision
+Mon Dec 22 13:02:12 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 31565.999999999996 to int loses precision
+Mon Dec 22 13:02:12 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 129204.00000000001 to int loses precision
+Mon Dec 22 13:02:13 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 259019.99999999997 to int loses precision
+Mon Dec 22 13:02:14 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 257668.99999999997 to int loses precision
+Mon Dec 22 13:02:14 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 507978.99999999994 to int loses precision
+Mon Dec 22 13:02:18 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 260305.99999999997 to int loses precision
+Mon Dec 22 13:02:18 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 520078.00000000006 to int loses precision
+Mon Dec 22 13:02:19 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 510383.00000000006 to int loses precision
+Mon Dec 22 13:02:20 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 62949.00000000001 to int loses precision
+Mon Dec 22 13:02:22 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 126544.99999999999 to int loses precision
+Mon Dec 22 13:02:22 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 511584.00000000006 to int loses precision
+Mon Dec 22 13:02:23 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 253390.99999999997 to int loses precision
+Mon Dec 22 13:02:23 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 515128.99999999994 to int loses precision
+Mon Dec 22 13:02:24 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 125097.99999999999 to int loses precision
+Mon Dec 22 13:02:24 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 261637.99999999997 to int loses precision
+Mon Dec 22 13:02:25 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 519549.99999999994 to int loses precision
+Mon Dec 22 13:02:27 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 257487.00000000003 to int loses precision
+Mon Dec 22 13:02:28 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 254191.99999999997 to int loses precision
+Mon Dec 22 13:02:28 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 508580.99999999994 to int loses precision
+Mon Dec 22 13:02:33 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 260653.00000000003 to int loses precision
+Mon Dec 22 13:02:33 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 510198.00000000006 to int loses precision
+Mon Dec 22 13:02:34 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 505291.00000000006 to int loses precision
+Mon Dec 22 13:02:39 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 503109.99999999994 to int loses precision
+Mon Dec 22 13:02:40 2025 [198983][1][FATAL] Caught error: Implicit conversion from float 503055.00000000006 to int loses precision
+Mon Dec 22 13:02:41 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 514769.99999999994 to int loses precision
+Mon Dec 22 13:02:42 2025 [198569][1][FATAL] Caught error: Implicit conversion from float 503256.00000000006 to int loses precision
+Mon Dec 22 13:02:48 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 251369.99999999997 to int loses precision
+Mon Dec 22 13:02:49 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 254547.00000000003 to int loses precision
+Mon Dec 22 13:02:49 2025 [199013][1][FATAL] Caught error: Implicit conversion from float 512171.00000000006 to int loses precision
+Mon Dec 22 14:54:51 2025 [336923][1][FATAL] Caught error: stat(): stat failed for upload/import/status_1.csv
+Mon Dec 22 14:54:51 2025 [336923][1][FATAL] Caught error: touch(): UploadStream::stream_metadata is not implemented!

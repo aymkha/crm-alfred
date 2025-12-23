@@ -1,0 +1,152 @@
+<?php
+$searchdefs ['Accounts'] = 
+array (
+  'layout' => 
+  array (
+    'basic_search' => 
+    array (
+      'name' => 
+      array (
+        'name' => 'name',
+        'default' => true,
+        'width' => '10%',
+      ),
+      'current_user_only' => 
+      array (
+        'name' => 'current_user_only',
+        'label' => 'LBL_CURRENT_USER_FILTER',
+        'type' => 'bool',
+        'default' => true,
+        'width' => '10%',
+      ),
+      'favorites_only' => 
+      array (
+        'name' => 'favorites_only',
+        'label' => 'LBL_FAVORITES_FILTER',
+        'type' => 'bool',
+      ),
+    ),
+    'advanced_search' => 
+    array (
+      'zone_commerciale_c' => 
+      array (
+        'type' => 'enum',
+        'default' => true,
+        'studio' => 'visible',
+        'label' => 'LBL_ZONE_COMMERCIALE_C',
+        'width' => '10%',
+        'name' => 'zone_commerciale_c',
+      ),
+      'assigned_user_id' => 
+      array (
+        'name' => 'assigned_user_id',
+        'type' => 'enum',
+        'label' => 'LBL_ASSIGNED_TO',
+        'function' => 
+        array (
+          'name' => 'get_user_array',
+          'params' => 
+          array (
+            0 => false,
+          ),
+        ),
+        'default' => true,
+        'width' => '10%',
+      ),
+      'interest_level_c' => 
+      array (
+        'type' => 'enum',
+        'default' => true,
+        'studio' => 'visible',
+        'label' => 'LBL_INTEREST_LEVEL_C',
+        'width' => '10%',
+        'name' => 'interest_level_c',
+      ),
+      'nbtables_c' => 
+      array (
+        'type' => 'decimal',
+        'default' => true,
+        'label' => 'LBL_NBTABLES',
+        'width' => '10%',
+        'name' => 'nbtables_c',
+      ),
+      'google_form_completed_c' => 
+      array (
+        'type' => 'bool',
+        'default' => true,
+        'label' => 'LBL_GOOGLE_FORM_COMPLETED_C',
+        'width' => '10%',
+        'name' => 'google_form_completed_c',
+      ),
+      'ticketmoyentable_c' => 
+      array (
+        'type' => 'decimal',
+        'default' => true,
+        'label' => 'LBL_TICKETMOYENTABLE',
+        'width' => '10%',
+        'name' => 'ticketmoyentable_c',
+      ),
+      'next_action_c' => 
+      array (
+        'type' => 'varchar',
+        'default' => true,
+        'label' => 'LBL_NEXT_ACTION_C',
+        'width' => '10%',
+        'name' => 'next_action_c',
+      ),
+      'voice_interview_done_c' => 
+      array (
+        'type' => 'bool',
+        'default' => true,
+        'label' => 'LBL_VOICE_INTERVIEW_DONE_C',
+        'width' => '10%',
+        'name' => 'voice_interview_done_c',
+      ),
+      'next_action_date_c' => 
+      array (
+        'type' => 'datetimecombo',
+        'default' => true,
+        'label' => 'LBL_NEXT_ACTION_DATE_C',
+        'width' => '10%',
+        'name' => 'next_action_date_c',
+      ),
+      'notemaps_c' => 
+      array (
+        'type' => 'decimal',
+        'default' => true,
+        'label' => 'LBL_NOTEMAPS',
+        'width' => '10%',
+        'name' => 'notemaps_c',
+      ),
+      'type_etablissement_c' => 
+      array (
+        'type' => 'enum',
+        'default' => true,
+        'studio' => 'visible',
+        'label' => 'LBL_TYPE_ETABLISSEMENT_C',
+        'width' => '10%',
+        'name' => 'type_etablissement_c',
+      ),
+      'nbreviews_c' => 
+      array (
+        'type' => 'decimal',
+        'default' => true,
+        'label' => 'LBL_NBREVIEWS',
+        'width' => '10%',
+        'name' => 'nbreviews_c',
+      ),
+    ),
+  ),
+  'templateMeta' => 
+  array (
+    'maxColumns' => '3',
+    'maxColumnsBasic' => '4',
+    'widths' => 
+    array (
+      'label' => '10',
+      'field' => '30',
+    ),
+  ),
+);
+;
+?>

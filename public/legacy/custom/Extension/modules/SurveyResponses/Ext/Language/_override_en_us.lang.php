@@ -1,0 +1,4 @@
+<?php
+// created: 2025-12-18 11:09:21
+$mod_strings['LBL_SURVEYRESPONSES_ACCOUNTS_FROM_ACCOUNTS_TITLE'] = 'Restaurant';
+$mod_strings['LBL_SURVEYRESPONSES_CAMPAIGNS_FROM_CAMPAIGNS_TITLE'] = 'Campagne';

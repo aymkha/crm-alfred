@@ -1,0 +1,197 @@
+<?php
+$listViewDefs ['Accounts'] = 
+array (
+  'NAME' => 
+  array (
+    'width' => '20%',
+    'label' => 'LBL_LIST_ACCOUNT_NAME',
+    'link' => true,
+    'default' => true,
+  ),
+  'JJWG_MAPS_ADDRESS_C' => 
+  array (
+    'type' => 'varchar',
+    'default' => true,
+    'label' => 'LBL_JJWG_MAPS_ADDRESS',
+    'width' => '10%',
+  ),
+  'PHONE_OFFICE' => 
+  array (
+    'width' => '10%',
+    'label' => 'LBL_LIST_PHONE',
+    'default' => true,
+  ),
+  'ZONE_COMMERCIALE_C' => 
+  array (
+    'type' => 'enum',
+    'default' => true,
+    'studio' => 'visible',
+    'label' => 'LBL_ZONE_COMMERCIALE_C',
+    'width' => '10%',
+  ),
+  'INTEREST_LEVEL_C' => 
+  array (
+    'type' => 'enum',
+    'default' => true,
+    'studio' => 'visible',
+    'label' => 'LBL_INTEREST_LEVEL_C',
+    'width' => '10%',
+  ),
+  'ASSIGNED_USER_NAME' => 
+  array (
+    'width' => '10%',
+    'label' => 'LBL_LIST_ASSIGNED_USER',
+    'module' => 'Employees',
+    'id' => 'ASSIGNED_USER_ID',
+    'default' => true,
+  ),
+  'EMAIL1' => 
+  array (
+    'width' => '15%',
+    'label' => 'LBL_EMAIL_ADDRESS',
+    'sortable' => false,
+    'link' => true,
+    'customCode' => '{$EMAIL1_LINK}',
+    'default' => true,
+  ),
+  'NOMGERANT_C' => 
+  array (
+    'type' => 'varchar',
+    'default' => true,
+    'label' => 'LBL_NOMGERANT',
+    'width' => '10%',
+  ),
+  'NEXT_ACTION_C' => 
+  array (
+    'type' => 'varchar',
+    'default' => true,
+    'label' => 'LBL_NEXT_ACTION_C',
+    'width' => '10%',
+  ),
+  'NEXT_ACTION_DATE_C' => 
+  array (
+    'type' => 'datetimecombo',
+    'default' => true,
+    'label' => 'LBL_NEXT_ACTION_DATE_C',
+    'width' => '10%',
+  ),
+  'STATUS_DU_RESTAURANT_C' => 
+  array (
+    'type' => 'enum',
+    'default' => true,
+    'studio' => 'visible',
+    'label' => 'LBL_STATUS_DU_RESTAURANT',
+    'width' => '10%',
+  ),
+  'TABLES_EQUIPEES_C' => 
+  array (
+    'type' => 'enum',
+    'default' => true,
+    'studio' => 'visible',
+    'label' => 'LBL_TABLES_EQUIPEES',
+    'width' => '10%',
+  ),
+  'INSTAGRAM_C' => 
+  array (
+    'type' => 'varchar',
+    'default' => false,
+    'label' => 'LBL_INSTAGRAM',
+    'width' => '10%',
+  ),
+  'WEBSITE' => 
+  array (
+    'width' => '10%',
+    'label' => 'LBL_WEBSITE',
+    'default' => false,
+  ),
+  'EMPLOYEES' => 
+  array (
+    'width' => '10%',
+    'label' => 'LBL_EMPLOYEES',
+    'default' => false,
+  ),
+  'DESCRIPTION' => 
+  array (
+    'type' => 'text',
+    'label' => 'LBL_DESCRIPTION',
+    'sortable' => false,
+    'width' => '10%',
+    'default' => false,
+  ),
+  'ONLINE_MENU_URL_C' => 
+  array (
+    'type' => 'url',
+    'default' => false,
+    'label' => 'LBL_ONLINE_MENU_URL_C',
+    'width' => '10%',
+  ),
+  'VOICE_INTERVIEW_DONE_C' => 
+  array (
+    'type' => 'bool',
+    'default' => false,
+    'label' => 'LBL_VOICE_INTERVIEW_DONE_C',
+    'width' => '10%',
+  ),
+  'TYPE_ETABLISSEMENT_C' => 
+  array (
+    'type' => 'enum',
+    'default' => false,
+    'studio' => 'visible',
+    'label' => 'LBL_TYPE_ETABLISSEMENT_C',
+    'width' => '10%',
+  ),
+  'GOOGLE_REVIEWS_RANGE_LIST_C' => 
+  array (
+    'type' => 'enum',
+    'default' => false,
+    'studio' => 'visible',
+    'label' => 'LBL_GOOGLE_REVIEWS_RANGE_LIST',
+    'width' => '10%',
+  ),
+  'RESERVATION_C' => 
+  array (
+    'type' => 'varchar',
+    'default' => false,
+    'label' => 'LBL_RESERVATION',
+    'width' => '10%',
+  ),
+  'NB_TABLES_RANGE_LIST_C' => 
+  array (
+    'type' => 'enum',
+    'default' => false,
+    'studio' => 'visible',
+    'label' => 'LBL_NB_TABLES_RANGE_LIST',
+    'width' => '10%',
+  ),
+  'GOOGLE_RATING_RANGE_LIST_C' => 
+  array (
+    'type' => 'enum',
+    'default' => false,
+    'studio' => 'visible',
+    'label' => 'LBL_GOOGLE_RATING_RANGE_LIST',
+    'width' => '10%',
+  ),
+  'GOOGLE_FORM_COMPLETED_C' => 
+  array (
+    'type' => 'bool',
+    'default' => false,
+    'label' => 'LBL_GOOGLE_FORM_COMPLETED_C',
+    'width' => '10%',
+  ),
+  'TICKET_MOYEN_RANGE_C' => 
+  array (
+    'type' => 'enum',
+    'default' => false,
+    'studio' => 'visible',
+    'label' => 'LBL_TICKET_MOYEN_RANGE_C',
+    'width' => '10%',
+  ),
+  'OWNERSHIP' => 
+  array (
+    'width' => '10%',
+    'label' => 'LBL_OWNERSHIP',
+    'default' => false,
+  ),
+);
+;
+?>
