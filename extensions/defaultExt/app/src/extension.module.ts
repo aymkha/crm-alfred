@@ -11,7 +11,11 @@ import { actionListFieldMetadata } from './fields/action-list/action-list.metada
     HttpClientModule,
   ],
   providers: [
-    actionListFieldMetadata
+    {
+      provide: 'actionListFieldMetadata',
+      useValue: actionListFieldMetadata,
+      multi: true
+    }
   ]
 })
 export class ExtensionModule {
