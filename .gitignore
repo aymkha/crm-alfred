@@ -5,3 +5,7 @@ logs/
 logs/
 logs/
 .angular/cache/
+logs/prod/*.log
+.angular/cache/*
+logs/
+.angular/cache/
