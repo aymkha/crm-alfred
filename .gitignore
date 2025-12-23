@@ -9,3 +9,8 @@ logs/prod/*.log
 .angular/cache/*
 logs/
 .angular/cache/
+node_modules/
+logs/
+public/bundles/apiplatform/
+vendor/api-platform/
+vendor/tecnickcom/tcpdf/fonts/
