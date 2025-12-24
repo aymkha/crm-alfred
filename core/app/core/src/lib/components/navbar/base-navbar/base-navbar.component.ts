@@ -77,9 +77,9 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     backLink = false;
     mainNavLink = true;
     submenu: any = [];
-    moduleNameMapper: ModuleNameMapper;
-    actionNameMapper: ActionNameMapper;
-    routeConverter: RouteConverter;
+    moduleNameMapper!: ModuleNameMapper;
+    actionNameMapper!: ActionNameMapper;
+    routeConverter!: RouteConverter;
     navbar: NavbarModel;
     maxTabs = 8;
     screen: ScreenSize = ScreenSize.Medium;
@@ -89,47 +89,16 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     currentQuickActions: ModuleAction[];
 
-    languages$: Observable<LanguageStrings>;
-    userPreferences$: Observable<UserPreferenceMap>;
-    currentUser$: Observable<any>;
-    appState$: Observable<AppState>;
-    navigation$: Observable<Navigation>;
+    languages$!: Observable<LanguageStrings>;
+    userPreferences$!: Observable<UserPreferenceMap>;
+    currentUser$!: Observable<any>;
+    appState$!: Observable<AppState>;
+    navigation$!: Observable<Navigation>;
     dropdownLength: number;
 
-    notificationCount$: Observable<number>;
+    notificationCount$!: Observable<number>;
 
-    vm$: Observable<any>;
-
-            if (screenSize) {
-                this.screen = screenSize;
-            }
-
-            if (navigation && navigation.modules) {
-                this.navigation = navigation;
-            }
-
-            this.calculateMaxTabs(navigation);
-
-            this.getModuleQuickActions(appState.module);
-
-            this.navbar.resetMenu();
-            if (ready([language.appStrings, language.modStrings, language.appListStrings, userPreferences, currentUser])) {
-                this.navbar.build(
-                    navigation,
-                    currentUser,
-                    this.maxTabs,
-                );
-            }
-
-            return {
-                navigation,
-                userPreferences,
-                appState,
-                appStrings: language.appStrings || {},
-                appListStrings: language.appListStrings || {}
-            };
-        })
-    );
+    vm$!: Observable<any>;
 
     constructor(
         protected navigationStore: NavigationStore,
@@ -175,23 +144,25 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 this.calculateMaxTabs(navigation);
 
-                this.getModuleQuickActions(appState.module);
+                this.getModuleQuickActions(appState?.module);
 
-                this.navbar.resetMenu();
-                if (ready([language.appStrings, language.modStrings, language.appListStrings, userPreferences, currentUser])) {
-                    this.navbar.build(
-                        navigation,
-                        currentUser,
-                        this.maxTabs,
-                    );
+                if (this.navbar) {
+                    this.navbar.resetMenu();
+                    if (ready([language?.appStrings, language?.modStrings, language?.appListStrings, userPreferences, currentUser])) {
+                        this.navbar.build(
+                            navigation,
+                            currentUser,
+                            this.maxTabs,
+                        );
+                    }
                 }
 
                 return {
                     navigation,
                     userPreferences,
                     appState,
-                    appStrings: language.appStrings || {},
-                    appListStrings: language.appListStrings || {}
+                    appStrings: language?.appStrings || {},
+                    appListStrings: language?.appListStrings || {}
                 };
             })
         );
@@ -312,15 +283,17 @@ export class BaseNavbarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     protected calculateMaxTabs(navigation: Navigation): void {
-        const sizeMap = this.systemConfigStore.getConfigValue('navigation_tab_limits');
+        const sizeMap = this.systemConfigStore?.getConfigValue?.('navigation_tab_limits');
         if (this.screen && sizeMap) {
 
             let maxTabs = sizeMap[this.screen];
-            if (!maxTabs || navigation.maxTabs && navigation.maxTabs < maxTabs) {
-                maxTabs = navigation.maxTabs;
+            if (!maxTabs || (navigation?.maxTabs && navigation.maxTabs < maxTabs)) {
+                maxTabs = navigation?.maxTabs;
             }
 
-            this.maxTabs = maxTabs;
+            if (maxTabs) {
+                this.maxTabs = maxTabs;
+            }
         }
     }
 
