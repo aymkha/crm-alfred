@@ -35,8 +35,6 @@ import {BaseFieldRegistry} from './base-field.registry';
     providedIn: 'root'
 })
 export class FieldRegistry extends BaseFieldRegistry {
-    protected override map!: OverridableMap<Type<BaseFieldComponent>>;
-
     constructor() {
         super();
     }
