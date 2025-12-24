@@ -77,10 +77,12 @@ export class ChartSidebarWidgetComponent extends BaseWidgetComponent implements 
 
     constructor(public language: LanguageStore, protected factory: ChartDataStoreFactory) {
         super();
+        // Fallback to avoid undefined streams if language store is missing
+        (this as any).language = language ?? {appStrings$: of({})};
     }
 
     ngOnInit(): void {
-        this.appStrings$ = this.language.appStrings$;
+        this.appStrings$ = this.language?.appStrings$ ?? of({});
 
         if (this.validateConfig() === false) {
             return;

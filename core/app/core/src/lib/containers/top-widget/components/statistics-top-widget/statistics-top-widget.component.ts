@@ -71,6 +71,8 @@ export class StatisticsTopWidgetComponent extends BaseWidgetComponent implements
         protected factory: SingleValueStatisticsStoreFactory
     ) {
         super();
+        // Default streams so we don't crash if language store DI is missing
+        (this as any).language = language ?? {appStrings$: of({})};
     }
 
 
@@ -165,7 +167,7 @@ export class StatisticsTopWidgetComponent extends BaseWidgetComponent implements
         this.subs.push(this.loading$.subscribe());
 
       this.vm$ = statisticObs.pipe(
-          combineLatestWith(this.language.appStrings$),
+          combineLatestWith(this.language?.appStrings$ ?? of({})),
           map(([statistics, appStrings]) => {
               const statsMap: { [key: string]: SingleValueStatisticsState } = {};
               statistics.forEach(value => {
