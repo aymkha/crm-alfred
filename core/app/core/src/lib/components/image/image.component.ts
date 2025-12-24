@@ -31,7 +31,7 @@ import {
     OnInit,
     signal,
 } from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {filter, map, tap} from 'rxjs/operators';
 import {ThemeImage, ThemeImageMap, ThemeImagesStore} from '../../store/theme-images/theme-images.store';
 
@@ -46,13 +46,17 @@ export class ImageComponent  implements OnInit, OnDestroy {
     @Input() title = '';
     @Input() wrapperClass = 'sicon';
 
-    images$: Observable<ThemeImageMap> = this.themeImagesStore.images$;
+    images$: Observable<ThemeImageMap> = of({});
 
     imageSig = signal<any>({});
 
     protected subs: Subscription[] = [];
 
     constructor(protected themeImagesStore: ThemeImagesStore) {
+        // guard if DI fails during early bootstrap
+        if (themeImagesStore?.images$) {
+            this.images$ = themeImagesStore.images$;
+        }
     }
 
     ngOnInit(): void {
