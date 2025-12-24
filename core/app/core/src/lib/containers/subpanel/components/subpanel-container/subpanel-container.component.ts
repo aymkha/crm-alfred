@@ -72,7 +72,7 @@ export class SubpanelContainerComponent implements OnInit {
 
         this.openSubpanels = this.preferences.getUi(module, 'subpanel-container-open-subpanels') ?? [];
 
-        const subpanels$ = this.config?.subpanels$ ?? of({subpanels: {}} as SubpanelStoreMap);
+        const subpanels$ = this.config?.subpanels$ ?? of({} as unknown as SubpanelStoreMap);
 
         this.vm$ = subpanels$.pipe(
             map((subpanelsMap) => ({
