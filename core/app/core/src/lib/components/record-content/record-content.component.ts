@@ -31,6 +31,7 @@ import {map, shareReplay} from 'rxjs/operators';
 import {RecordContentConfig, RecordContentDataSource} from './record-content.model';
 import {FieldLayoutConfig, FieldLayoutDataSource} from '../field-layout/field-layout.model';
 import {LanguageStore} from '../../store/language/language.store';
+import {EMPTY} from 'rxjs';
 
 @Component({
     selector: 'scrm-record-content',
@@ -53,10 +54,19 @@ export class RecordContentComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        if (!this.dataSource) {
+            // Defensive: if adapter is missing, avoid runtime crashes
+            this.subs.push(EMPTY.subscribe());
+            return;
+        }
         this.subs.push(this.dataSource.getDisplayConfig().subscribe(config => {
             this.config = {...config};
         }));
         this.subs.push(this.dataSource.getPanels().subscribe(panels => {
+            if (!panels) {
+                this.panels = [];
+                return;
+            }
             this.panels = [...panels];
             if (this?.config?.layout === 'panels') {
                 this.updatePanelCollapseState();
@@ -133,11 +143,11 @@ export class RecordContentComponent implements OnInit, OnDestroy {
     buildPanelMap(): any {
         const panelMap = {};
 
-        this.panels.forEach(panel => {
+        (this.panels || []).forEach(panel => {
             let isCollapsed = false;
             panel.label = panel?.label?.toUpperCase() ?? '';
             const panelKey = panel?.key?.toUpperCase() ?? '';
-            if (panel.meta.panelDefault === 'collapsed') {
+            if (panel?.meta?.panelDefault === 'collapsed') {
                 isCollapsed = true;
             }
             panel.isCollapsed = isCollapsed;
