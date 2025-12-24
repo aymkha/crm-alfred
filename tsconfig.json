@@ -18,6 +18,12 @@
       "dom"
     ],
     "paths": {
+      "@app": [
+        "core/app/shell/src/app"
+      ],
+      "@app/*": [
+        "core/app/shell/src/app/*"
+      ],
       "core": [
         "dist/core"
       ],
