@@ -51,7 +51,7 @@ export class RecordPanelComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.vm$ = this.config.store.vm$;
+        this.vm$ = this.config?.store?.vm$ ?? of({});
 
         this.initCloseButton();
 
@@ -73,10 +73,10 @@ export class RecordPanelComponent implements OnInit, OnDestroy {
     getGridConfig(): RecordGridConfig {
 
         return {
-            record$: this.config.store.stagingRecord$,
-            mode$: this.config.store.mode$,
-            fields$: this.config.store.getViewFieldsKeys$(),
-            actions: this.config.actions,
+            record$: this.config?.store?.stagingRecord$ ?? of(null),
+            mode$: this.config?.store?.mode$ ?? of('detail'),
+            fields$: this.config?.store?.getViewFieldsKeys$?.() ?? of([]),
+            actions: this.config?.actions ?? [],
             klass: 'mt-2 rounded',
             buttonClass: 'btn btn-outline-danger btn-sm',
             maxColumns$: of(4).pipe(shareReplay(1)),

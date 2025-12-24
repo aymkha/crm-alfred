@@ -25,7 +25,7 @@
  */
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {combineLatestWith, Observable, Subscription} from 'rxjs';
+import {combineLatestWith, Observable, of, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ViewContext, WidgetMetadata} from 'common';
 import {MetadataStore} from '../../../../store/metadata/metadata.store.service';
@@ -49,31 +49,12 @@ import {RecordViewSidebarWidgetService} from "../../services/record-view-sidebar
 export class RecordContainerComponent implements OnInit, OnDestroy {
 
     loading: boolean = true;
-    language$: Observable<LanguageStrings> = this.language.vm$;
+    language$: Observable<LanguageStrings> = of({} as LanguageStrings);
     displayWidgets: boolean = true;
     swapWidgets: boolean = false;
     sidebarWidgetConfig: any;
 
-    vm$ = this.language$.pipe(
-        combineLatestWith(
-            this.bottomWidgetAdapter.config$,
-            this.topWidgetAdapter.config$,
-            this.recordViewStore.showSubpanels$
-        ),
-        map((
-            [
-                language,
-                bottomWidgetConfig,
-                topWidgetConfig,
-                showSubpanels
-            ]
-        ) => ({
-            language,
-            bottomWidgetConfig,
-            topWidgetConfig,
-            showSubpanels
-        }))
-    );
+    vm$!: Observable<any>;
 
     protected subs: Subscription[] = [];
 
@@ -87,6 +68,32 @@ export class RecordContainerComponent implements OnInit, OnDestroy {
         protected bottomWidgetAdapter: BottomWidgetAdapter,
         protected sidebarWidgetHandler: RecordViewSidebarWidgetService
     ) {
+        this.language$ = language?.vm$ ?? of({} as LanguageStrings);
+
+        const bottomConfig$ = bottomWidgetAdapter?.config$ ?? of({} as any);
+        const topConfig$ = topWidgetAdapter?.config$ ?? of({} as any);
+        const showSubpanels$ = recordViewStore?.showSubpanels$ ?? of(false);
+
+        this.vm$ = this.language$.pipe(
+            combineLatestWith(
+                bottomConfig$,
+                topConfig$,
+                showSubpanels$
+            ),
+            map((
+                [
+                    language,
+                    bottomWidgetConfig,
+                    topWidgetConfig,
+                    showSubpanels
+                ]
+            ) => ({
+                language,
+                bottomWidgetConfig,
+                topWidgetConfig,
+                showSubpanels
+            }))
+        );
     }
 
     ngOnInit(): void {

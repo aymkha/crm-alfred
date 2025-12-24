@@ -27,7 +27,7 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {GlobalSearch} from '../../services/navigation/global-search/global-search.service';
 import {LanguageStore, LanguageStrings} from '../../store/language/language.store';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {debounceTime, distinctUntilChanged, filter, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup} from '@angular/forms';
 
@@ -47,7 +47,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     hasSearchTyped: boolean = false;
 
     protected subs: Subscription[] = [];
-    languages$: Observable<LanguageStrings> = this.languageStore.vm$;
+    languages$: Observable<LanguageStrings> = of({} as LanguageStrings);
 
     vm$ = this.languages$.pipe(
         map(language => {
@@ -58,6 +58,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     );
 
     constructor(protected globalSearch: GlobalSearch, protected languageStore: LanguageStore) {
+        this.languages$ = languageStore?.vm$ ?? of({} as LanguageStrings);
     }
 
     ngOnInit(): void {

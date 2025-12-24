@@ -26,7 +26,7 @@
 
 import {Component, Input, OnInit, signal} from '@angular/core';
 import {map, take, tap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {SubpanelContainerConfig} from './subpanel-container.model';
 import {LanguageStore, LanguageStrings} from '../../../../store/language/language.store';
 import {SubpanelStore, SubpanelStoreMap} from '../../store/subpanel/subpanel.store';
@@ -50,7 +50,7 @@ export class SubpanelContainerComponent implements OnInit {
     toggleIcon = signal('arrow_down_filled');
     maxColumns$: Observable<number>;
 
-    languages$: Observable<LanguageStrings> = this.languageStore.vm$;
+    languages$: Observable<LanguageStrings> = of({} as LanguageStrings);
 
     vm$: Observable<{ subpanels: SubpanelStoreMap }>;
     openSubpanels: string[] = [];
@@ -63,6 +63,7 @@ export class SubpanelContainerComponent implements OnInit {
         protected localStorage: LocalStorageService,
         protected preferences: UserPreferenceStore
     ) {
+        this.languages$ = languageStore?.vm$ ?? of({} as LanguageStrings);
     }
 
     ngOnInit(): void {
@@ -71,7 +72,9 @@ export class SubpanelContainerComponent implements OnInit {
 
         this.openSubpanels = this.preferences.getUi(module, 'subpanel-container-open-subpanels') ?? [];
 
-        this.vm$ = this.config.subpanels$.pipe(
+        const subpanels$ = this.config?.subpanels$ ?? of({subpanels: {}} as SubpanelStoreMap);
+
+        this.vm$ = subpanels$.pipe(
             map((subpanelsMap) => ({
                 subpanels: subpanelsMap
             })),
@@ -102,7 +105,7 @@ export class SubpanelContainerComponent implements OnInit {
     }
 
     getMaxColumns(): Observable<number> {
-        return this.maxColumnCalculator.getMaxColumns(this.config.sidebarActive$);
+        return this.maxColumnCalculator.getMaxColumns(this.config?.sidebarActive$ ?? of(false));
     }
 
     toggleSubPanels(): void {

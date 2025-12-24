@@ -25,7 +25,7 @@
  */
 
 import {Component} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {LanguageStore, LanguageStrings} from '../../store/language/language.store';
 import {AuthService} from '../../services/auth/auth.service';
@@ -44,7 +44,7 @@ export class LogoutUiComponent {
         }
     };
 
-    languages$: Observable<LanguageStrings> = this.languageStore.vm$;
+    languages$: Observable<LanguageStrings> = of({} as LanguageStrings);
 
     vm$ = this.languages$.pipe(
         map(languages => (
@@ -59,6 +59,7 @@ export class LogoutUiComponent {
         protected auth: AuthService,
         protected languageStore: LanguageStore
     ) {
+        this.languages$ = languageStore?.vm$ ?? of({} as LanguageStrings);
     }
 
     /**
