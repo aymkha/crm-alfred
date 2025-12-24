@@ -26,7 +26,7 @@
 
 import {Component, Input, OnInit} from '@angular/core';
 import {Action, ActionContext, ActionDataSource, Button, ButtonGroupInterface, ButtonInterface, isFalse} from 'common';
-import {BehaviorSubject, combineLatestWith, Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, combineLatestWith, Observable, of, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SystemConfigStore} from '../../store/system-config/system-config.store';
 import {
@@ -80,10 +80,14 @@ export class ActionGroupMenuComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.vm$ = this.config.getActions().pipe(
+        const actions$ = this.config?.getActions?.() ?? of<Action[]>([]);
+        const screenSize$ = this.screenSize?.screenSize$ ?? of<ScreenSize>(ScreenSize.Medium);
+        const languages$ = this.languages?.vm$ ?? of({} as LanguageStrings);
+
+        this.vm$ = actions$.pipe(
             combineLatestWith(
-                this.screenSize.screenSize$,
-                this.languages.vm$
+                screenSize$,
+                languages$
             ),
             map(([actions, screenSize, languages]) => {
                 if (screenSize) {
