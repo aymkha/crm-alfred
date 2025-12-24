@@ -47,7 +47,7 @@ $module_name_map = [
         'core' => 'Calendar'
     ],
     'Calls' => [
-        'frontend' => 'actions',
+        'frontend' => 'calls',
         'core' => 'Calls'
     ],
     'Calls_Reschedule' => [
@@ -75,7 +75,7 @@ $module_name_map = [
         'core' => 'Contacts'
     ],
     'Accounts' => [
-        'frontend' => 'restaurants',
+        'frontend' => 'accounts',
         'core' => 'Accounts'
     ],
     'Opportunities' => [
