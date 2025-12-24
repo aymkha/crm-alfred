@@ -63,34 +63,12 @@ export class LoginUiComponent implements OnInit {
 
     cardState = 'front';
 
-    systemConfigs$: Observable<SystemConfigMap> = this.configs.configs$;
-    appStrings$: Observable<LanguageStringMap> = this.languageStore.appStrings$;
+    systemConfigs$: Observable<SystemConfigMap>;
+    appStrings$: Observable<LanguageStringMap>;
 
     language: string = null;
 
-    vm$ = this.systemConfigs$.pipe(
-        combineLatestWith(this.appStrings$),
-        map(([systemConfigs, appStrings]: [SystemConfigMap, LanguageStringMap]) => {
-            let showLanguages = false;
-            let showForgotPassword = false;
-
-            if (systemConfigs.languages && systemConfigs.languages.items) {
-                showLanguages = Object.keys(systemConfigs.languages.items).length > 1;
-            }
-
-            if (systemConfigs.passwordsetting && systemConfigs.passwordsetting.items) {
-                const forgotPasswordProperty = systemConfigs.passwordsetting.items.forgotpasswordON;
-                showForgotPassword = [true, '1', 'true'].includes(forgotPasswordProperty);
-            }
-
-            return {
-                systemConfigs,
-                appStrings,
-                showLanguages,
-                showForgotPassword
-            };
-        })
-    );
+    vm$: Observable<any>;
 
     constructor(
         protected router: Router,
@@ -104,6 +82,33 @@ export class LoginUiComponent implements OnInit {
         this.loading = false;
         this.hidden = false;
         this.language = null;
+
+        this.systemConfigs$ = configs?.configs$ ?? of({} as SystemConfigMap);
+        this.appStrings$ = languageStore?.appStrings$ ?? of({} as LanguageStringMap);
+
+        this.vm$ = this.systemConfigs$.pipe(
+            combineLatestWith(this.appStrings$),
+            map(([systemConfigs, appStrings]: [SystemConfigMap, LanguageStringMap]) => {
+                let showLanguages = false;
+                let showForgotPassword = false;
+
+                if (systemConfigs.languages && systemConfigs.languages.items) {
+                    showLanguages = Object.keys(systemConfigs.languages.items).length > 1;
+                }
+
+                if (systemConfigs.passwordsetting && systemConfigs.passwordsetting.items) {
+                    const forgotPasswordProperty = systemConfigs.passwordsetting.items.forgotpasswordON;
+                    showForgotPassword = [true, '1', 'true'].includes(forgotPasswordProperty);
+                }
+
+                return {
+                    systemConfigs,
+                    appStrings,
+                    showLanguages,
+                    showForgotPassword
+                };
+            })
+        );
     }
 
     ngOnInit() {
