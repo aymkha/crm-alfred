@@ -50,8 +50,8 @@ export interface SeriesStatisticsState extends StatisticsState {
 
 @Injectable()
 export class SeriesStatisticsStore extends StatisticsStore {
-    override state$!: Observable<SeriesStatisticsState>;
-    override statistic$!: Observable<SeriesStatistic>;
+    declare override state$: Observable<SeriesStatisticsState>;
+    declare override statistic$: Observable<SeriesStatistic>;
     protected cache$: Observable<any> = null;
     protected internalState: SeriesStatisticsState = deepClone(initialState);
     protected store = new BehaviorSubject<SeriesStatisticsState>(this.internalState);

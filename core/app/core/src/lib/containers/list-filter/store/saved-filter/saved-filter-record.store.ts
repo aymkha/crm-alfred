@@ -58,8 +58,8 @@ const initialState = {
 
 export class SavedFilterRecordStore extends RecordStore {
 
-    override state$!: Observable<SavedFilter>;
-    override staging$!: Observable<SavedFilter>;
+    declare override state$: Observable<SavedFilter>;
+    declare override staging$: Observable<SavedFilter>;
     protected internalState: SavedFilter = deepClone(initialState);
     protected stagingState: SavedFilter = deepClone(initialState);
     protected store = new BehaviorSubject<SavedFilter>(this.internalState);

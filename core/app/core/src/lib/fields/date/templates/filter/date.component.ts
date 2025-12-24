@@ -47,7 +47,7 @@ import { DateEditFieldComponent } from '../edit/date.component'
 })
 export class DateFilterFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
 
-    override public dateModel!: NgbDateStruct;
+    public override dateModel!: NgbDateStruct;
 
     constructor(
         protected formatter: DateFormatter,

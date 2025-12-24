@@ -40,7 +40,7 @@ import {FiltersListGQL} from './graphql/api.list.get';
 @Injectable()
 export class FilterListStore extends RecordListStore {
 
-    override records$!: Observable<SavedFilter[]>;
+    declare override records$: Observable<SavedFilter[]>;
 
     protected moduleName = 'saved-search';
     protected filterFields: StringMap = {
