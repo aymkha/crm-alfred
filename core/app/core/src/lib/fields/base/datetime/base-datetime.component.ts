@@ -26,6 +26,7 @@
 
 import {BaseFieldComponent} from '../base-field.component';
 import {Component} from '@angular/core';
+import {Observable, of} from 'rxjs';
 import {DataTypeFormatter} from '../../../services/formatters/data-type.formatter.service';
 import {DatetimeFormatter} from '../../../services/formatters/datetime/datetime-formatter.service';
 import {FieldLogicManager} from '../../field-logic/field-logic.manager';
@@ -34,7 +35,7 @@ import {FieldLogicDisplayManager} from '../../field-logic-display/field-logic-di
 @Component({template: ''})
 export class BaseDateTimeComponent extends BaseFieldComponent {
 
-    vm$ = this.formatter.format$;
+    vm$: Observable<any>;
 
     constructor(
         protected formatter: DatetimeFormatter,
@@ -43,6 +44,9 @@ export class BaseDateTimeComponent extends BaseFieldComponent {
         protected logicDisplay: FieldLogicDisplayManager
     ) {
         super(typeFormatter, logic, logicDisplay);
+        // Fallback to keep rendering even if the formatter DI is missing during bootstrap
+        const defaultFormats = {date: 'yyyy-MM-dd', time: 'HH:mm:ss'};
+        this.vm$ = (this.formatter?.format$ ?? of(defaultFormats));
     }
 
     getDateFormat(): string {
