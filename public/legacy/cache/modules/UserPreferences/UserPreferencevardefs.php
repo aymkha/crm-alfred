@@ -86,5 +86,4 @@
       ),
     ),
   ),
-  'custom_fields' => false,
 );

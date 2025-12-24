@@ -3357,25 +3357,33 @@ class DatetimeFormatter {
     preferences;
     formUtils;
     locale;
-    format$ = this.preferences.userPreferences$.pipe(map(() => {
-        const date = this.getDateFormat();
-        const time = this.getTimeFormat();
-        return { date, time };
-    }));
+    format$;
+    // Fallback wrapper so we don't explode if preferences are not yet available (e.g. during shell bootstrap)
+    prefStore;
     constructor(preferences, formUtils, locale) {
         this.preferences = preferences;
         this.formUtils = formUtils;
         this.locale = locale;
+        this.prefStore = preferences ?? { userPreferences$: of({}), getUserPreference: () => null };
+        const fallback = {
+            date: this.getInternalDateFormat(),
+            time: this.getInternalTimeFormat()
+        };
+        this.format$ = (this.prefStore.userPreferences$ ?? of(fallback)).pipe(map(() => {
+            const date = this.getDateFormat();
+            const time = this.getTimeFormat();
+            return { date, time };
+        }));
     }
     getDateFormat() {
-        const dateFormatPreference = this.preferences.getUserPreference('date_format');
+        const dateFormatPreference = this.prefStore?.getUserPreference?.('date_format');
         if (dateFormatPreference) {
             return dateFormatPreference;
         }
         return this.getInternalTimeFormat();
     }
     getTimeFormat() {
-        const timeFormatPreference = this.preferences.getUserPreference('time_format');
+        const timeFormatPreference = this.prefStore?.getUserPreference?.('time_format');
         if (timeFormatPreference) {
             let format = timeFormatPreference;
             if (format.includes('aaaaaa')) {
@@ -3436,7 +3444,7 @@ class DatetimeFormatter {
         const fromFormat = (options && options.fromFormat) || this.getUserFormat();
         if (dateString) {
             let date = this.toDateTime(dateString, fromFormat, {
-                zone: this.preferences.getUserPreference('timezone')
+                zone: this.prefStore?.getUserPreference?.('timezone')
             });
             return formatDate(date.toJSDate(), this.getInternalFormat(), this.locale, 'GMT');
         }
@@ -3467,7 +3475,7 @@ class DatetimeFormatter {
             return null;
         }
         const dateTime = this.toDateTime(datetime, '', {
-            zone: this.preferences.getUserPreference('timezone')
+            zone: this.prefStore?.getUserPreference?.('timezone')
         });
         if (!dateTime.isValid) {
             return null;
@@ -3492,7 +3500,7 @@ class DatetimeFormatter {
         const dateTime = this.toDateTime(datetime, this.getInternalDateTimeFormat(), {
             zone: 'GMT'
         });
-        const rezoned = dateTime.setZone(this.preferences.getUserPreference('timezone'));
+        const rezoned = dateTime.setZone(this.prefStore?.getUserPreference?.('timezone') ?? 'GMT');
         if (!dateTime.isValid) {
             return null;
         }
@@ -3514,7 +3522,7 @@ class DatetimeFormatter {
             return null;
         }
         const dateTime = this.toDateTime(datetime, '', {
-            zone: this.preferences.getUserPreference('timezone')
+            zone: this.prefStore?.getUserPreference?.('timezone')
         });
         if (!dateTime.isValid) {
             return null;
@@ -3544,7 +3552,7 @@ class DatetimeFormatter {
             return null;
         }
         const dateTime = this.toDateTime(datetime, '', {
-            zone: this.preferences.getUserPreference('timezone')
+            zone: this.prefStore?.getUserPreference?.('timezone')
         });
         if (!dateTime.isValid) {
             return null;
@@ -3579,7 +3587,7 @@ class DatetimeFormatter {
         return !dateTime.isValid;
     }
     userTimeZone() {
-        let userTZ = this.preferences.getUserPreference('timezone') ?? 'GMT';
+        let userTZ = this.prefStore?.getUserPreference?.('timezone') ?? 'GMT';
         if (!userTZ) {
             userTZ = 'GMT';
         }

@@ -918,5 +918,4 @@
       'relationship_role_column_value' => '1',
     ),
   ),
-  'custom_fields' => false,
 );
