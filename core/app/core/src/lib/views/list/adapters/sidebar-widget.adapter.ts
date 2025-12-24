@@ -25,7 +25,7 @@
  */
 
 import {Injectable} from '@angular/core';
-import {combineLatestWith} from 'rxjs';
+import {combineLatestWith, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MetadataStore} from '../../../store/metadata/metadata.store.service';
 import {ListViewStore} from '../store/list-view/list-view.store';
@@ -33,17 +33,22 @@ import {ListViewStore} from '../store/list-view/list-view.store';
 @Injectable()
 export class ListViewSidebarWidgetAdapter {
 
-    config$ = this.metadata.listMetadata$.pipe(
-        combineLatestWith(this.store.showSidebarWidgets$, this.store.widgets$),
+    private metadata$ = (this.metadata?.listMetadata$ ?? of({sidebarWidgets: []} as any));
+
+    config$ = this.metadata$.pipe(
+        combineLatestWith(
+            this.store?.showSidebarWidgets$ ?? of(false),
+            this.store?.widgets$ ?? of([])
+        ),
         map(([metadata, show, widgetsEnabled]) => {
 
             if (metadata.sidebarWidgets && metadata.sidebarWidgets.length) {
                 metadata.sidebarWidgets.forEach(widget => {
 
                     if (widget && widget.refreshOn === 'data-update') {
-                        widget.reload$ = this.store.dataSetUpdate$.pipe(map(() => true));
+                        widget.reload$ = (this.store?.dataSetUpdate$ ?? of(null)).pipe(map(() => true));
                     } else if (widget && widget.refreshOn === 'data-reload') {
-                        widget.reload$ = this.store.records$.pipe(map(() => true));
+                        widget.reload$ = (this.store?.records$ ?? of([])).pipe(map(() => true));
                     }
 
                 });
