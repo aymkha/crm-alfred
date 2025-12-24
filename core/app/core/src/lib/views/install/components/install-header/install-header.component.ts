@@ -29,6 +29,7 @@ import {map} from 'rxjs/operators';
 import {InstallActionsAdapter} from '../../adapters/actions.adapter';
 import {ActionContext, Record} from 'common';
 import {InstallViewStore} from '../../store/install-view/install-view.store';
+import {Observable, of} from 'rxjs';
 
 @Component({
     selector: 'scrm-install-header',
@@ -37,15 +38,16 @@ import {InstallViewStore} from '../../store/install-view/install-view.store';
 })
 export class InstallHeaderComponent {
 
-
-    vm$ = this.store.record$.pipe(
-        map((record) => ({record}))
-    );
+    vm$: Observable<{ record: Record | null }>;
 
     constructor(
         public actionsAdapter: InstallActionsAdapter,
         public store: InstallViewStore,
     ) {
+        // Guard against missing store/record$ during bootstrap
+        this.vm$ = this.store?.record$
+            ? this.store.record$.pipe(map((record) => ({record})))
+            : of({record: null});
     }
 
     /**

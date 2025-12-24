@@ -25,7 +25,7 @@
  */
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {ViewMode} from 'common';
 import {InstallViewStore} from '../../store/install-view/install-view.store';
@@ -46,6 +46,8 @@ export class InstallViewComponent implements OnInit, OnDestroy {
         protected store: InstallViewStore,
         private route: ActivatedRoute
     ) {
+        // safe default to avoid crashes if store is unavailable
+        this.vm$ = this.store?.vm$ ?? of({record: null, loading: true} as InstallViewModel);
     }
 
     ngOnInit(): void {
@@ -56,11 +58,13 @@ export class InstallViewComponent implements OnInit, OnDestroy {
             mode = data.mode;
         }
 
-        this.store.init(mode);
-        this.vm$ = this.store.vm$;
+        if (this.store) {
+            this.store.init(mode);
+            this.vm$ = this.store.vm$;
+        }
     }
 
     ngOnDestroy(): void {
-        this.store.clear();
+        this.store?.clear();
     }
 }
