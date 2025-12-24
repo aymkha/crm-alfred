@@ -55,9 +55,9 @@ const initialState = {
 
 @Injectable()
 export class SingleValueStatisticsStore extends StatisticsStore implements SingleValueStatisticsStoreInterface {
-    state$: Observable<SingleValueStatisticsState>;
-    statistic$: Observable<Statistic>;
-    loading$: Observable<boolean>;
+    override state$!: Observable<SingleValueStatisticsState>;
+    override statistic$!: Observable<Statistic>;
+    override loading$!: Observable<boolean>;
     protected cache$: Observable<any> = null;
     protected internalState: SingleValueStatisticsState = deepClone(initialState);
     protected store = new BehaviorSubject<SingleValueStatisticsState>(this.internalState);

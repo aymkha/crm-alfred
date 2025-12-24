@@ -59,9 +59,9 @@ export interface ChartDataState extends SeriesStatisticsState {
 @Injectable()
 export class ChartDataStore extends SeriesStatisticsStore {
 
-    state$: Observable<ChartDataState>;
-    statistic$: Observable<SeriesStatistic>;
-    loading$: Observable<boolean>;
+    override state$!: Observable<ChartDataState>;
+    override statistic$!: Observable<SeriesStatistic>;
+    override loading$!: Observable<boolean>;
     protected internalState: ChartDataState = deepClone(initialState);
     protected store = new BehaviorSubject<ChartDataState>(this.internalState);
     protected defaultOptions: ChartOptions = {};
