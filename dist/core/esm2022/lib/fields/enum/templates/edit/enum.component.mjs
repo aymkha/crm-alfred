@@ -1,0 +1,113 @@
+/**
+ * SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.
+ * Copyright (C) 2021 SalesAgility Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License version 3 as published by the
+ * Free Software Foundation with the addition of the following permission added
+ * to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK
+ * IN WHICH THE COPYRIGHT IS OWNED BY SALESAGILITY, SALESAGILITY DISCLAIMS THE
+ * WARRANTY OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * In accordance with Section 7(b) of the GNU Affero General Public License
+ * version 3, these Appropriate Legal Notices must retain the display of the
+ * "Supercharged by SuiteCRM" logo. If the display of the logos is not reasonably
+ * feasible for technical reasons, the Appropriate Legal Notices must display
+ * the words "Supercharged by SuiteCRM".
+ */
+import { Component, ViewChild } from '@angular/core';
+import { BaseEnumComponent } from '../../../base/base-enum.component';
+import * as i0 from "@angular/core";
+import * as i1 from "../../../../store/language/language.store";
+import * as i2 from "../../../../services/formatters/data-type.formatter.service";
+import * as i3 from "../../../field-logic/field-logic.manager";
+import * as i4 from "../../../field-logic-display/field-logic-display.manager";
+import * as i5 from "ngx-chips";
+import * as i6 from "@angular/forms";
+const _c0 = ["tag"];
+class EnumEditFieldComponent extends BaseEnumComponent {
+    languages;
+    typeFormatter;
+    logic;
+    logicDisplay;
+    tag;
+    constructor(languages, typeFormatter, logic, logicDisplay) {
+        super(languages, typeFormatter, logic, logicDisplay);
+        this.languages = languages;
+        this.typeFormatter = typeFormatter;
+        this.logic = logic;
+        this.logicDisplay = logicDisplay;
+    }
+    ngOnInit() {
+        this.checkAndInitAsDynamicEnum();
+        super.ngOnInit();
+    }
+    onAdd(item) {
+        if (item && item.value) {
+            this.field.value = item.value;
+            this.field.formControl.setValue(item.value);
+            this.field.formControl.markAsDirty();
+            return;
+        }
+        this.field.value = '';
+        this.field.formControl.setValue('');
+        this.field.formControl.markAsDirty();
+        this.selectedValues = [];
+        return;
+    }
+    onRemove() {
+        this.field.value = '';
+        this.field.formControl.setValue('');
+        this.field.formControl.markAsDirty();
+        setTimeout(() => {
+            this.tag.focus(true, true);
+            this.tag.dropdown.show();
+        }, 200);
+    }
+    getPlaceholderLabel() {
+        return this.languages.getAppString('LBL_SELECT_ITEM') || '';
+    }
+    selectFirstElement() {
+        const filteredElements = this.tag.dropdown.items;
+        if (filteredElements.length !== 0) {
+            const firstElement = filteredElements[0];
+            this.selectedValues.push(firstElement);
+            this.onAdd(firstElement);
+            this.tag.dropdown.hide();
+        }
+    }
+    static ɵfac = function EnumEditFieldComponent_Factory(t) { return new (t || EnumEditFieldComponent)(i0.ɵɵdirectiveInject(i1.LanguageStore), i0.ɵɵdirectiveInject(i2.DataTypeFormatter), i0.ɵɵdirectiveInject(i3.FieldLogicManager), i0.ɵɵdirectiveInject(i4.FieldLogicDisplayManager)); };
+    static ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: EnumEditFieldComponent, selectors: [["scrm-enum-edit"]], viewQuery: function EnumEditFieldComponent_Query(rf, ctx) { if (rf & 1) {
+            i0.ɵɵviewQuery(_c0, 5);
+        } if (rf & 2) {
+            let _t;
+            i0.ɵɵqueryRefresh(_t = i0.ɵɵloadQuery()) && (ctx.tag = _t.first);
+        } }, features: [i0.ɵɵInheritDefinitionFeature], decls: 3, vars: 15, consts: [["maxItems", "1", 3, "ngModel", "onlyFromAutocomplete", "clearOnBlur", "displayBy", "identifyBy", "placeholder", "secondaryPlaceholder", "inputClass", "ngModelChange", "onAdd", "onRemove", "keyup.enter"], ["tag", ""], [3, "displayBy", "identifyBy", "showDropdownIfEmpty", "keepOpen", "autocompleteItems"]], template: function EnumEditFieldComponent_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵelementStart(0, "tag-input", 0, 1);
+            i0.ɵɵlistener("ngModelChange", function EnumEditFieldComponent_Template_tag_input_ngModelChange_0_listener($event) { return ctx.selectedValues = $event; })("onAdd", function EnumEditFieldComponent_Template_tag_input_onAdd_0_listener($event) { return ctx.onAdd($event); })("onRemove", function EnumEditFieldComponent_Template_tag_input_onRemove_0_listener() { return ctx.onRemove(); })("keyup.enter", function EnumEditFieldComponent_Template_tag_input_keyup_enter_0_listener() { return ctx.selectFirstElement(); });
+            i0.ɵɵelement(2, "tag-input-dropdown", 2);
+            i0.ɵɵelementEnd();
+        } if (rf & 2) {
+            i0.ɵɵclassMap(ctx.getInvalidClass());
+            i0.ɵɵproperty("ngModel", ctx.selectedValues)("onlyFromAutocomplete", true)("clearOnBlur", true)("displayBy", "label")("identifyBy", "value")("placeholder", ctx.getPlaceholderLabel())("secondaryPlaceholder", ctx.getPlaceholderLabel())("inputClass", ctx.getInvalidClass());
+            i0.ɵɵadvance(2);
+            i0.ɵɵproperty("displayBy", "label")("identifyBy", "value")("showDropdownIfEmpty", true)("keepOpen", false)("autocompleteItems", ctx.options);
+        } }, dependencies: [i5.TagInputComponent, i5.TagInputDropdown, i6.NgControlStatus, i6.NgModel], encapsulation: 2 });
+}
+export { EnumEditFieldComponent };
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(EnumEditFieldComponent, [{
+        type: Component,
+        args: [{ selector: 'scrm-enum-edit', template: "<! --\n/**\n* SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.\n* Copyright (C) 2021 SalesAgility Ltd.\n*\n* This program is free software; you can redistribute it and/or modify it under\n* the terms of the GNU Affero General Public License version 3 as published by the\n* Free Software Foundation with the addition of the following permission added\n* to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK\n* IN WHICH THE COPYRIGHT IS OWNED BY SALESAGILITY, SALESAGILITY DISCLAIMS THE\n* WARRANTY OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.\n*\n* This program is distributed in the hope that it will be useful, but WITHOUT\n* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS\n* FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more\n* details.\n*\n* You should have received a copy of the GNU Affero General Public License\n* along with this program.  If not, see http://www.gnu.org/licenses.\n*\n* In accordance with Section 7(b) of the GNU Affero General Public License\n* version 3, these Appropriate Legal Notices must retain the display of the\n* \"Supercharged by SuiteCRM\" logo. If the display of the logos is not reasonably\n* feasible for technical reasons, the Appropriate Legal Notices must display\n* the words \"Supercharged by SuiteCRM\".\n*/\n-->\n<tag-input [(ngModel)]=\"selectedValues\"\n           [onlyFromAutocomplete]=\"true\"\n           [clearOnBlur]=\"true\"\n           [displayBy]=\"'label'\"\n           [identifyBy]=\"'value'\"\n           [placeholder]=\"getPlaceholderLabel()\"\n           [secondaryPlaceholder]=\"getPlaceholderLabel()\"\n           [class]=\"getInvalidClass()\"\n           [inputClass]=\"getInvalidClass()\"\n           maxItems=\"1\"\n           #tag\n           (onAdd)=\"onAdd($event)\"\n           (onRemove)=\"onRemove()\"\n           (keyup.enter)=\"selectFirstElement()\">\n    <tag-input-dropdown [displayBy]=\"'label'\"\n                        [identifyBy]=\"'value'\"\n                        [showDropdownIfEmpty]=\"true\"\n                        [keepOpen]=\"false\"\n                        [autocompleteItems]=\"this.options\">\n    </tag-input-dropdown>\n</tag-input>\n" }]
+    }], function () { return [{ type: i1.LanguageStore }, { type: i2.DataTypeFormatter }, { type: i3.FieldLogicManager }, { type: i4.FieldLogicDisplayManager }]; }, { tag: [{
+            type: ViewChild,
+            args: ['tag']
+        }] }); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZW51bS5jb21wb25lbnQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi8uLi8uLi8uLi8uLi8uLi9jb3JlL2FwcC9jb3JlL3NyYy9saWIvZmllbGRzL2VudW0vdGVtcGxhdGVzL2VkaXQvZW51bS5jb21wb25lbnQudHMiLCIuLi8uLi8uLi8uLi8uLi8uLi8uLi8uLi9jb3JlL2FwcC9jb3JlL3NyYy9saWIvZmllbGRzL2VudW0vdGVtcGxhdGVzL2VkaXQvZW51bS5jb21wb25lbnQuaHRtbCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O0dBd0JHO0FBRUgsT0FBTyxFQUFDLFNBQVMsRUFBRSxTQUFTLEVBQUMsTUFBTSxlQUFlLENBQUM7QUFHbkQsT0FBTyxFQUFDLGlCQUFpQixFQUFDLE1BQU0sbUNBQW1DLENBQUM7Ozs7Ozs7OztBQU1wRSxNQUthLHNCQUF1QixTQUFRLGlCQUFpQjtJQUszQztJQUNBO0lBQ0E7SUFDQTtJQU5JLEdBQUcsQ0FBb0I7SUFFekMsWUFDYyxTQUF3QixFQUN4QixhQUFnQyxFQUNoQyxLQUF3QixFQUN4QixZQUFzQztRQUVoRCxLQUFLLENBQUMsU0FBUyxFQUFFLGFBQWEsRUFBRSxLQUFLLEVBQUUsWUFBWSxDQUFDLENBQUM7UUFMM0MsY0FBUyxHQUFULFNBQVMsQ0FBZTtRQUN4QixrQkFBYSxHQUFiLGFBQWEsQ0FBbUI7UUFDaEMsVUFBSyxHQUFMLEtBQUssQ0FBbUI7UUFDeEIsaUJBQVksR0FBWixZQUFZLENBQTBCO0lBR3BELENBQUM7SUFFRCxRQUFRO1FBRUosSUFBSSxDQUFDLHlCQUF5QixFQUFFLENBQUM7UUFDakMsS0FBSyxDQUFDLFFBQVEsRUFBRSxDQUFDO0lBQ3JCLENBQUM7SUFFTSxLQUFLLENBQUMsSUFBSTtRQUNiLElBQUksSUFBSSxJQUFJLElBQUksQ0FBQyxLQUFLLEVBQUU7WUFDcEIsSUFBSSxDQUFDLEtBQUssQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDLEtBQUssQ0FBQztZQUM5QixJQUFJLENBQUMsS0FBSyxDQUFDLFdBQVcsQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDO1lBQzVDLElBQUksQ0FBQyxLQUFLLENBQUMsV0FBVyxDQUFDLFdBQVcsRUFBRSxDQUFDO1lBQ3JDLE9BQU87U0FDVjtRQUVELElBQUksQ0FBQyxLQUFLLENBQUMsS0FBSyxHQUFHLEVBQUUsQ0FBQztRQUN0QixJQUFJLENBQUMsS0FBSyxDQUFDLFdBQVcsQ0FBQyxRQUFRLENBQUMsRUFBRSxDQUFDLENBQUM7UUFDcEMsSUFBSSxDQUFDLEtBQUssQ0FBQyxXQUFXLENBQUMsV0FBVyxFQUFFLENBQUM7UUFDckMsSUFBSSxDQUFDLGNBQWMsR0FBRyxFQUFFLENBQUM7UUFFekIsT0FBTztJQUNYLENBQUM7SUFFTSxRQUFRO1FBQ1gsSUFBSSxDQUFDLEtBQUssQ0FBQyxLQUFLLEdBQUcsRUFBRSxDQUFDO1FBQ3RCLElBQUksQ0FBQyxLQUFLLENBQUMsV0FBVyxDQUFDLFFBQVEsQ0FBQyxFQUFFLENBQUMsQ0FBQztRQUNwQyxJQUFJLENBQUMsS0FBSyxDQUFDLFdBQVcsQ0FBQyxXQUFXLEVBQUUsQ0FBQztRQUNyQyxVQUFVLENBQUMsR0FBRyxFQUFFO1lBQ1osSUFBSSxDQUFDLEdBQUcsQ0FBQyxLQUFLLENBQUMsSUFBSSxFQUFFLElBQUksQ0FBQyxDQUFDO1lBQzNCLElBQUksQ0FBQyxHQUFHLENBQUMsUUFBUSxDQUFDLElBQUksRUFBRSxDQUFDO1FBQzdCLENBQUMsRUFBRSxHQUFHLENBQUMsQ0FBQztJQUNaLENBQUM7SUFFTSxtQkFBbUI7UUFDdEIsT0FBTyxJQUFJLENBQUMsU0FBUyxDQUFDLFlBQVksQ0FBQyxpQkFBaUIsQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNoRSxDQUFDO0lBRU0sa0JBQWtCO1FBQ3JCLE1BQU0sZ0JBQWdCLEdBQWEsSUFBSSxDQUFDLEdBQUcsQ0FBQyxRQUFRLENBQUMsS0FBSyxDQUFDO1FBQzNELElBQUksZ0JBQWdCLENBQUMsTUFBTSxLQUFLLENBQUMsRUFBRTtZQUMvQixNQUFNLFlBQVksR0FBRyxnQkFBZ0IsQ0FBQyxDQUFDLENBQUMsQ0FBQztZQUN6QyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxZQUFZLENBQUMsQ0FBQztZQUN2QyxJQUFJLENBQUMsS0FBSyxDQUFDLFlBQVksQ0FBQyxDQUFDO1lBQ3pCLElBQUksQ0FBQyxHQUFHLENBQUMsUUFBUSxDQUFDLElBQUksRUFBRSxDQUFDO1NBQzVCO0lBQ0wsQ0FBQztnRkF6RFEsc0JBQXNCOzZEQUF0QixzQkFBc0I7Ozs7OztZQ2JuQyx1Q0FhZ0Q7WUFickMsMkpBQTRCLCtGQVduQixpQkFBYSxJQVhNLCtGQVloQixjQUFVLElBWk0scUdBYWIsd0JBQW9CLElBYlA7WUFjbkMsd0NBS3FCO1lBQ3pCLGlCQUFZOztZQWJELG9DQUEyQjtZQVAzQiw0Q0FBNEIsOEJBQUEscUJBQUEsc0JBQUEsdUJBQUEsMENBQUEsbURBQUEscUNBQUE7WUFjZixlQUFxQjtZQUFyQixtQ0FBcUIsdUJBQUEsNkJBQUEsbUJBQUEsa0NBQUE7OztTRERoQyxzQkFBc0I7dUZBQXRCLHNCQUFzQjtjQUxsQyxTQUFTOzJCQUNJLGdCQUFnQjt1S0FNUixHQUFHO2tCQUFwQixTQUFTO21CQUFDLEtBQUsiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFN1aXRlQ1JNIGlzIGEgY3VzdG9tZXIgcmVsYXRpb25zaGlwIG1hbmFnZW1lbnQgcHJvZ3JhbSBkZXZlbG9wZWQgYnkgU2FsZXNBZ2lsaXR5IEx0ZC5cbiAqIENvcHlyaWdodCAoQykgMjAyMSBTYWxlc0FnaWxpdHkgTHRkLlxuICpcbiAqIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IgbW9kaWZ5IGl0IHVuZGVyXG4gKiB0aGUgdGVybXMgb2YgdGhlIEdOVSBBZmZlcm8gR2VuZXJhbCBQdWJsaWMgTGljZW5zZSB2ZXJzaW9uIDMgYXMgcHVibGlzaGVkIGJ5IHRoZVxuICogRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uIHdpdGggdGhlIGFkZGl0aW9uIG9mIHRoZSBmb2xsb3dpbmcgcGVybWlzc2lvbiBhZGRlZFxuICogdG8gU2VjdGlvbiAxNSBhcyBwZXJtaXR0ZWQgaW4gU2VjdGlvbiA3KGEpOiBGT1IgQU5ZIFBBUlQgT0YgVEhFIENPVkVSRUQgV09SS1xuICogSU4gV0hJQ0ggVEhFIENPUFlSSUdIVCBJUyBPV05FRCBCWSBTQUxFU0FHSUxJVFksIFNBTEVTQUdJTElUWSBESVNDTEFJTVMgVEhFXG4gKiBXQVJSQU5UWSBPRiBOT04gSU5GUklOR0VNRU5UIE9GIFRISVJEIFBBUlRZIFJJR0hUUy5cbiAqXG4gKiBUaGlzIHByb2dyYW0gaXMgZGlzdHJpYnV0ZWQgaW4gdGhlIGhvcGUgdGhhdCBpdCB3aWxsIGJlIHVzZWZ1bCwgYnV0IFdJVEhPVVRcbiAqIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBldmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mIE1FUkNIQU5UQUJJTElUWSBvciBGSVRORVNTXG4gKiBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuIFNlZSB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlXG4gKiBkZXRhaWxzLlxuICpcbiAqIFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBBZmZlcm8gR2VuZXJhbCBQdWJsaWMgTGljZW5zZVxuICogYWxvbmcgd2l0aCB0aGlzIHByb2dyYW0uICBJZiBub3QsIHNlZSA8aHR0cDovL3d3dy5nbnUub3JnL2xpY2Vuc2VzLz4uXG4gKlxuICogSW4gYWNjb3JkYW5jZSB3aXRoIFNlY3Rpb24gNyhiKSBvZiB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlXG4gKiB2ZXJzaW9uIDMsIHRoZXNlIEFwcHJvcHJpYXRlIExlZ2FsIE5vdGljZXMgbXVzdCByZXRhaW4gdGhlIGRpc3BsYXkgb2YgdGhlXG4gKiBcIlN1cGVyY2hhcmdlZCBieSBTdWl0ZUNSTVwiIGxvZ28uIElmIHRoZSBkaXNwbGF5IG9mIHRoZSBsb2dvcyBpcyBub3QgcmVhc29uYWJseVxuICogZmVhc2libGUgZm9yIHRlY2huaWNhbCByZWFzb25zLCB0aGUgQXBwcm9wcmlhdGUgTGVnYWwgTm90aWNlcyBtdXN0IGRpc3BsYXlcbiAqIHRoZSB3b3JkcyBcIlN1cGVyY2hhcmdlZCBieSBTdWl0ZUNSTVwiLlxuICovXG5cbmltcG9ydCB7Q29tcG9uZW50LCBWaWV3Q2hpbGR9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IHtUYWdJbnB1dENvbXBvbmVudH0gZnJvbSAnbmd4LWNoaXBzJztcbmltcG9ydCB7RGF0YVR5cGVGb3JtYXR0ZXJ9IGZyb20gJy4uLy4uLy4uLy4uL3NlcnZpY2VzL2Zvcm1hdHRlcnMvZGF0YS10eXBlLmZvcm1hdHRlci5zZXJ2aWNlJztcbmltcG9ydCB7QmFzZUVudW1Db21wb25lbnR9IGZyb20gJy4uLy4uLy4uL2Jhc2UvYmFzZS1lbnVtLmNvbXBvbmVudCc7XG5pbXBvcnQge0xhbmd1YWdlU3RvcmV9IGZyb20gJy4uLy4uLy4uLy4uL3N0b3JlL2xhbmd1YWdlL2xhbmd1YWdlLnN0b3JlJztcbmltcG9ydCB7VGFnTW9kZWx9IGZyb20gJ25neC1jaGlwcy9jb3JlL3RhZy1tb2RlbCc7XG5pbXBvcnQge0ZpZWxkTG9naWNNYW5hZ2VyfSBmcm9tICcuLi8uLi8uLi9maWVsZC1sb2dpYy9maWVsZC1sb2dpYy5tYW5hZ2VyJztcbmltcG9ydCB7RmllbGRMb2dpY0Rpc3BsYXlNYW5hZ2VyfSBmcm9tICcuLi8uLi8uLi9maWVsZC1sb2dpYy1kaXNwbGF5L2ZpZWxkLWxvZ2ljLWRpc3BsYXkubWFuYWdlcic7XG5cbkBDb21wb25lbnQoe1xuICAgIHNlbGVjdG9yOiAnc2NybS1lbnVtLWVkaXQnLFxuICAgIHRlbXBsYXRlVXJsOiAnLi9lbnVtLmNvbXBvbmVudC5odG1sJyxcbiAgICBzdHlsZVVybHM6IFtdXG59KVxuZXhwb3J0IGNsYXNzIEVudW1FZGl0RmllbGRDb21wb25lbnQgZXh0ZW5kcyBCYXNlRW51bUNvbXBvbmVudCB7XG5cbiAgICBAVmlld0NoaWxkKCd0YWcnKSB0YWc6IFRhZ0lucHV0Q29tcG9uZW50O1xuXG4gICAgY29uc3RydWN0b3IoXG4gICAgICAgIHByb3RlY3RlZCBsYW5ndWFnZXM6IExhbmd1YWdlU3RvcmUsXG4gICAgICAgIHByb3RlY3RlZCB0eXBlRm9ybWF0dGVyOiBEYXRhVHlwZUZvcm1hdHRlcixcbiAgICAgICAgcHJvdGVjdGVkIGxvZ2ljOiBGaWVsZExvZ2ljTWFuYWdlcixcbiAgICAgICAgcHJvdGVjdGVkIGxvZ2ljRGlzcGxheTogRmllbGRMb2dpY0Rpc3BsYXlNYW5hZ2VyXG4gICAgKSB7XG4gICAgICAgIHN1cGVyKGxhbmd1YWdlcywgdHlwZUZvcm1hdHRlciwgbG9naWMsIGxvZ2ljRGlzcGxheSk7XG4gICAgfVxuXG4gICAgbmdPbkluaXQoKTogdm9pZCB7XG5cbiAgICAgICAgdGhpcy5jaGVja0FuZEluaXRBc0R5bmFtaWNFbnVtKCk7XG4gICAgICAgIHN1cGVyLm5nT25Jbml0KCk7XG4gICAgfVxuXG4gICAgcHVibGljIG9uQWRkKGl0ZW0pOiB2b2lkIHtcbiAgICAgICAgaWYgKGl0ZW0gJiYgaXRlbS52YWx1ZSkge1xuICAgICAgICAgICAgdGhpcy5maWVsZC52YWx1ZSA9IGl0ZW0udmFsdWU7XG4gICAgICAgICAgICB0aGlzLmZpZWxkLmZvcm1Db250cm9sLnNldFZhbHVlKGl0ZW0udmFsdWUpO1xuICAgICAgICAgICAgdGhpcy5maWVsZC5mb3JtQ29udHJvbC5tYXJrQXNEaXJ0eSgpO1xuICAgICAgICAgICAgcmV0dXJuO1xuICAgICAgICB9XG5cbiAgICAgICAgdGhpcy5maWVsZC52YWx1ZSA9ICcnO1xuICAgICAgICB0aGlzLmZpZWxkLmZvcm1Db250cm9sLnNldFZhbHVlKCcnKTtcbiAgICAgICAgdGhpcy5maWVsZC5mb3JtQ29udHJvbC5tYXJrQXNEaXJ0eSgpO1xuICAgICAgICB0aGlzLnNlbGVjdGVkVmFsdWVzID0gW107XG5cbiAgICAgICAgcmV0dXJuO1xuICAgIH1cblxuICAgIHB1YmxpYyBvblJlbW92ZSgpOiB2b2lkIHtcbiAgICAgICAgdGhpcy5maWVsZC52YWx1ZSA9ICcnO1xuICAgICAgICB0aGlzLmZpZWxkLmZvcm1Db250cm9sLnNldFZhbHVlKCcnKTtcbiAgICAgICAgdGhpcy5maWVsZC5mb3JtQ29udHJvbC5tYXJrQXNEaXJ0eSgpO1xuICAgICAgICBzZXRUaW1lb3V0KCgpID0+IHtcbiAgICAgICAgICAgIHRoaXMudGFnLmZvY3VzKHRydWUsIHRydWUpO1xuICAgICAgICAgICAgdGhpcy50YWcuZHJvcGRvd24uc2hvdygpO1xuICAgICAgICB9LCAyMDApO1xuICAgIH1cblxuICAgIHB1YmxpYyBnZXRQbGFjZWhvbGRlckxhYmVsKCk6IHN0cmluZyB7XG4gICAgICAgIHJldHVybiB0aGlzLmxhbmd1YWdlcy5nZXRBcHBTdHJpbmcoJ0xCTF9TRUxFQ1RfSVRFTScpIHx8ICcnO1xuICAgIH1cblxuICAgIHB1YmxpYyBzZWxlY3RGaXJzdEVsZW1lbnQoKTogdm9pZCB7XG4gICAgICAgIGNvbnN0IGZpbHRlcmVkRWxlbWVudHM6IFRhZ01vZGVsID0gdGhpcy50YWcuZHJvcGRvd24uaXRlbXM7XG4gICAgICAgIGlmIChmaWx0ZXJlZEVsZW1lbnRzLmxlbmd0aCAhPT0gMCkge1xuICAgICAgICAgICAgY29uc3QgZmlyc3RFbGVtZW50ID0gZmlsdGVyZWRFbGVtZW50c1swXTtcbiAgICAgICAgICAgIHRoaXMuc2VsZWN0ZWRWYWx1ZXMucHVzaChmaXJzdEVsZW1lbnQpO1xuICAgICAgICAgICAgdGhpcy5vbkFkZChmaXJzdEVsZW1lbnQpO1xuICAgICAgICAgICAgdGhpcy50YWcuZHJvcGRvd24uaGlkZSgpO1xuICAgICAgICB9XG4gICAgfVxuXG59XG4iLCI8ISAtLVxuLyoqXG4qIFN1aXRlQ1JNIGlzIGEgY3VzdG9tZXIgcmVsYXRpb25zaGlwIG1hbmFnZW1lbnQgcHJvZ3JhbSBkZXZlbG9wZWQgYnkgU2FsZXNBZ2lsaXR5IEx0ZC5cbiogQ29weXJpZ2h0IChDKSAyMDIxIFNhbGVzQWdpbGl0eSBMdGQuXG4qXG4qIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IgbW9kaWZ5IGl0IHVuZGVyXG4qIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIHZlcnNpb24gMyBhcyBwdWJsaXNoZWQgYnkgdGhlXG4qIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiB3aXRoIHRoZSBhZGRpdGlvbiBvZiB0aGUgZm9sbG93aW5nIHBlcm1pc3Npb24gYWRkZWRcbiogdG8gU2VjdGlvbiAxNSBhcyBwZXJtaXR0ZWQgaW4gU2VjdGlvbiA3KGEpOiBGT1IgQU5ZIFBBUlQgT0YgVEhFIENPVkVSRUQgV09SS1xuKiBJTiBXSElDSCBUSEUgQ09QWVJJR0hUIElTIE9XTkVEIEJZIFNBTEVTQUdJTElUWSwgU0FMRVNBR0lMSVRZIERJU0NMQUlNUyBUSEVcbiogV0FSUkFOVFkgT0YgTk9OIElORlJJTkdFTUVOVCBPRiBUSElSRCBQQVJUWSBSSUdIVFMuXG4qXG4qIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLCBidXQgV0lUSE9VVFxuKiBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBvZiBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVTU1xuKiBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuIFNlZSB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlXG4qIGRldGFpbHMuXG4qXG4qIFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBBZmZlcm8gR2VuZXJhbCBQdWJsaWMgTGljZW5zZVxuKiBhbG9uZyB3aXRoIHRoaXMgcHJvZ3JhbS4gIElmIG5vdCwgc2VlIGh0dHA6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy5cbipcbiogSW4gYWNjb3JkYW5jZSB3aXRoIFNlY3Rpb24gNyhiKSBvZiB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlXG4qIHZlcnNpb24gMywgdGhlc2UgQXBwcm9wcmlhdGUgTGVnYWwgTm90aWNlcyBtdXN0IHJldGFpbiB0aGUgZGlzcGxheSBvZiB0aGVcbiogXCJTdXBlcmNoYXJnZWQgYnkgU3VpdGVDUk1cIiBsb2dvLiBJZiB0aGUgZGlzcGxheSBvZiB0aGUgbG9nb3MgaXMgbm90IHJlYXNvbmFibHlcbiogZmVhc2libGUgZm9yIHRlY2huaWNhbCByZWFzb25zLCB0aGUgQXBwcm9wcmlhdGUgTGVnYWwgTm90aWNlcyBtdXN0IGRpc3BsYXlcbiogdGhlIHdvcmRzIFwiU3VwZXJjaGFyZ2VkIGJ5IFN1aXRlQ1JNXCIuXG4qL1xuLS0+XG48dGFnLWlucHV0IFsobmdNb2RlbCldPVwic2VsZWN0ZWRWYWx1ZXNcIlxuICAgICAgICAgICBbb25seUZyb21BdXRvY29tcGxldGVdPVwidHJ1ZVwiXG4gICAgICAgICAgIFtjbGVhck9uQmx1cl09XCJ0cnVlXCJcbiAgICAgICAgICAgW2Rpc3BsYXlCeV09XCInbGFiZWwnXCJcbiAgICAgICAgICAgW2lkZW50aWZ5QnldPVwiJ3ZhbHVlJ1wiXG4gICAgICAgICAgIFtwbGFjZWhvbGRlcl09XCJnZXRQbGFjZWhvbGRlckxhYmVsKClcIlxuICAgICAgICAgICBbc2Vjb25kYXJ5UGxhY2Vob2xkZXJdPVwiZ2V0UGxhY2Vob2xkZXJMYWJlbCgpXCJcbiAgICAgICAgICAgW2NsYXNzXT1cImdldEludmFsaWRDbGFzcygpXCJcbiAgICAgICAgICAgW2lucHV0Q2xhc3NdPVwiZ2V0SW52YWxpZENsYXNzKClcIlxuICAgICAgICAgICBtYXhJdGVtcz1cIjFcIlxuICAgICAgICAgICAjdGFnXG4gICAgICAgICAgIChvbkFkZCk9XCJvbkFkZCgkZXZlbnQpXCJcbiAgICAgICAgICAgKG9uUmVtb3ZlKT1cIm9uUmVtb3ZlKClcIlxuICAgICAgICAgICAoa2V5dXAuZW50ZXIpPVwic2VsZWN0Rmlyc3RFbGVtZW50KClcIj5cbiAgICA8dGFnLWlucHV0LWRyb3Bkb3duIFtkaXNwbGF5QnldPVwiJ2xhYmVsJ1wiXG4gICAgICAgICAgICAgICAgICAgICAgICBbaWRlbnRpZnlCeV09XCIndmFsdWUnXCJcbiAgICAgICAgICAgICAgICAgICAgICAgIFtzaG93RHJvcGRvd25JZkVtcHR5XT1cInRydWVcIlxuICAgICAgICAgICAgICAgICAgICAgICAgW2tlZXBPcGVuXT1cImZhbHNlXCJcbiAgICAgICAgICAgICAgICAgICAgICAgIFthdXRvY29tcGxldGVJdGVtc109XCJ0aGlzLm9wdGlvbnNcIj5cbiAgICA8L3RhZy1pbnB1dC1kcm9wZG93bj5cbjwvdGFnLWlucHV0PlxuIl19

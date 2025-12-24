@@ -1,0 +1,102 @@
+/**
+ * SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.
+ * Copyright (C) 2021 SalesAgility Ltd.
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License version 3 as published by the
+ * Free Software Foundation with the addition of the following permission added
+ * to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK
+ * IN WHICH THE COPYRIGHT IS OWNED BY SALESAGILITY, SALESAGILITY DISCLAIMS THE
+ * WARRANTY OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * In accordance with Section 7(b) of the GNU Affero General Public License
+ * version 3, these Appropriate Legal Notices must retain the display of the
+ * "Supercharged by SuiteCRM" logo. If the display of the logos is not reasonably
+ * feasible for technical reasons, the Appropriate Legal Notices must display
+ * the words "Supercharged by SuiteCRM".
+ */
+import { Component } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { InstallActionsAdapter } from '../../adapters/actions.adapter';
+import * as i0 from "@angular/core";
+import * as i1 from "../../adapters/actions.adapter";
+import * as i2 from "../../store/install-view/install-view.store";
+import * as i3 from "@angular/common";
+import * as i4 from "../../../../components/action-group-menu/action-group-menu.component";
+import * as i5 from "../../../../components/label/label.component";
+import * as i6 from "../../../../fields/field.component";
+function InstallHeaderComponent_ng_container_0_Template(rf, ctx) { if (rf & 1) {
+    i0.ɵɵelementContainerStart(0);
+    i0.ɵɵelementStart(1, "div", 1)(2, "div", 2)(3, "div", 3)(4, "div", 4);
+    i0.ɵɵelement(5, "scrm-label", 5);
+    i0.ɵɵelementEnd();
+    i0.ɵɵelementStart(6, "div", 6);
+    i0.ɵɵelement(7, "scrm-label", 7);
+    i0.ɵɵelementEnd()();
+    i0.ɵɵelementStart(8, "div", 8)(9, "div", 9)(10, "div", 10)(11, "div", 11)(12, "div", 12)(13, "label", 13);
+    i0.ɵɵelement(14, "scrm-label", 14);
+    i0.ɵɵelementEnd();
+    i0.ɵɵtext(15, ": ");
+    i0.ɵɵelementEnd();
+    i0.ɵɵelementStart(16, "div", 15)(17, "div", 16);
+    i0.ɵɵelement(18, "scrm-field", 17);
+    i0.ɵɵelementEnd()()();
+    i0.ɵɵelementStart(19, "div");
+    i0.ɵɵelement(20, "scrm-action-group-menu", 18);
+    i0.ɵɵelementEnd()()()()()();
+    i0.ɵɵelementContainerEnd();
+} if (rf & 2) {
+    const vm_r1 = ctx.ngIf;
+    const ctx_r0 = i0.ɵɵnextContext();
+    i0.ɵɵadvance(14);
+    i0.ɵɵproperty("labelKey", ctx_r0.store.getIgnoreSystemChecksField().definition.vname);
+    i0.ɵɵadvance(4);
+    i0.ɵɵproperty("field", ctx_r0.store.getIgnoreSystemChecksField())("mode", "edit")("record", vm_r1.record)("type", ctx_r0.store.getIgnoreSystemChecksField().type);
+    i0.ɵɵadvance(2);
+    i0.ɵɵproperty("actionContext", ctx_r0.getActionContext(vm_r1.record))("config", ctx_r0.actionsAdapter);
+} }
+class InstallHeaderComponent {
+    actionsAdapter;
+    store;
+    vm$ = this.store.record$.pipe(map((record) => ({ record })));
+    constructor(actionsAdapter, store) {
+        this.actionsAdapter = actionsAdapter;
+        this.store = store;
+    }
+    /**
+     * Build action context
+     * @param record
+     */
+    getActionContext(record) {
+        if (!record) {
+            return {};
+        }
+        return {
+            module: record.module || '',
+            record
+        };
+    }
+    getTitle() {
+    }
+    static ɵfac = function InstallHeaderComponent_Factory(t) { return new (t || InstallHeaderComponent)(i0.ɵɵdirectiveInject(i1.InstallActionsAdapter), i0.ɵɵdirectiveInject(i2.InstallViewStore)); };
+    static ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: InstallHeaderComponent, selectors: [["scrm-install-header"]], features: [i0.ɵɵProvidersFeature([InstallActionsAdapter])], decls: 2, vars: 3, consts: [[4, "ngIf"], [1, "install-view-header"], [1, "row", "mr-0"], [1, "col-md-4", "install-header-title-col"], [1, "install-view-title", "record-view-name"], ["labelKey", "LBL_WELCOME", "module", "install"], [1, "install-view-subtitle", "record-view-title"], ["labelKey", "LBL_INSTALL", "module", "install"], [1, "col-md-8", "install-header-buttons-col"], [1, "row", "mr-1", "ml-1"], [1, "w-100", "d-flex", "justify-content-end", "align-items-center"], [1, "w-100", "install-header-options", "d-flex", "justify-content-end", "align-items-center", "pr-5"], [1, "label-container", "pr-2"], [1, "m-0", "small"], [3, "labelKey"], [1, "d-flex"], [1, "flex-grow-1", "text-break"], [3, "field", "mode", "record", "type"], ["buttonClass", "settings-button", "klass", "install-view-actions float-right", 3, "actionContext", "config"]], template: function InstallHeaderComponent_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵtemplate(0, InstallHeaderComponent_ng_container_0_Template, 21, 7, "ng-container", 0);
+            i0.ɵɵpipe(1, "async");
+        } if (rf & 2) {
+            i0.ɵɵproperty("ngIf", i0.ɵɵpipeBind1(1, 1, ctx.vm$));
+        } }, dependencies: [i3.NgIf, i4.ActionGroupMenuComponent, i5.LabelComponent, i6.FieldComponent, i3.AsyncPipe], encapsulation: 2 });
+}
+export { InstallHeaderComponent };
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(InstallHeaderComponent, [{
+        type: Component,
+        args: [{ selector: 'scrm-install-header', providers: [InstallActionsAdapter], template: "<! --\n/**\n* SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.\n* Copyright (C) 2021 SalesAgility Ltd.\n*\n* This program is free software; you can redistribute it and/or modify it under\n* the terms of the GNU Affero General Public License version 3 as published by the\n* Free Software Foundation with the addition of the following permission added\n* to Section 15 as permitted in Section 7(a): FOR ANY PART OF THE COVERED WORK\n* IN WHICH THE COPYRIGHT IS OWNED BY SALESAGILITY, SALESAGILITY DISCLAIMS THE\n* WARRANTY OF NON INFRINGEMENT OF THIRD PARTY RIGHTS.\n*\n* This program is distributed in the hope that it will be useful, but WITHOUT\n* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS\n* FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more\n* details.\n*\n* You should have received a copy of the GNU Affero General Public License\n* along with this program.  If not, see http://www.gnu.org/licenses.\n*\n* In accordance with Section 7(b) of the GNU Affero General Public License\n* version 3, these Appropriate Legal Notices must retain the display of the\n* \"Supercharged by SuiteCRM\" logo. If the display of the logos is not reasonably\n* feasible for technical reasons, the Appropriate Legal Notices must display\n* the words \"Supercharged by SuiteCRM\".\n*/\n-->\n<ng-container *ngIf=\"(vm$ | async) as vm\">\n\n    <div class=\"install-view-header\">\n\n        <div class=\"row mr-0\">\n\n            <div class=\"col-md-4 install-header-title-col\">\n\n                <div class=\"install-view-title record-view-name\">\n                    <scrm-label labelKey=\"LBL_WELCOME\" module=\"install\"></scrm-label>\n                </div>\n                <div class=\"install-view-subtitle record-view-title\">\n                    <scrm-label labelKey=\"LBL_INSTALL\" module=\"install\"></scrm-label>\n                </div>\n\n            </div>\n\n            <div class=\"col-md-8 install-header-buttons-col\">\n\n                <div class=\"row mr-1 ml-1\">\n\n                    <div class=\"w-100 d-flex justify-content-end align-items-center\">\n\n                        <div class=\"w-100 install-header-options d-flex justify-content-end align-items-center pr-5\">\n                            <div class=\"label-container pr-2\">\n                                <label class=\"m-0 small\">\n                                    <scrm-label\n                                        [labelKey]=\"store.getIgnoreSystemChecksField().definition.vname\"></scrm-label>\n                                </label>:\n                            </div>\n                            <div class=\"d-flex\">\n                                <div class=\"flex-grow-1 text-break\">\n                                    <scrm-field [field]=\"store.getIgnoreSystemChecksField()\"\n                                                [mode]=\"'edit'\"\n                                                [record]=\"vm.record\"\n                                                [type]=\"store.getIgnoreSystemChecksField().type\">\n                                    </scrm-field>\n                                </div>\n                            </div>\n                        </div>\n\n                        <div>\n                            <scrm-action-group-menu\n                                [actionContext]=\"getActionContext(vm.record)\"\n                                [config]=\"actionsAdapter\"\n                                buttonClass=\"settings-button\"\n                                klass=\"install-view-actions float-right\"\n                            >\n                            </scrm-action-group-menu>\n                        </div>\n\n                    </div>\n\n                </div>\n\n            </div>\n\n        </div>\n\n    </div>\n</ng-container>\n" }]
+    }], function () { return [{ type: i1.InstallActionsAdapter }, { type: i2.InstallViewStore }]; }, null); })();
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5zdGFsbC1oZWFkZXIuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vY29yZS9hcHAvY29yZS9zcmMvbGliL3ZpZXdzL2luc3RhbGwvY29tcG9uZW50cy9pbnN0YWxsLWhlYWRlci9pbnN0YWxsLWhlYWRlci5jb21wb25lbnQudHMiLCIuLi8uLi8uLi8uLi8uLi8uLi8uLi8uLi9jb3JlL2FwcC9jb3JlL3NyYy9saWIvdmlld3MvaW5zdGFsbC9jb21wb25lbnRzL2luc3RhbGwtaGVhZGVyL2luc3RhbGwtaGVhZGVyLmNvbXBvbmVudC5odG1sIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7R0F3Qkc7QUFFSCxPQUFPLEVBQUMsU0FBUyxFQUFDLE1BQU0sZUFBZSxDQUFDO0FBQ3hDLE9BQU8sRUFBQyxHQUFHLEVBQUMsTUFBTSxnQkFBZ0IsQ0FBQztBQUNuQyxPQUFPLEVBQUMscUJBQXFCLEVBQUMsTUFBTSxnQ0FBZ0MsQ0FBQzs7Ozs7Ozs7O0lDRHJFLDZCQUEwQztJQUV0Qyw4QkFBaUMsYUFBQSxhQUFBLGFBQUE7SUFPakIsZ0NBQWlFO0lBQ3JFLGlCQUFNO0lBQ04sOEJBQXFEO0lBQ2pELGdDQUFpRTtJQUNyRSxpQkFBTSxFQUFBO0lBSVYsOEJBQWlELGFBQUEsZUFBQSxlQUFBLGVBQUEsaUJBQUE7SUFTekIsa0NBQ2tGO0lBQ3RGLGlCQUFRO0lBQUEsbUJBQ1o7SUFBQSxpQkFBTTtJQUNOLGdDQUFvQixlQUFBO0lBRVosa0NBSWE7SUFDakIsaUJBQU0sRUFBQSxFQUFBO0lBSWQsNEJBQUs7SUFDRCw4Q0FNeUI7SUFDN0IsaUJBQU0sRUFBQSxFQUFBLEVBQUEsRUFBQSxFQUFBO0lBVzlCLDBCQUFlOzs7O0lBakN5QixnQkFBZ0U7SUFBaEUscUZBQWdFO0lBS3hELGVBQTRDO0lBQTVDLGlFQUE0QyxnQkFBQSx3QkFBQSx3REFBQTtJQVc1RCxlQUE2QztJQUE3QyxxRUFBNkMsaUNBQUE7O0FEdEM3RSxNQUthLHNCQUFzQjtJQVFwQjtJQUNBO0lBTlgsR0FBRyxHQUFHLElBQUksQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLElBQUksQ0FDekIsR0FBRyxDQUFDLENBQUMsTUFBTSxFQUFFLEVBQUUsQ0FBQyxDQUFDLEVBQUMsTUFBTSxFQUFDLENBQUMsQ0FBQyxDQUM5QixDQUFDO0lBRUYsWUFDVyxjQUFxQyxFQUNyQyxLQUF1QjtRQUR2QixtQkFBYyxHQUFkLGNBQWMsQ0FBdUI7UUFDckMsVUFBSyxHQUFMLEtBQUssQ0FBa0I7SUFFbEMsQ0FBQztJQUVEOzs7T0FHRztJQUNILGdCQUFnQixDQUFDLE1BQWM7UUFDM0IsSUFBSSxDQUFDLE1BQU0sRUFBRTtZQUNULE9BQU8sRUFBbUIsQ0FBQTtTQUM3QjtRQUVELE9BQU87WUFDSCxNQUFNLEVBQUUsTUFBTSxDQUFDLE1BQU0sSUFBSSxFQUFFO1lBQzNCLE1BQU07U0FDUSxDQUFBO0lBQ3RCLENBQUM7SUFFRCxRQUFRO0lBRVIsQ0FBQztnRkE5QlEsc0JBQXNCOzZEQUF0QixzQkFBc0IseUVBRnBCLENBQUMscUJBQXFCLENBQUM7WUNSdEMsMEZBNERlOzs7WUE1REEsb0RBQW9COzs7U0RVdEIsc0JBQXNCO3VGQUF0QixzQkFBc0I7Y0FMbEMsU0FBUzsyQkFDSSxxQkFBcUIsYUFFcEIsQ0FBQyxxQkFBcUIsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogU3VpdGVDUk0gaXMgYSBjdXN0b21lciByZWxhdGlvbnNoaXAgbWFuYWdlbWVudCBwcm9ncmFtIGRldmVsb3BlZCBieSBTYWxlc0FnaWxpdHkgTHRkLlxuICogQ29weXJpZ2h0IChDKSAyMDIxIFNhbGVzQWdpbGl0eSBMdGQuXG4gKlxuICogVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkgaXQgdW5kZXJcbiAqIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIHZlcnNpb24gMyBhcyBwdWJsaXNoZWQgYnkgdGhlXG4gKiBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb24gd2l0aCB0aGUgYWRkaXRpb24gb2YgdGhlIGZvbGxvd2luZyBwZXJtaXNzaW9uIGFkZGVkXG4gKiB0byBTZWN0aW9uIDE1IGFzIHBlcm1pdHRlZCBpbiBTZWN0aW9uIDcoYSk6IEZPUiBBTlkgUEFSVCBPRiBUSEUgQ09WRVJFRCBXT1JLXG4gKiBJTiBXSElDSCBUSEUgQ09QWVJJR0hUIElTIE9XTkVEIEJZIFNBTEVTQUdJTElUWSwgU0FMRVNBR0lMSVRZIERJU0NMQUlNUyBUSEVcbiAqIFdBUlJBTlRZIE9GIE5PTiBJTkZSSU5HRU1FTlQgT0YgVEhJUkQgUEFSVFkgUklHSFRTLlxuICpcbiAqIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLCBidXQgV0lUSE9VVFxuICogQU5ZIFdBUlJBTlRZOyB3aXRob3V0IGV2ZW4gdGhlIGltcGxpZWQgd2FycmFudHkgb2YgTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1NcbiAqIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRS4gU2VlIHRoZSBHTlUgQWZmZXJvIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgZm9yIG1vcmVcbiAqIGRldGFpbHMuXG4gKlxuICogWW91IHNob3VsZCBoYXZlIHJlY2VpdmVkIGEgY29weSBvZiB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlXG4gKiBhbG9uZyB3aXRoIHRoaXMgcHJvZ3JhbS4gIElmIG5vdCwgc2VlIDxodHRwOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvPi5cbiAqXG4gKiBJbiBhY2NvcmRhbmNlIHdpdGggU2VjdGlvbiA3KGIpIG9mIHRoZSBHTlUgQWZmZXJvIEdlbmVyYWwgUHVibGljIExpY2Vuc2VcbiAqIHZlcnNpb24gMywgdGhlc2UgQXBwcm9wcmlhdGUgTGVnYWwgTm90aWNlcyBtdXN0IHJldGFpbiB0aGUgZGlzcGxheSBvZiB0aGVcbiAqIFwiU3VwZXJjaGFyZ2VkIGJ5IFN1aXRlQ1JNXCIgbG9nby4gSWYgdGhlIGRpc3BsYXkgb2YgdGhlIGxvZ29zIGlzIG5vdCByZWFzb25hYmx5XG4gKiBmZWFzaWJsZSBmb3IgdGVjaG5pY2FsIHJlYXNvbnMsIHRoZSBBcHByb3ByaWF0ZSBMZWdhbCBOb3RpY2VzIG11c3QgZGlzcGxheVxuICogdGhlIHdvcmRzIFwiU3VwZXJjaGFyZ2VkIGJ5IFN1aXRlQ1JNXCIuXG4gKi9cblxuaW1wb3J0IHtDb21wb25lbnR9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xuaW1wb3J0IHttYXB9IGZyb20gJ3J4anMvb3BlcmF0b3JzJztcbmltcG9ydCB7SW5zdGFsbEFjdGlvbnNBZGFwdGVyfSBmcm9tICcuLi8uLi9hZGFwdGVycy9hY3Rpb25zLmFkYXB0ZXInO1xuaW1wb3J0IHtBY3Rpb25Db250ZXh0LCBSZWNvcmR9IGZyb20gJ2NvbW1vbic7XG5pbXBvcnQge0luc3RhbGxWaWV3U3RvcmV9IGZyb20gJy4uLy4uL3N0b3JlL2luc3RhbGwtdmlldy9pbnN0YWxsLXZpZXcuc3RvcmUnO1xuXG5AQ29tcG9uZW50KHtcbiAgICBzZWxlY3RvcjogJ3Njcm0taW5zdGFsbC1oZWFkZXInLFxuICAgIHRlbXBsYXRlVXJsOiAnaW5zdGFsbC1oZWFkZXIuY29tcG9uZW50Lmh0bWwnLFxuICAgIHByb3ZpZGVyczogW0luc3RhbGxBY3Rpb25zQWRhcHRlcl1cbn0pXG5leHBvcnQgY2xhc3MgSW5zdGFsbEhlYWRlckNvbXBvbmVudCB7XG5cblxuICAgIHZtJCA9IHRoaXMuc3RvcmUucmVjb3JkJC5waXBlKFxuICAgICAgICBtYXAoKHJlY29yZCkgPT4gKHtyZWNvcmR9KSlcbiAgICApO1xuXG4gICAgY29uc3RydWN0b3IoXG4gICAgICAgIHB1YmxpYyBhY3Rpb25zQWRhcHRlcjogSW5zdGFsbEFjdGlvbnNBZGFwdGVyLFxuICAgICAgICBwdWJsaWMgc3RvcmU6IEluc3RhbGxWaWV3U3RvcmUsXG4gICAgKSB7XG4gICAgfVxuXG4gICAgLyoqXG4gICAgICogQnVpbGQgYWN0aW9uIGNvbnRleHRcbiAgICAgKiBAcGFyYW0gcmVjb3JkXG4gICAgICovXG4gICAgZ2V0QWN0aW9uQ29udGV4dChyZWNvcmQ6IFJlY29yZCk6IEFjdGlvbkNvbnRleHQge1xuICAgICAgICBpZiAoIXJlY29yZCkge1xuICAgICAgICAgICAgcmV0dXJuIHt9IGFzIEFjdGlvbkNvbnRleHRcbiAgICAgICAgfVxuXG4gICAgICAgIHJldHVybiB7XG4gICAgICAgICAgICBtb2R1bGU6IHJlY29yZC5tb2R1bGUgfHwgJycsXG4gICAgICAgICAgICByZWNvcmRcbiAgICAgICAgfSBhcyBBY3Rpb25Db250ZXh0XG4gICAgfVxuXG4gICAgZ2V0VGl0bGUoKSB7XG5cbiAgICB9XG59XG4iLCI8ISAtLVxuLyoqXG4qIFN1aXRlQ1JNIGlzIGEgY3VzdG9tZXIgcmVsYXRpb25zaGlwIG1hbmFnZW1lbnQgcHJvZ3JhbSBkZXZlbG9wZWQgYnkgU2FsZXNBZ2lsaXR5IEx0ZC5cbiogQ29weXJpZ2h0IChDKSAyMDIxIFNhbGVzQWdpbGl0eSBMdGQuXG4qXG4qIFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBhbmQvb3IgbW9kaWZ5IGl0IHVuZGVyXG4qIHRoZSB0ZXJtcyBvZiB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIHZlcnNpb24gMyBhcyBwdWJsaXNoZWQgYnkgdGhlXG4qIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbiB3aXRoIHRoZSBhZGRpdGlvbiBvZiB0aGUgZm9sbG93aW5nIHBlcm1pc3Npb24gYWRkZWRcbiogdG8gU2VjdGlvbiAxNSBhcyBwZXJtaXR0ZWQgaW4gU2VjdGlvbiA3KGEpOiBGT1IgQU5ZIFBBUlQgT0YgVEhFIENPVkVSRUQgV09SS1xuKiBJTiBXSElDSCBUSEUgQ09QWVJJR0hUIElTIE9XTkVEIEJZIFNBTEVTQUdJTElUWSwgU0FMRVNBR0lMSVRZIERJU0NMQUlNUyBUSEVcbiogV0FSUkFOVFkgT0YgTk9OIElORlJJTkdFTUVOVCBPRiBUSElSRCBQQVJUWSBSSUdIVFMuXG4qXG4qIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLCBidXQgV0lUSE9VVFxuKiBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBvZiBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVTU1xuKiBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuIFNlZSB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlXG4qIGRldGFpbHMuXG4qXG4qIFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBBZmZlcm8gR2VuZXJhbCBQdWJsaWMgTGljZW5zZVxuKiBhbG9uZyB3aXRoIHRoaXMgcHJvZ3JhbS4gIElmIG5vdCwgc2VlIGh0dHA6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy5cbipcbiogSW4gYWNjb3JkYW5jZSB3aXRoIFNlY3Rpb24gNyhiKSBvZiB0aGUgR05VIEFmZmVybyBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlXG4qIHZlcnNpb24gMywgdGhlc2UgQXBwcm9wcmlhdGUgTGVnYWwgTm90aWNlcyBtdXN0IHJldGFpbiB0aGUgZGlzcGxheSBvZiB0aGVcbiogXCJTdXBlcmNoYXJnZWQgYnkgU3VpdGVDUk1cIiBsb2dvLiBJZiB0aGUgZGlzcGxheSBvZiB0aGUgbG9nb3MgaXMgbm90IHJlYXNvbmFibHlcbiogZmVhc2libGUgZm9yIHRlY2huaWNhbCByZWFzb25zLCB0aGUgQXBwcm9wcmlhdGUgTGVnYWwgTm90aWNlcyBtdXN0IGRpc3BsYXlcbiogdGhlIHdvcmRzIFwiU3VwZXJjaGFyZ2VkIGJ5IFN1aXRlQ1JNXCIuXG4qL1xuLS0+XG48bmctY29udGFpbmVyICpuZ0lmPVwiKHZtJCB8IGFzeW5jKSBhcyB2bVwiPlxuXG4gICAgPGRpdiBjbGFzcz1cImluc3RhbGwtdmlldy1oZWFkZXJcIj5cblxuICAgICAgICA8ZGl2IGNsYXNzPVwicm93IG1yLTBcIj5cblxuICAgICAgICAgICAgPGRpdiBjbGFzcz1cImNvbC1tZC00IGluc3RhbGwtaGVhZGVyLXRpdGxlLWNvbFwiPlxuXG4gICAgICAgICAgICAgICAgPGRpdiBjbGFzcz1cImluc3RhbGwtdmlldy10aXRsZSByZWNvcmQtdmlldy1uYW1lXCI+XG4gICAgICAgICAgICAgICAgICAgIDxzY3JtLWxhYmVsIGxhYmVsS2V5PVwiTEJMX1dFTENPTUVcIiBtb2R1bGU9XCJpbnN0YWxsXCI+PC9zY3JtLWxhYmVsPlxuICAgICAgICAgICAgICAgIDwvZGl2PlxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9XCJpbnN0YWxsLXZpZXctc3VidGl0bGUgcmVjb3JkLXZpZXctdGl0bGVcIj5cbiAgICAgICAgICAgICAgICAgICAgPHNjcm0tbGFiZWwgbGFiZWxLZXk9XCJMQkxfSU5TVEFMTFwiIG1vZHVsZT1cImluc3RhbGxcIj48L3Njcm0tbGFiZWw+XG4gICAgICAgICAgICAgICAgPC9kaXY+XG5cbiAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICA8ZGl2IGNsYXNzPVwiY29sLW1kLTggaW5zdGFsbC1oZWFkZXItYnV0dG9ucy1jb2xcIj5cblxuICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9XCJyb3cgbXItMSBtbC0xXCI+XG5cbiAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz1cInctMTAwIGQtZmxleCBqdXN0aWZ5LWNvbnRlbnQtZW5kIGFsaWduLWl0ZW1zLWNlbnRlclwiPlxuXG4gICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPVwidy0xMDAgaW5zdGFsbC1oZWFkZXItb3B0aW9ucyBkLWZsZXgganVzdGlmeS1jb250ZW50LWVuZCBhbGlnbi1pdGVtcy1jZW50ZXIgcHItNVwiPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxkaXYgY2xhc3M9XCJsYWJlbC1jb250YWluZXIgcHItMlwiPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8bGFiZWwgY2xhc3M9XCJtLTAgc21hbGxcIj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzY3JtLWxhYmVsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgW2xhYmVsS2V5XT1cInN0b3JlLmdldElnbm9yZVN5c3RlbUNoZWNrc0ZpZWxkKCkuZGVmaW5pdGlvbi52bmFtZVwiPjwvc2NybS1sYWJlbD5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9sYWJlbD46XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz1cImQtZmxleFwiPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPVwiZmxleC1ncm93LTEgdGV4dC1icmVha1wiPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHNjcm0tZmllbGQgW2ZpZWxkXT1cInN0b3JlLmdldElnbm9yZVN5c3RlbUNoZWNrc0ZpZWxkKClcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgW21vZGVdPVwiJ2VkaXQnXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFtyZWNvcmRdPVwidm0ucmVjb3JkXCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFt0eXBlXT1cInN0b3JlLmdldElnbm9yZVN5c3RlbUNoZWNrc0ZpZWxkKCkudHlwZVwiPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9zY3JtLWZpZWxkPlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cbiAgICAgICAgICAgICAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICAgICAgICAgICAgICA8ZGl2PlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzY3JtLWFjdGlvbi1ncm91cC1tZW51XG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFthY3Rpb25Db250ZXh0XT1cImdldEFjdGlvbkNvbnRleHQodm0ucmVjb3JkKVwiXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFtjb25maWddPVwiYWN0aW9uc0FkYXB0ZXJcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBidXR0b25DbGFzcz1cInNldHRpbmdzLWJ1dHRvblwiXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGtsYXNzPVwiaW5zdGFsbC12aWV3LWFjdGlvbnMgZmxvYXQtcmlnaHRcIlxuICAgICAgICAgICAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3Njcm0tYWN0aW9uLWdyb3VwLW1lbnU+XG4gICAgICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICAgICAgICAgIDwvZGl2PlxuXG4gICAgICAgICAgICA8L2Rpdj5cblxuICAgICAgICA8L2Rpdj5cblxuICAgIDwvZGl2PlxuPC9uZy1jb250YWluZXI+XG4iXX0=
