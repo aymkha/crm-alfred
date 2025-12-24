@@ -145,29 +145,9 @@ class NavbarHandler extends LegacyHandler implements NavigationProviderInterface
         $navbar = new Navbar();
         $sugarView = new SugarView();
 
-        $allowedModules = ['Home', 'Accounts', 'Calls', 'Notes', 'jjwg_Maps', 'Calendar'];
-        $allowedLookup = array_fill_keys(array_map('strtolower', $allowedModules), true);
-
-        $accessibleModules = array_values(array_filter(
-            $this->getAccessibleModulesList(),
-            static function ($module) use ($allowedLookup) {
-                return isset($allowedLookup[strtolower($module)]);
-            }
-        ));
-        if (!in_array('Home', $accessibleModules, true)) {
-            array_unshift($accessibleModules, 'Home');
-        }
+        $accessibleModules = $this->getAccessibleModulesList();
         $accessibleModulesNameMap = $this->createFrontendNameMap($accessibleModules);
         $displayModules = $this->getDisplayEnabledModules();
-        $displayModules = array_values(array_filter(
-            $displayModules,
-            static function ($module) use ($allowedLookup) {
-                return isset($allowedLookup[strtolower($module)]);
-            }
-        ));
-        if (!in_array('Home', $displayModules, true)) {
-            array_unshift($displayModules, 'Home');
-        }
         $displayModulesMameMap = array_intersect_key($accessibleModulesNameMap, array_flip($displayModules));
 
         $navbar->tabs = array_values($displayModulesMameMap);
