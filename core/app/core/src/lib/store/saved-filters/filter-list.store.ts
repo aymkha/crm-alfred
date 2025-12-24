@@ -26,7 +26,7 @@
 
 import {Injectable} from '@angular/core';
 import {StringMap} from 'common';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AuthService} from '../../services/auth/auth.service';
 import {RecordListStore} from '../record-list/record-list.store';
 import {SavedFilter, SavedFilterList} from './saved-filter.model';
@@ -73,9 +73,12 @@ export class FilterListStore extends RecordListStore {
      * @param module
      */
     init(module: string): Observable<SavedFilterList> {
+        if (!this.configs || !this.preferences) {
+            // Defensive fallback to avoid crashing when DI is missing configs
+            return of({records: [], pagination: null, criteria: null} as unknown as SavedFilterList);
+        }
         const result$ = super.init(this.moduleName, false);
         this.initCriteria(module);
-
         return result$;
     }
 
