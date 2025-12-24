@@ -26,7 +26,7 @@
 
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import {UserPreferenceStore} from '../../../store/user-preference/user-preference.store';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {formatDate} from '@angular/common';
 import {NgbDateStruct, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
@@ -48,26 +48,31 @@ export interface DateTimeStruct extends NgbDateStruct, NgbTimeStruct {
 })
 export class DatetimeFormatter implements Formatter {
 
-    format$: Observable<DatetimeFormats> = this.preferences.userPreferences$.pipe(
-        map(() => {
-
-            const date = this.getDateFormat();
-            const time = this.getTimeFormat();
-
-            return {date, time};
-        })
-    );
+    format$: Observable<DatetimeFormats>;
+    // Fallback wrapper so we don't explode if preferences are not yet available (e.g. during shell bootstrap)
+    private prefStore: {userPreferences$?: Observable<any>; getUserPreference?: (key: string) => any};
 
     constructor(
         protected preferences: UserPreferenceStore,
         protected formUtils: FormControlUtils,
         @Inject(LOCALE_ID) public locale: string
     ) {
-
+        this.prefStore = preferences ?? {userPreferences$: of({}), getUserPreference: () => null};
+        const fallback: DatetimeFormats = {
+            date: this.getInternalDateFormat(),
+            time: this.getInternalTimeFormat()
+        };
+        this.format$ = (this.prefStore.userPreferences$ ?? of(fallback)).pipe(
+            map(() => {
+                const date = this.getDateFormat();
+                const time = this.getTimeFormat();
+                return {date, time};
+            })
+        );
     }
 
     getDateFormat(): string {
-        const dateFormatPreference = this.preferences.getUserPreference('date_format');
+        const dateFormatPreference = this.prefStore?.getUserPreference?.('date_format');
 
         if (dateFormatPreference) {
             return dateFormatPreference;
@@ -78,7 +83,7 @@ export class DatetimeFormatter implements Formatter {
 
     getTimeFormat(): string {
 
-        const timeFormatPreference = this.preferences.getUserPreference('time_format');
+        const timeFormatPreference = this.prefStore?.getUserPreference?.('time_format');
 
         if (timeFormatPreference) {
             let format: string = timeFormatPreference;
@@ -153,7 +158,7 @@ export class DatetimeFormatter implements Formatter {
         if (dateString) {
 
             let date = this.toDateTime(dateString, fromFormat, {
-                zone: this.preferences.getUserPreference('timezone')
+                zone: this.prefStore?.getUserPreference?.('timezone')
             });
 
             return formatDate(date.toJSDate(), this.getInternalFormat(), this.locale, 'GMT');
@@ -193,7 +198,7 @@ export class DatetimeFormatter implements Formatter {
         }
 
         const dateTime = this.toDateTime(datetime, '',  {
-            zone: this.preferences.getUserPreference('timezone')
+            zone: this.prefStore?.getUserPreference?.('timezone')
         });
 
         if (!dateTime.isValid) {
@@ -223,7 +228,7 @@ export class DatetimeFormatter implements Formatter {
             zone: 'GMT'
         });
 
-        const rezoned = dateTime.setZone(this.preferences.getUserPreference('timezone'));
+        const rezoned = dateTime.setZone(this.prefStore?.getUserPreference?.('timezone') ?? 'GMT');
 
         if (!dateTime.isValid) {
             return null;
@@ -249,7 +254,7 @@ export class DatetimeFormatter implements Formatter {
         }
 
         const dateTime = this.toDateTime(datetime, '', {
-            zone: this.preferences.getUserPreference('timezone')
+            zone: this.prefStore?.getUserPreference?.('timezone')
         });
 
         if (!dateTime.isValid) {
@@ -286,7 +291,7 @@ export class DatetimeFormatter implements Formatter {
         }
 
         const dateTime = this.toDateTime(datetime, '', {
-            zone: this.preferences.getUserPreference('timezone')
+            zone: this.prefStore?.getUserPreference?.('timezone')
         });
 
         if (!dateTime.isValid) {
@@ -329,7 +334,7 @@ export class DatetimeFormatter implements Formatter {
     }
 
     userTimeZone(): string {
-        let userTZ = this.preferences.getUserPreference('timezone') ?? 'GMT';
+        let userTZ = this.prefStore?.getUserPreference?.('timezone') ?? 'GMT';
         if (!userTZ) {
             userTZ = 'GMT';
         }

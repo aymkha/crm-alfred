@@ -17,6 +17,7 @@ export declare class DatetimeFormatter implements Formatter {
     protected formUtils: FormControlUtils;
     locale: string;
     format$: Observable<DatetimeFormats>;
+    private prefStore;
     constructor(preferences: UserPreferenceStore, formUtils: FormControlUtils, locale: string);
     getDateFormat(): string;
     getTimeFormat(): string;

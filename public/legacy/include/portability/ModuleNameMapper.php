@@ -92,7 +92,12 @@ class ModuleNameMapper
     {
         global $moduleList;
 
-        return $moduleList;
+        if (empty($moduleList) || !is_array($moduleList)) {
+            // fallback to mapped legacy modules if globals are not initialised yet
+            $moduleList = array_keys($this->map ?? []);
+        }
+
+        return $moduleList ?? [];
     }
 
     /**
