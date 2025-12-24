@@ -35,7 +35,7 @@ import {
     RouterEvent
 } from '@angular/router';
 import {AppState, AppStateStore, StateManager, SystemConfigStore, NotificationStore} from 'core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
 @Component({
@@ -45,7 +45,7 @@ import {debounceTime} from 'rxjs/operators';
 export class AppComponent {
     @ViewChild('mainOutlet', {read: ViewContainerRef, static: true})
     mainOutlet: ViewContainerRef | undefined;
-    appState$: Observable<AppState> = this.appStateStore.vm$.pipe(debounceTime(0));
+    appState$: Observable<AppState>;
 
     constructor(
         private router: Router,
@@ -54,6 +54,10 @@ export class AppComponent {
         protected systemConfigs: SystemConfigStore,
         protected notificationStore: NotificationStore
     ) {
+        // Guard against any unexpected DI issues so bootstrap doesn't crash
+        this.appState$ = this.appStateStore?.vm$
+            ? this.appStateStore.vm$.pipe(debounceTime(0))
+            : of({loading: false, initialAppLoading: true});
         router.events.subscribe((routerEvent: Event | RouterEvent) => this.checkRouterEvent(routerEvent));
     }
 
