@@ -25,7 +25,9 @@
  */
 
 import {Component, Input} from '@angular/core';
+import {Observable, of} from 'rxjs';
 import {LanguageStore} from '../../store/language/language.store';
+import {LanguageStrings} from '../../store/language/language.store';
 
 @Component({
     selector: 'scrm-label',
@@ -38,9 +40,17 @@ export class LabelComponent {
     @Input() module: string = null;
     @Input() listKey: string = null;
 
-    languages$ = this.language.vm$;
+    languages$: Observable<LanguageStrings>;
 
     constructor(public language: LanguageStore) {
+        // Fallback so the component does not explode if the store is missing during bootstrap
+        const empty: LanguageStrings = {
+            appStrings: {},
+            appListStrings: {},
+            modStrings: {},
+            languageKey: ''
+        };
+        this.languages$ = (this.language?.vm$ ?? of(empty));
     }
 
 }
