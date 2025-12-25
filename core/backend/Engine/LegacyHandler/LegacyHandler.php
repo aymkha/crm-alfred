@@ -315,7 +315,8 @@ abstract class LegacyHandler
         }
 
         if (session_status() === PHP_SESSION_ACTIVE) {
-            return;
+            // Close any active Symfony/PHP session so we can switch to the legacy one
+            session_write_close();
         }
         $this->session->setName($this->legacySessionName);
 

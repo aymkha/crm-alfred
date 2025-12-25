@@ -100,6 +100,13 @@ class CSRFValidationListener
             return;
         }
 
+        $isJsonLogin = $event->getRequest()->attributes->get('_route') === 'app_login'
+            || $event->getRequest()->attributes->get('_route') === 'native_auth_login';
+
+        if ($isJsonLogin) {
+            return;
+        }
+
         $value = $event->getRequest()->headers->get($this->headerName);
         if (empty($value) || !$this->csrfTokenManager->isTokenValid($value)) {
             throw new AccessDeniedHttpException('Invalid CSRF token');
