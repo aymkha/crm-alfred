@@ -90,6 +90,16 @@ class CSRFValidationListener
             return;
         }
 
+        $method = $event->getRequest()->getMethod();
+        if (!in_array($method, [
+            Request::METHOD_POST,
+            Request::METHOD_PUT,
+            Request::METHOD_PATCH,
+            Request::METHOD_DELETE,
+        ], true)) {
+            return;
+        }
+
         $value = $event->getRequest()->headers->get($this->headerName);
         if (empty($value) || !$this->csrfTokenManager->isTokenValid($value)) {
             throw new AccessDeniedHttpException('Invalid CSRF token');
