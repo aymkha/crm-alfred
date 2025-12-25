@@ -36,6 +36,11 @@
             "deployUrl": "dist/",
             "assets": [
               {
+                "glob": "site.webmanifest",
+                "input": "core/app/shell/src",
+                "output": "/"
+              },
+              {
                 "glob": "**/*",
                 "input": "core/app/shell/src/themes",
                 "ignore": [
