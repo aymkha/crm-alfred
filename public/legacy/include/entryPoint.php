@@ -44,10 +44,8 @@ if (!defined('sugarEntry') || !sugarEntry) {
 
 $GLOBALS['starttTime'] = microtime(true);
 
-$legacyBase = realpath(__DIR__ . '/..');
-
 set_include_path(
-    $legacyBase . PATH_SEPARATOR .
+    __DIR__ . '/..' . PATH_SEPARATOR .
     get_include_path()
 );
 
@@ -56,10 +54,10 @@ if (!defined('PHP_VERSION_ID')) {
     define('PHP_VERSION_ID', ($version_array[0] * 10000 + $version_array[1] * 100 + $version_array[2]));
 }
 
-require_once $legacyBase . '/include/SugarObjects/SugarConfig.php';
+require_once 'include/SugarObjects/SugarConfig.php';
 
 
-if (empty($GLOBALS['installing']) && !file_exists($legacyBase . '/config.php')) {
+if (empty($GLOBALS['installing']) && !file_exists('config.php')) {
     header('Location: install.php');
     if (isset($GLOBALS['log'])) {
         $GLOBALS['log']->fatal('SuiteCRM is not installed. Entry point needs an installed SuiteCRM, please install first.');
@@ -75,8 +73,8 @@ if (file_exists($autoloader)) {
 }
 
 // config|_override.php
-if (is_file($legacyBase . '/config.php')) {
-    require_once $legacyBase . '/config.php'; // provides $sugar_config
+if (is_file('config.php')) {
+    require_once 'config.php'; // provides $sugar_config
 } else {
     // load minimal sugar config required to provide basic data to Suite8 application
     $sugar_config = array(
@@ -118,16 +116,16 @@ setPhpIniSettings();
 
 set_session_name();
 
-require_once $legacyBase . '/sugar_version.php'; // provides $sugar_version, $sugar_db_version, $sugar_flavor
-require_once $legacyBase . '/include/database/DBManagerFactory.php';
-require_once $legacyBase . '/include/dir_inc.php';
+require_once 'sugar_version.php'; // provides $sugar_version, $sugar_db_version, $sugar_flavor
+require_once 'include/database/DBManagerFactory.php';
+require_once 'include/dir_inc.php';
 
-require_once $legacyBase . '/include/Localization/Localization.php';
-require_once $legacyBase . '/include/javascript/jsAlerts.php';
-require_once $legacyBase . '/include/TimeDate.php';
-require_once $legacyBase . '/include/modules.php'; // provides $moduleList, $beanList, $beanFiles, $modInvisList, $adminOnlyList, $modInvisListActivities
+require_once 'include/Localization/Localization.php';
+require_once 'include/javascript/jsAlerts.php';
+require_once 'include/TimeDate.php';
+require_once 'include/modules.php'; // provides $moduleList, $beanList, $beanFiles, $modInvisList, $adminOnlyList, $modInvisListActivities
 
-require_once $legacyBase . '/include/utils/autoloader.php';
+require_once 'include/utils/autoloader.php';
 spl_autoload_register(array('SugarAutoLoader', 'autoload'));
 require_once 'data/SugarBean.php';
 require_once 'include/utils/mvc_utils.php';

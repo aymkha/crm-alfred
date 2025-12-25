@@ -6116,6 +6116,10 @@ function set_session_name(){
         $sessionName = $GLOBALS['sugar_config']['session_name'];
     }
 
+    if (headers_sent()) {
+        return;
+    }
+
     if (session_status() === PHP_SESSION_NONE) {
         session_name($sessionName);
     }
