@@ -116,6 +116,15 @@ class SecurityController extends AbstractController
 
         $isActive = $this->authentication->checkSession();
 
+        // If legacy session isn't active but user is authenticated in Symfony,
+        // try to re-init the legacy session silently to keep SPA logged in.
+        if ($isActive !== true) {
+            $currentUser = $security->getUser();
+            if ($currentUser !== null) {
+                $isActive = $this->authentication->initLegacyUserSession($currentUser->getUsername());
+            }
+        }
+
         if ($isActive !== true) {
             $response = new JsonResponse(['active' => false, 'appStatus' => $appStatus], Response::HTTP_OK);
             $this->session->invalidate();
