@@ -232,6 +232,11 @@ class ExtensionManager
         $extensionContents .= PHP_EOL;
 
         $out = sugar_fopen("custom/$extPath/$targetFileName", 'wb');
+        if ($out === false) {
+            // If the file cannot be opened, skip writing to avoid fatal errors
+            return;
+        }
+
         fwrite($out, $extensionContents);
         fclose($out);
     }
