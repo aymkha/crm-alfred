@@ -25,33 +25,35 @@
  */
 
 import {Injectable} from '@angular/core';
-import {combineLatestWith} from 'rxjs';
+import {combineLatestWith, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {WidgetMetadata} from 'common';
 import {MetadataStore, RecordViewMetadata} from '../../../store/metadata/metadata.store.service';
 import {RecordViewStore} from '../store/record-view/record-view.store';
 
 @Injectable()
 export class TopWidgetAdapter {
 
-    config$ = this.metadata.recordViewMetadata$.pipe(
-        combineLatestWith(this.store.showTopWidget$),
-        map(([metadata, show]: [RecordViewMetadata, boolean]) => {
-
-            if (metadata.topWidget && metadata.topWidget.refreshOn === 'data-update') {
-                metadata.topWidget.reload$ = this.store.record$.pipe(map(() => true));
-            }
-
-            return {
-                widget: metadata.topWidget,
-                show
-            };
-        })
-    );
+    config$: Observable<{ widget: WidgetMetadata; show: boolean }>;
 
     constructor(
         protected store: RecordViewStore,
         protected metadata: MetadataStore
     ) {
+        this.config$ = this.metadata.recordViewMetadata$.pipe(
+            combineLatestWith(this.store.showTopWidget$),
+            map(([metadata, show]: [RecordViewMetadata, boolean]) => {
+
+                if (metadata.topWidget && metadata.topWidget.refreshOn === 'data-update') {
+                    metadata.topWidget.reload$ = this.store.record$.pipe(map(() => true));
+                }
+
+                return {
+                    widget: metadata.topWidget,
+                    show
+                };
+            })
+        );
     }
 
 }

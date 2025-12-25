@@ -25,7 +25,7 @@
  */
 
 import {BaseFieldComponent} from './base-field.component';
-import {combineLatestWith} from 'rxjs';
+import {combineLatestWith, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Component} from '@angular/core';
 import {SystemConfigMap, SystemConfigStore} from '../../store/system-config/system-config.store';
@@ -37,15 +37,9 @@ import {FieldLogicDisplayManager} from '../field-logic-display/field-logic-displ
 @Component({template: ''})
 export class BaseNumberComponent extends BaseFieldComponent{
 
-    preferences$ = this.userPreferences.userPreferences$;
-    configs$ = this.systemConfig.configs$;
-    vm$ = this.configs$.pipe(
-        combineLatestWith(this.preferences$),
-        map(([configs, preferences]: [SystemConfigMap, UserPreferenceMap]) => ({
-            configs,
-            preferences,
-        }))
-    );
+    preferences$: Observable<UserPreferenceMap>;
+    configs$: Observable<SystemConfigMap>;
+    vm$: Observable<{configs: SystemConfigMap; preferences: UserPreferenceMap;}>;
 
     constructor(
         protected userPreferences: UserPreferenceStore,
@@ -55,6 +49,16 @@ export class BaseNumberComponent extends BaseFieldComponent{
         protected logicDisplay: FieldLogicDisplayManager
     ) {
         super(typeFormatter, logic, logicDisplay);
+
+        this.preferences$ = this.userPreferences?.userPreferences$;
+        this.configs$ = this.systemConfig?.configs$;
+        this.vm$ = this.configs$.pipe(
+            combineLatestWith(this.preferences$),
+            map(([configs, preferences]: [SystemConfigMap, UserPreferenceMap]) => ({
+                configs,
+                preferences,
+            }))
+        );
     }
 
     get format(): boolean {

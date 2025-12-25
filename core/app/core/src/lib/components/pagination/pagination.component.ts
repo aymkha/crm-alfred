@@ -25,7 +25,7 @@
  */
 
 import {Component, Input, OnInit} from '@angular/core';
-import {combineLatestWith, Observable} from 'rxjs';
+import {combineLatestWith, Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {PageSelection, PaginationCount, PaginationDataSource} from 'common';
 import {LanguageStore, LanguageStringMap} from '../../store/language/language.store';
@@ -45,10 +45,12 @@ export class PaginationComponent implements OnInit {
     @Input() state: PaginationDataSource;
     displayResponsiveTable: any;
 
-    appStrings$: Observable<LanguageStringMap> = this.languageStore.appStrings$;
+    appStrings$: Observable<LanguageStringMap>;
     vm$: Observable<PaginationViewModel> = null;
 
     constructor(protected languageStore: LanguageStore) {
+        // Initialize streams after DI has provided the language store
+        this.appStrings$ = this.languageStore?.appStrings$ ?? of({});
     }
 
     ngOnInit(): void {

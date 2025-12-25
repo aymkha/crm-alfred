@@ -25,41 +25,43 @@
  */
 
 import {Injectable} from '@angular/core';
-import {combineLatestWith} from 'rxjs';
+import {combineLatestWith, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MetadataStore, RecordViewMetadata} from '../../../store/metadata/metadata.store.service';
 import {RecordViewStore} from '../store/record-view/record-view.store';
+import {WidgetMetadata} from 'common';
 
 @Injectable()
 export class SidebarWidgetAdapter {
 
-    config$ = this.metadata.recordViewMetadata$.pipe(
-        combineLatestWith(this.store.showSidebarWidgets$),
-        map(([metadata, show]: [RecordViewMetadata, boolean]) => {
-
-            if (metadata.sidebarWidgets && metadata.sidebarWidgets.length) {
-                metadata.sidebarWidgets.forEach(widget => {
-                    if (widget && widget.refreshOn === 'data-update') {
-                        widget.reload$ = this.store.record$.pipe(map(() => true));
-                    }
-
-                    if (widget) {
-                        widget.subpanelReload$ = this.store.subpanelReload$;
-                    }
-                });
-            }
-
-            return {
-                widgets: metadata.sidebarWidgets || [],
-                show
-            };
-        })
-    );
+    config$: Observable<{ widgets: WidgetMetadata[]; show: boolean }>;
 
     constructor(
         protected store: RecordViewStore,
         protected metadata: MetadataStore
     ) {
+        this.config$ = this.metadata.recordViewMetadata$.pipe(
+            combineLatestWith(this.store.showSidebarWidgets$),
+            map(([metadata, show]: [RecordViewMetadata, boolean]) => {
+
+                if (metadata.sidebarWidgets && metadata.sidebarWidgets.length) {
+                    metadata.sidebarWidgets.forEach(widget => {
+                        if (widget && widget.refreshOn === 'data-update') {
+                            widget.reload$ = this.store.record$.pipe(map(() => true));
+                        }
+
+                        if (widget) {
+                            widget.subpanelReload$ = this.store.subpanelReload$;
+                        }
+                    });
+                }
+
+                return {
+                    widgets: metadata.sidebarWidgets || [],
+                    show
+                };
+            })
+        );
     }
 
 }
