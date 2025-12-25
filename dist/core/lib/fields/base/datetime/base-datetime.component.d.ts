@@ -24,6 +24,7 @@
  * the words "Supercharged by SuiteCRM".
  */
 import { BaseFieldComponent } from '../base-field.component';
+import { Observable } from 'rxjs';
 import { DataTypeFormatter } from '../../../services/formatters/data-type.formatter.service';
 import { DatetimeFormatter } from '../../../services/formatters/datetime/datetime-formatter.service';
 import { FieldLogicManager } from '../../field-logic/field-logic.manager';
@@ -34,7 +35,7 @@ export declare class BaseDateTimeComponent extends BaseFieldComponent {
     protected typeFormatter: DataTypeFormatter;
     protected logic: FieldLogicManager;
     protected logicDisplay: FieldLogicDisplayManager;
-    vm$: import("rxjs").Observable<import("../../../services/formatters/datetime/datetime-formatter.service").DatetimeFormats>;
+    vm$: Observable<any>;
     constructor(formatter: DatetimeFormatter, typeFormatter: DataTypeFormatter, logic: FieldLogicManager, logicDisplay: FieldLogicDisplayManager);
     getDateFormat(): string;
     getDateTimeFormat(): string;

@@ -4,10 +4,11 @@ import * as i0 from "@angular/core";
 export declare class ListViewSidebarWidgetAdapter {
     protected store: ListViewStore;
     protected metadata: MetadataStore;
+    private metadata$;
     config$: import("rxjs").Observable<{
-        widgets: import("common").WidgetMetadata[];
+        widgets: any;
         show: boolean;
-        widgetsEnabled: boolean;
+        widgetsEnabled: boolean | any[];
     }>;
     constructor(store: ListViewStore, metadata: MetadataStore);
     static ɵfac: i0.ɵɵFactoryDeclaration<ListViewSidebarWidgetAdapter, never>;

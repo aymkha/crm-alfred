@@ -53,12 +53,7 @@ export declare class LoginUiComponent implements OnInit {
     systemConfigs$: Observable<SystemConfigMap>;
     appStrings$: Observable<LanguageStringMap>;
     language: string;
-    vm$: Observable<{
-        systemConfigs: SystemConfigMap;
-        appStrings: LanguageStringMap;
-        showLanguages: boolean;
-        showForgotPassword: boolean;
-    }>;
+    vm$: Observable<any>;
     constructor(router: Router, auth: AuthService, message: MessageService, configs: SystemConfigStore, languageStore: LanguageStore, recoverPasswordService: RecoverPasswordService, appState: AppStateStore);
     ngOnInit(): void;
     onLanguageSelect(language: string): void;

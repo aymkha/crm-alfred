@@ -1850,11 +1850,15 @@ class ImageComponent {
     klass = '';
     title = '';
     wrapperClass = 'sicon';
-    images$ = this.themeImagesStore.images$;
+    images$ = of({});
     imageSig = signal({});
     subs = [];
     constructor(themeImagesStore) {
         this.themeImagesStore = themeImagesStore;
+        // guard if DI fails during early bootstrap
+        if (themeImagesStore?.images$) {
+            this.images$ = themeImagesStore.images$;
+        }
     }
     ngOnInit() {
         this.subs = [];
@@ -1960,9 +1964,17 @@ class LabelComponent {
     labelKey = '';
     module = null;
     listKey = null;
-    languages$ = this.language.vm$;
+    languages$;
     constructor(language) {
         this.language = language;
+        // Fallback so the component does not explode if the store is missing during bootstrap
+        const empty = {
+            appStrings: {},
+            appListStrings: {},
+            modStrings: {},
+            languageKey: ''
+        };
+        this.languages$ = (this.language?.vm$ ?? of(empty));
     }
     static ɵfac = function LabelComponent_Factory(t) { return new (t || LabelComponent)(i0.ɵɵdirectiveInject(LanguageStore)); };
     static ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: LabelComponent, selectors: [["scrm-label"]], inputs: { labelKey: "labelKey", module: "module", listKey: "listKey" }, decls: 2, vars: 3, consts: [[4, "ngIf"]], template: function LabelComponent_Template(rf, ctx) { if (rf & 1) {
@@ -4323,7 +4335,10 @@ class ActionGroupMenuComponent {
         this.systemConfigStore = systemConfigStore;
     }
     ngOnInit() {
-        this.vm$ = this.config.getActions().pipe(combineLatestWith(this.screenSize.screenSize$, this.languages.vm$), map(([actions, screenSize, languages]) => {
+        const actions$ = this.config?.getActions?.() ?? of([]);
+        const screenSize$ = this.screenSize?.screenSize$ ?? of(ScreenSize.Medium);
+        const languages$ = this.languages?.vm$ ?? of({});
+        this.vm$ = actions$.pipe(combineLatestWith(screenSize$, languages$), map(([actions, screenSize, languages]) => {
             if (screenSize) {
                 this.screen = screenSize;
             }
@@ -11192,13 +11207,16 @@ class BaseDateTimeComponent extends BaseFieldComponent {
     typeFormatter;
     logic;
     logicDisplay;
-    vm$ = this.formatter.format$;
+    vm$;
     constructor(formatter, typeFormatter, logic, logicDisplay) {
         super(typeFormatter, logic, logicDisplay);
         this.formatter = formatter;
         this.typeFormatter = typeFormatter;
         this.logic = logic;
         this.logicDisplay = logicDisplay;
+        // Fallback to keep rendering even if the formatter DI is missing during bootstrap
+        const defaultFormats = { date: 'yyyy-MM-dd', time: 'HH:mm:ss' };
+        this.vm$ = (this.formatter?.format$ ?? of(defaultFormats));
     }
     getDateFormat() {
         if (this.field.metadata.date_time_format) {
@@ -11490,12 +11508,9 @@ class BaseNumberComponent extends BaseFieldComponent {
     typeFormatter;
     logic;
     logicDisplay;
-    preferences$ = this.userPreferences.userPreferences$;
-    configs$ = this.systemConfig.configs$;
-    vm$ = this.configs$.pipe(combineLatestWith(this.preferences$), map(([configs, preferences]) => ({
-        configs,
-        preferences,
-    })));
+    preferences$;
+    configs$;
+    vm$;
     constructor(userPreferences, systemConfig, typeFormatter, logic, logicDisplay) {
         super(typeFormatter, logic, logicDisplay);
         this.userPreferences = userPreferences;
@@ -11503,6 +11518,12 @@ class BaseNumberComponent extends BaseFieldComponent {
         this.typeFormatter = typeFormatter;
         this.logic = logic;
         this.logicDisplay = logicDisplay;
+        this.preferences$ = this.userPreferences?.userPreferences$;
+        this.configs$ = this.systemConfig?.configs$;
+        this.vm$ = this.configs$.pipe(combineLatestWith(this.preferences$), map(([configs, preferences]) => ({
+            configs,
+            preferences,
+        })));
     }
     get format() {
         if (!this.field.metadata) {
@@ -29754,7 +29775,7 @@ class LogoutUiComponent {
             label: 'LBL_LOGOUT'
         }
     };
-    languages$ = this.languageStore.vm$;
+    languages$ = of({});
     vm$ = this.languages$.pipe(map(languages => ({
         appStrings: languages.appStrings || {},
         appListStrings: languages.appListStrings || {}
@@ -29762,6 +29783,7 @@ class LogoutUiComponent {
     constructor(auth, languageStore) {
         this.auth = auth;
         this.languageStore = languageStore;
+        this.languages$ = languageStore?.vm$ ?? of({});
     }
     /**
      * call logout
@@ -33914,7 +33936,7 @@ class SearchBarComponent {
     isFocused = false;
     hasSearchTyped = false;
     subs = [];
-    languages$ = this.languageStore.vm$;
+    languages$ = of({});
     vm$ = this.languages$.pipe(map(language => {
         return {
             appStrings: language.appStrings || {}
@@ -33923,6 +33945,7 @@ class SearchBarComponent {
     constructor(globalSearch, languageStore) {
         this.globalSearch = globalSearch;
         this.languageStore = languageStore;
+        this.languages$ = languageStore?.vm$ ?? of({});
     }
     ngOnInit() {
         this.searchForm = new FormGroup({
@@ -37263,9 +37286,9 @@ class BaseNavbarComponent {
     backLink = false;
     mainNavLink = true;
     submenu = [];
-    moduleNameMapper = new ModuleNameMapper(this.systemConfigStore);
-    actionNameMapper = new ActionNameMapper(this.systemConfigStore);
-    routeConverter = new RouteConverter(this.moduleNameMapper, this.actionNameMapper, this.systemConfigStore);
+    moduleNameMapper;
+    actionNameMapper;
+    routeConverter;
     navbar;
     maxTabs = 8;
     screen = ScreenSize.Medium;
@@ -37273,34 +37296,14 @@ class BaseNavbarComponent {
     subs = [];
     navigation;
     currentQuickActions;
-    languages$ = this.languageStore.vm$;
-    userPreferences$ = this.userPreferenceStore.userPreferences$;
-    currentUser$ = this.authService.currentUser$;
-    appState$ = this.appState.vm$;
-    navigation$ = this.navigationStore.vm$;
+    languages$;
+    userPreferences$;
+    currentUser$;
+    appState$;
+    navigation$;
     dropdownLength;
     notificationCount$;
-    vm$ = this.navigation$.pipe(combineLatestWith(this.userPreferences$, this.currentUser$, this.appState$, this.screenSize.screenSize$, this.languages$), map(([navigation, userPreferences, currentUser, appState, screenSize, language]) => {
-        if (screenSize) {
-            this.screen = screenSize;
-        }
-        if (navigation && navigation.modules) {
-            this.navigation = navigation;
-        }
-        this.calculateMaxTabs(navigation);
-        this.getModuleQuickActions(appState.module);
-        this.navbar.resetMenu();
-        if (ready([language.appStrings, language.modStrings, language.appListStrings, userPreferences, currentUser])) {
-            this.navbar.build(navigation, currentUser, this.maxTabs);
-        }
-        return {
-            navigation,
-            userPreferences,
-            appState,
-            appStrings: language.appStrings || {},
-            appListStrings: language.appListStrings || {}
-        };
-    }));
+    vm$;
     constructor(navigationStore, languageStore, userPreferenceStore, systemConfigStore, appState, authService, moduleNavigation, screenSize, asyncActionService, notificationStore) {
         this.navigationStore = navigationStore;
         this.languageStore = languageStore;
@@ -37312,6 +37315,39 @@ class BaseNavbarComponent {
         this.screenSize = screenSize;
         this.asyncActionService = asyncActionService;
         this.notificationStore = notificationStore;
+        const sysConfig = systemConfigStore ?? { configs$: of({}), getConfig: () => null };
+        this.moduleNameMapper = new ModuleNameMapper(sysConfig);
+        this.actionNameMapper = new ActionNameMapper(sysConfig);
+        this.routeConverter = new RouteConverter(this.moduleNameMapper, this.actionNameMapper, sysConfig);
+        this.languages$ = languageStore?.vm$ ?? of({ appStrings: {}, modStrings: {}, appListStrings: {} });
+        this.userPreferences$ = userPreferenceStore?.userPreferences$ ?? of({});
+        this.currentUser$ = authService?.currentUser$ ?? of(null);
+        this.appState$ = appState?.vm$ ?? of({ module: null });
+        this.navigation$ = navigationStore?.vm$ ?? of({ modules: [] });
+        this.notificationCount$ = notificationStore?.notificationsUnreadTotal$ ?? of(0);
+        this.vm$ = this.navigation$.pipe(combineLatestWith(this.userPreferences$, this.currentUser$, this.appState$, this.screenSize.screenSize$, this.languages$), map(([navigation, userPreferences, currentUser, appState, screenSize, language]) => {
+            if (screenSize) {
+                this.screen = screenSize;
+            }
+            if (navigation && navigation.modules) {
+                this.navigation = navigation;
+            }
+            this.calculateMaxTabs(navigation);
+            this.getModuleQuickActions(appState?.module);
+            if (this.navbar) {
+                this.navbar.resetMenu();
+                if (ready([language?.appStrings, language?.modStrings, language?.appListStrings, userPreferences, currentUser])) {
+                    this.navbar.build(navigation, currentUser, this.maxTabs);
+                }
+            }
+            return {
+                navigation,
+                userPreferences,
+                appState,
+                appStrings: language?.appStrings || {},
+                appListStrings: language?.appListStrings || {}
+            };
+        }));
     }
     /**
      * Public API
@@ -37327,8 +37363,8 @@ class BaseNavbarComponent {
             this.isUserLoggedIn = value;
         });
         window.dispatchEvent(new Event('resize'));
-        this.notificationCount$ = this.notificationStore.notificationsUnreadTotal$;
-        this.subs.push(this.notificationStore.notificationsEnabled$.subscribe(notificationsEnabled => {
+        this.notificationCount$ = this.notificationStore?.notificationsUnreadTotal$ ?? of(0);
+        this.subs.push((this.notificationStore?.notificationsEnabled$ ?? of(false)).subscribe(notificationsEnabled => {
             this.notificationsEnabled = notificationsEnabled;
         }));
     }
@@ -37343,7 +37379,7 @@ class BaseNavbarComponent {
         return preferences && Object.keys(preferences).length;
     }
     markAsRead() {
-        this.notificationStore.markNotificationsAsRead();
+        this.notificationStore?.markNotificationsAsRead();
     }
     ngAfterViewInit() {
         if (!this.mobileGlobalLinkTitle?.nativeElement?.offsetWidt) {
@@ -37403,13 +37439,15 @@ class BaseNavbarComponent {
         return this.loaded;
     }
     calculateMaxTabs(navigation) {
-        const sizeMap = this.systemConfigStore.getConfigValue('navigation_tab_limits');
+        const sizeMap = this.systemConfigStore?.getConfigValue?.('navigation_tab_limits');
         if (this.screen && sizeMap) {
             let maxTabs = sizeMap[this.screen];
-            if (!maxTabs || navigation.maxTabs && navigation.maxTabs < maxTabs) {
-                maxTabs = navigation.maxTabs;
+            if (!maxTabs || (navigation?.maxTabs && navigation.maxTabs < maxTabs)) {
+                maxTabs = navigation?.maxTabs;
             }
-            this.maxTabs = maxTabs;
+            if (maxTabs) {
+                this.maxTabs = maxTabs;
+            }
         }
     }
     getModuleQuickActions(module) {
@@ -38386,10 +38424,12 @@ class PaginationComponent {
     allowPagination = true;
     state;
     displayResponsiveTable;
-    appStrings$ = this.languageStore.appStrings$;
+    appStrings$;
     vm$ = null;
     constructor(languageStore) {
         this.languageStore = languageStore;
+        // Initialize streams after DI has provided the language store
+        this.appStrings$ = this.languageStore?.appStrings$ ?? of({});
     }
     ngOnInit() {
         const pageCount$ = this.state.getPaginationCount();
@@ -39222,10 +39262,19 @@ class RecordContentComponent {
         this.language = language;
     }
     ngOnInit() {
+        if (!this.dataSource) {
+            // Defensive: if adapter is missing, avoid runtime crashes
+            this.subs.push(EMPTY.subscribe());
+            return;
+        }
         this.subs.push(this.dataSource.getDisplayConfig().subscribe(config => {
             this.config = { ...config };
         }));
         this.subs.push(this.dataSource.getPanels().subscribe(panels => {
+            if (!panels) {
+                this.panels = [];
+                return;
+            }
             this.panels = [...panels];
             if (this?.config?.layout === 'panels') {
                 this.updatePanelCollapseState();
@@ -39285,11 +39334,11 @@ class RecordContentComponent {
     }
     buildPanelMap() {
         const panelMap = {};
-        this.panels.forEach(panel => {
+        (this.panels || []).forEach(panel => {
             let isCollapsed = false;
             panel.label = panel?.label?.toUpperCase() ?? '';
             const panelKey = panel?.key?.toUpperCase() ?? '';
-            if (panel.meta.panelDefault === 'collapsed') {
+            if (panel?.meta?.panelDefault === 'collapsed') {
                 isCollapsed = true;
             }
             panel.isCollapsed = isCollapsed;
@@ -40125,6 +40174,10 @@ class FilterListStore extends RecordListStore {
      * @param module
      */
     init(module) {
+        if (!this.configs || !this.preferences) {
+            // Defensive fallback to avoid crashing when DI is missing configs
+            return of({ records: [], pagination: null, criteria: null });
+        }
         const result$ = super.init(this.moduleName, false);
         this.initCriteria(module);
         return result$;
@@ -46674,7 +46727,7 @@ class RecordPanelComponent {
     constructor() {
     }
     ngOnInit() {
-        this.vm$ = this.config.store.vm$;
+        this.vm$ = this.config?.store?.vm$ ?? of({});
         this.initCloseButton();
         if (this.config.panelMode) {
             this.panelMode = this.config.panelMode;
@@ -46689,10 +46742,10 @@ class RecordPanelComponent {
     }
     getGridConfig() {
         return {
-            record$: this.config.store.stagingRecord$,
-            mode$: this.config.store.mode$,
-            fields$: this.config.store.getViewFieldsKeys$(),
-            actions: this.config.actions,
+            record$: this.config?.store?.stagingRecord$ ?? of(null),
+            mode$: this.config?.store?.mode$ ?? of('detail'),
+            fields$: this.config?.store?.getViewFieldsKeys$?.() ?? of([]),
+            actions: this.config?.actions ?? [],
             klass: 'mt-2 rounded',
             buttonClass: 'btn btn-outline-danger btn-sm',
             maxColumns$: of(4).pipe(shareReplay(1)),
@@ -47807,9 +47860,11 @@ class ChartSidebarWidgetComponent extends BaseWidgetComponent {
         super();
         this.language = language;
         this.factory = factory;
+        // Fallback to avoid undefined streams if language store is missing
+        this.language = language ?? { appStrings$: of({}) };
     }
     ngOnInit() {
-        this.appStrings$ = this.language.appStrings$;
+        this.appStrings$ = this.language?.appStrings$ ?? of({});
         if (this.validateConfig() === false) {
             return;
         }
@@ -50386,7 +50441,7 @@ class SubpanelContainerComponent {
     isCollapsed = signal(false);
     toggleIcon = signal('arrow_down_filled');
     maxColumns$;
-    languages$ = this.languageStore.vm$;
+    languages$ = of({});
     vm$;
     openSubpanels = [];
     filterConfig;
@@ -50395,12 +50450,14 @@ class SubpanelContainerComponent {
         this.maxColumnCalculator = maxColumnCalculator;
         this.localStorage = localStorage;
         this.preferences = preferences;
+        this.languages$ = languageStore?.vm$ ?? of({});
     }
     ngOnInit() {
         const module = this?.config?.parentModule ?? 'default';
         this.setCollapsed(isTrue(this.preferences.getUi(module, 'subpanel-container-collapse') ?? false));
         this.openSubpanels = this.preferences.getUi(module, 'subpanel-container-open-subpanels') ?? [];
-        this.vm$ = this.config.subpanels$.pipe(map((subpanelsMap) => ({
+        const subpanels$ = this.config?.subpanels$ ?? of({});
+        this.vm$ = subpanels$.pipe(map((subpanelsMap) => ({
             subpanels: subpanelsMap
         })), tap((subpanelsMap) => {
             if (!subpanelsMap || !Object.keys(subpanelsMap).length) {
@@ -50421,7 +50478,7 @@ class SubpanelContainerComponent {
         this.maxColumns$ = this.getMaxColumns();
     }
     getMaxColumns() {
-        return this.maxColumnCalculator.getMaxColumns(this.config.sidebarActive$);
+        return this.maxColumnCalculator.getMaxColumns(this.config?.sidebarActive$ ?? of(false));
     }
     toggleSubPanels() {
         this.setCollapsed(!this.isCollapsed());
@@ -50792,6 +50849,8 @@ class StatisticsTopWidgetComponent extends BaseWidgetComponent {
         super();
         this.language = language;
         this.factory = factory;
+        // Default streams so we don't crash if language store DI is missing
+        this.language = language ?? { appStrings$: of({}) };
     }
     ngOnInit() {
         if (!this.context || !this.context.module) {
@@ -50857,7 +50916,7 @@ class StatisticsTopWidgetComponent extends BaseWidgetComponent {
             return loading;
         }));
         this.subs.push(this.loading$.subscribe());
-        this.vm$ = statisticObs.pipe(combineLatestWith(this.language.appStrings$), map(([statistics, appStrings]) => {
+        this.vm$ = statisticObs.pipe(combineLatestWith(this.language?.appStrings$ ?? of({})), map(([statistics, appStrings]) => {
             const statsMap = {};
             statistics.forEach(value => {
                 statsMap[value.query.key] = value;
@@ -54117,25 +54176,26 @@ class RecordViewSidebarWidgetService {
 class SidebarWidgetAdapter {
     store;
     metadata;
-    config$ = this.metadata.recordViewMetadata$.pipe(combineLatestWith(this.store.showSidebarWidgets$), map(([metadata, show]) => {
-        if (metadata.sidebarWidgets && metadata.sidebarWidgets.length) {
-            metadata.sidebarWidgets.forEach(widget => {
-                if (widget && widget.refreshOn === 'data-update') {
-                    widget.reload$ = this.store.record$.pipe(map(() => true));
-                }
-                if (widget) {
-                    widget.subpanelReload$ = this.store.subpanelReload$;
-                }
-            });
-        }
-        return {
-            widgets: metadata.sidebarWidgets || [],
-            show
-        };
-    }));
+    config$;
     constructor(store, metadata) {
         this.store = store;
         this.metadata = metadata;
+        this.config$ = this.metadata.recordViewMetadata$.pipe(combineLatestWith(this.store.showSidebarWidgets$), map(([metadata, show]) => {
+            if (metadata.sidebarWidgets && metadata.sidebarWidgets.length) {
+                metadata.sidebarWidgets.forEach(widget => {
+                    if (widget && widget.refreshOn === 'data-update') {
+                        widget.reload$ = this.store.record$.pipe(map(() => true));
+                    }
+                    if (widget) {
+                        widget.subpanelReload$ = this.store.subpanelReload$;
+                    }
+                });
+            }
+            return {
+                widgets: metadata.sidebarWidgets || [],
+                show
+            };
+        }));
     }
     static ɵfac = function SidebarWidgetAdapter_Factory(t) { return new (t || SidebarWidgetAdapter)(i0.ɵɵinject(RecordViewStore), i0.ɵɵinject(MetadataStore)); };
     static ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: SidebarWidgetAdapter, factory: SidebarWidgetAdapter.ɵfac });
@@ -54918,18 +54978,19 @@ class RecordContentAdapter {
 class TopWidgetAdapter {
     store;
     metadata;
-    config$ = this.metadata.recordViewMetadata$.pipe(combineLatestWith(this.store.showTopWidget$), map(([metadata, show]) => {
-        if (metadata.topWidget && metadata.topWidget.refreshOn === 'data-update') {
-            metadata.topWidget.reload$ = this.store.record$.pipe(map(() => true));
-        }
-        return {
-            widget: metadata.topWidget,
-            show
-        };
-    }));
+    config$;
     constructor(store, metadata) {
         this.store = store;
         this.metadata = metadata;
+        this.config$ = this.metadata.recordViewMetadata$.pipe(combineLatestWith(this.store.showTopWidget$), map(([metadata, show]) => {
+            if (metadata.topWidget && metadata.topWidget.refreshOn === 'data-update') {
+                metadata.topWidget.reload$ = this.store.record$.pipe(map(() => true));
+            }
+            return {
+                widget: metadata.topWidget,
+                show
+            };
+        }));
     }
     static ɵfac = function TopWidgetAdapter_Factory(t) { return new (t || TopWidgetAdapter)(i0.ɵɵinject(RecordViewStore), i0.ɵɵinject(MetadataStore)); };
     static ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: TopWidgetAdapter, factory: TopWidgetAdapter.ɵfac });
@@ -54966,25 +55027,26 @@ class TopWidgetAdapter {
 class BottomWidgetAdapter {
     store;
     metadata;
-    config$ = this.metadata.recordViewMetadata$.pipe(combineLatestWith(this.store.widgets$), map(([metadata, show]) => {
-        if (metadata.bottomWidgets && metadata.bottomWidgets.length) {
-            metadata.bottomWidgets.forEach(widget => {
-                if (widget && widget.refreshOn === 'data-update') {
-                    widget.reload$ = this.store.record$.pipe(map(() => true));
-                }
-                if (widget) {
-                    widget.subpanelReload$ = this.store.subpanelReload$;
-                }
-            });
-        }
-        return {
-            widgets: metadata.bottomWidgets || [],
-            show
-        };
-    }));
+    config$;
     constructor(store, metadata) {
         this.store = store;
         this.metadata = metadata;
+        this.config$ = this.metadata.recordViewMetadata$.pipe(combineLatestWith(this.store.widgets$), map(([metadata, show]) => {
+            if (metadata.bottomWidgets && metadata.bottomWidgets.length) {
+                metadata.bottomWidgets.forEach(widget => {
+                    if (widget && widget.refreshOn === 'data-update') {
+                        widget.reload$ = this.store.record$.pipe(map(() => true));
+                    }
+                    if (widget) {
+                        widget.subpanelReload$ = this.store.subpanelReload$;
+                    }
+                });
+            }
+            return {
+                widgets: metadata.bottomWidgets || [],
+                show
+            };
+        }));
     }
     static ɵfac = function BottomWidgetAdapter_Factory(t) { return new (t || BottomWidgetAdapter)(i0.ɵɵinject(RecordViewStore), i0.ɵɵinject(MetadataStore)); };
     static ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: BottomWidgetAdapter, factory: BottomWidgetAdapter.ɵfac });
@@ -55168,16 +55230,11 @@ class RecordContainerComponent {
     bottomWidgetAdapter;
     sidebarWidgetHandler;
     loading = true;
-    language$ = this.language.vm$;
+    language$ = of({});
     displayWidgets = true;
     swapWidgets = false;
     sidebarWidgetConfig;
-    vm$ = this.language$.pipe(combineLatestWith(this.bottomWidgetAdapter.config$, this.topWidgetAdapter.config$, this.recordViewStore.showSubpanels$), map(([language, bottomWidgetConfig, topWidgetConfig, showSubpanels]) => ({
-        language,
-        bottomWidgetConfig,
-        topWidgetConfig,
-        showSubpanels
-    })));
+    vm$;
     subs = [];
     constructor(recordViewStore, language, metadata, contentAdapter, topWidgetAdapter, sidebarWidgetAdapter, bottomWidgetAdapter, sidebarWidgetHandler) {
         this.recordViewStore = recordViewStore;
@@ -55188,6 +55245,16 @@ class RecordContainerComponent {
         this.sidebarWidgetAdapter = sidebarWidgetAdapter;
         this.bottomWidgetAdapter = bottomWidgetAdapter;
         this.sidebarWidgetHandler = sidebarWidgetHandler;
+        this.language$ = language?.vm$ ?? of({});
+        const bottomConfig$ = bottomWidgetAdapter?.config$ ?? of({});
+        const topConfig$ = topWidgetAdapter?.config$ ?? of({});
+        const showSubpanels$ = recordViewStore?.showSubpanels$ ?? of(false);
+        this.vm$ = this.language$.pipe(combineLatestWith(bottomConfig$, topConfig$, showSubpanels$), map(([language, bottomWidgetConfig, topWidgetConfig, showSubpanels]) => ({
+            language,
+            bottomWidgetConfig,
+            topWidgetConfig,
+            showSubpanels
+        })));
     }
     ngOnInit() {
         this.subs.push(this.recordViewStore.loading$.subscribe(loading => {
@@ -57116,10 +57183,14 @@ function InstallHeaderComponent_ng_container_0_Template(rf, ctx) { if (rf & 1) {
 class InstallHeaderComponent {
     actionsAdapter;
     store;
-    vm$ = this.store.record$.pipe(map((record) => ({ record })));
+    vm$;
     constructor(actionsAdapter, store) {
         this.actionsAdapter = actionsAdapter;
         this.store = store;
+        // Guard against missing store/record$ during bootstrap
+        this.vm$ = this.store?.record$
+            ? this.store.record$.pipe(map((record) => ({ record })))
+            : of({ record: null });
     }
     /**
      * Build action context
@@ -57245,6 +57316,8 @@ class InstallViewComponent {
     constructor(store, route) {
         this.store = store;
         this.route = route;
+        // safe default to avoid crashes if store is unavailable
+        this.vm$ = this.store?.vm$ ?? of({ record: null, loading: true });
     }
     ngOnInit() {
         let mode = 'edit';
@@ -57252,11 +57325,13 @@ class InstallViewComponent {
         if (data.mode) {
             mode = data.mode;
         }
-        this.store.init(mode);
-        this.vm$ = this.store.vm$;
+        if (this.store) {
+            this.store.init(mode);
+            this.vm$ = this.store.vm$;
+        }
     }
     ngOnDestroy() {
-        this.store.clear();
+        this.store?.clear();
     }
     static ɵfac = function InstallViewComponent_Factory(t) { return new (t || InstallViewComponent)(i0.ɵɵdirectiveInject(InstallViewStore), i0.ɵɵdirectiveInject(i1$2.ActivatedRoute)); };
     static ɵcmp = /*@__PURE__*/ i0.ɵɵdefineComponent({ type: InstallViewComponent, selectors: [["scrm-install-view"]], features: [i0.ɵɵProvidersFeature([InstallViewStore])], decls: 2, vars: 3, consts: [["class", "install-view", 4, "ngIf"], [1, "install-view"], [1, "record-view-hr-container"], [1, "record-view-hr"]], template: function InstallViewComponent_Template(rf, ctx) { if (rf & 1) {
@@ -58644,14 +58719,15 @@ class RecordPanelAdapter {
 class ListViewSidebarWidgetAdapter {
     store;
     metadata;
-    config$ = this.metadata.listMetadata$.pipe(combineLatestWith(this.store.showSidebarWidgets$, this.store.widgets$), map(([metadata, show, widgetsEnabled]) => {
+    metadata$ = (this.metadata?.listMetadata$ ?? of({ sidebarWidgets: [] }));
+    config$ = this.metadata$.pipe(combineLatestWith(this.store?.showSidebarWidgets$ ?? of(false), this.store?.widgets$ ?? of([])), map(([metadata, show, widgetsEnabled]) => {
         if (metadata.sidebarWidgets && metadata.sidebarWidgets.length) {
             metadata.sidebarWidgets.forEach(widget => {
                 if (widget && widget.refreshOn === 'data-update') {
-                    widget.reload$ = this.store.dataSetUpdate$.pipe(map(() => true));
+                    widget.reload$ = (this.store?.dataSetUpdate$ ?? of(null)).pipe(map(() => true));
                 }
                 else if (widget && widget.refreshOn === 'data-reload') {
-                    widget.reload$ = this.store.records$.pipe(map(() => true));
+                    widget.reload$ = (this.store?.records$ ?? of([])).pipe(map(() => true));
                 }
             });
         }
@@ -59605,26 +59681,10 @@ class LoginUiComponent {
     passw = '';
     email = '';
     cardState = 'front';
-    systemConfigs$ = this.configs.configs$;
-    appStrings$ = this.languageStore.appStrings$;
+    systemConfigs$;
+    appStrings$;
     language = null;
-    vm$ = this.systemConfigs$.pipe(combineLatestWith(this.appStrings$), map(([systemConfigs, appStrings]) => {
-        let showLanguages = false;
-        let showForgotPassword = false;
-        if (systemConfigs.languages && systemConfigs.languages.items) {
-            showLanguages = Object.keys(systemConfigs.languages.items).length > 1;
-        }
-        if (systemConfigs.passwordsetting && systemConfigs.passwordsetting.items) {
-            const forgotPasswordProperty = systemConfigs.passwordsetting.items.forgotpasswordON;
-            showForgotPassword = [true, '1', 'true'].includes(forgotPasswordProperty);
-        }
-        return {
-            systemConfigs,
-            appStrings,
-            showLanguages,
-            showForgotPassword
-        };
-    }));
+    vm$;
     constructor(router, auth, message, configs, languageStore, recoverPasswordService, appState) {
         this.router = router;
         this.auth = auth;
@@ -59636,6 +59696,25 @@ class LoginUiComponent {
         this.loading = false;
         this.hidden = false;
         this.language = null;
+        this.systemConfigs$ = configs?.configs$ ?? of({});
+        this.appStrings$ = languageStore?.appStrings$ ?? of({});
+        this.vm$ = this.systemConfigs$.pipe(combineLatestWith(this.appStrings$), map(([systemConfigs, appStrings]) => {
+            let showLanguages = false;
+            let showForgotPassword = false;
+            if (systemConfigs.languages && systemConfigs.languages.items) {
+                showLanguages = Object.keys(systemConfigs.languages.items).length > 1;
+            }
+            if (systemConfigs.passwordsetting && systemConfigs.passwordsetting.items) {
+                const forgotPasswordProperty = systemConfigs.passwordsetting.items.forgotpasswordON;
+                showForgotPassword = [true, '1', 'true'].includes(forgotPasswordProperty);
+            }
+            return {
+                systemConfigs,
+                appStrings,
+                showLanguages,
+                showForgotPassword
+            };
+        }));
     }
     ngOnInit() {
         this.setCurrentLanguage();

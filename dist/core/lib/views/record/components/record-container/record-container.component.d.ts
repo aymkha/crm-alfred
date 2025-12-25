@@ -51,18 +51,7 @@ export declare class RecordContainerComponent implements OnInit, OnDestroy {
     displayWidgets: boolean;
     swapWidgets: boolean;
     sidebarWidgetConfig: any;
-    vm$: Observable<{
-        language: LanguageStrings;
-        bottomWidgetConfig: {
-            widgets: WidgetMetadata[];
-            show: boolean;
-        };
-        topWidgetConfig: {
-            widget: WidgetMetadata;
-            show: boolean;
-        };
-        showSubpanels: boolean;
-    }>;
+    vm$: Observable<any>;
     protected subs: Subscription[];
     constructor(recordViewStore: RecordViewStore, language: LanguageStore, metadata: MetadataStore, contentAdapter: RecordContentAdapter, topWidgetAdapter: TopWidgetAdapter, sidebarWidgetAdapter: SidebarWidgetAdapter, bottomWidgetAdapter: BottomWidgetAdapter, sidebarWidgetHandler: RecordViewSidebarWidgetService);
     ngOnInit(): void;

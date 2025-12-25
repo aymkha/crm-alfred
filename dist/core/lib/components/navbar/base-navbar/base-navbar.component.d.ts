@@ -80,13 +80,7 @@ export declare class BaseNavbarComponent implements OnInit, OnDestroy, AfterView
     navigation$: Observable<Navigation>;
     dropdownLength: number;
     notificationCount$: Observable<number>;
-    vm$: Observable<{
-        navigation: Navigation;
-        userPreferences: UserPreferenceMap;
-        appState: AppState;
-        appStrings: import("../../../store/language/language.store").LanguageStringMap;
-        appListStrings: import("../../../store/language/language.store").LanguageListStringMap;
-    }>;
+    vm$: Observable<any>;
     constructor(navigationStore: NavigationStore, languageStore: LanguageStore, userPreferenceStore: UserPreferenceStore, systemConfigStore: SystemConfigStore, appState: AppStateStore, authService: AuthService, moduleNavigation: ModuleNavigation, screenSize: ScreenSizeObserverService, asyncActionService: AsyncActionService, notificationStore: NotificationStore);
     /**
      * Public API

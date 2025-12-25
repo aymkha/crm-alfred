@@ -24,6 +24,7 @@
  * the words "Supercharged by SuiteCRM".
  */
 import { BaseFieldComponent } from './base-field.component';
+import { Observable } from 'rxjs';
 import { SystemConfigMap, SystemConfigStore } from '../../store/system-config/system-config.store';
 import { DataTypeFormatter } from '../../services/formatters/data-type.formatter.service';
 import { UserPreferenceMap, UserPreferenceStore } from '../../store/user-preference/user-preference.store';
@@ -36,9 +37,9 @@ export declare class BaseNumberComponent extends BaseFieldComponent {
     protected typeFormatter: DataTypeFormatter;
     protected logic: FieldLogicManager;
     protected logicDisplay: FieldLogicDisplayManager;
-    preferences$: import("rxjs").Observable<UserPreferenceMap>;
-    configs$: import("rxjs").Observable<SystemConfigMap>;
-    vm$: import("rxjs").Observable<{
+    preferences$: Observable<UserPreferenceMap>;
+    configs$: Observable<SystemConfigMap>;
+    vm$: Observable<{
         configs: SystemConfigMap;
         preferences: UserPreferenceMap;
     }>;
