@@ -45,15 +45,9 @@ class CustomAccountsController extends SugarController
 
             // Start date/time: inherit next action date if set and valid
             $rawNextAction = isset($account->next_action_date_c) ? trim((string) $account->next_action_date_c) : '';
-            if ($rawNextAction !== '' && $rawNextAction !== 'Invalid Date' && $rawNextAction !== '0000-00-00 00:00:00') {
-                $timedate = TimeDate::getInstance();
-                $dt = $timedate->fromDb($rawNextAction) ?: $timedate->fromDbDate($rawNextAction);
-                if ($dt) {
-                    $call->date_start = $timedate->asDb($dt);
-                } else {
-                    // fallback: keep raw value if parsing fails
-                    $call->date_start = $rawNextAction;
-                }
+            $normalizedDate = $this->normalizeDate($rawNextAction);
+            if ($normalizedDate !== '') {
+                $call->date_start = $normalizedDate;
             }
             // If still empty, fallback to now to satisfy required field
             if (empty($call->date_start)) {
@@ -112,5 +106,32 @@ class CustomAccountsController extends SugarController
         header('Content-Type: application/json');
         echo json_encode($payload);
         sugar_cleanup(true);
+    }
+
+    /**
+     * Try to normalize a variety of date formats into DB datetime string.
+     */
+    protected function normalizeDate(string $raw): string
+    {
+        $raw = trim($raw);
+        if ($raw === '' || $raw === 'Invalid Date' || $raw === '0000-00-00 00:00:00') {
+            return '';
+        }
+
+        $timedate = TimeDate::getInstance();
+
+        // Try common SuiteCRM helpers first
+        $dt = $timedate->fromDb($raw) ?: $timedate->fromDbDate($raw) ?: $timedate->fromUser($raw);
+        if ($dt) {
+            return $timedate->asDb($dt);
+        }
+
+        // Fallback: generic strtotime parsing
+        $ts = strtotime($raw);
+        if ($ts !== false) {
+            return $timedate->asDb($timedate->fromTimestamp($ts));
+        }
+
+        return '';
     }
 }
