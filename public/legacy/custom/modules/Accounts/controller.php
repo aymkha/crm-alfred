@@ -40,17 +40,19 @@ class CustomAccountsController extends SugarController
                 $call->assigned_user_id = $GLOBALS['current_user']->id;
             }
 
-            // Action list enum: inherit if present
-            if (!empty($account->action_list_c)) {
-                $call->action_list_c = $account->action_list_c;
-            }
+            // Action list enum: inherit (even if empty, to mirror the restaurant field)
+            $call->action_list_c = $account->action_list_c ?? '';
 
             // Start date/time: inherit next action date if set and valid
-            if (!empty($account->next_action_date_c)) {
+            $rawNextAction = isset($account->next_action_date_c) ? trim((string) $account->next_action_date_c) : '';
+            if ($rawNextAction !== '' && $rawNextAction !== 'Invalid Date' && $rawNextAction !== '0000-00-00 00:00:00') {
                 $timedate = TimeDate::getInstance();
-                $dt = $timedate->fromDb($account->next_action_date_c);
+                $dt = $timedate->fromDb($rawNextAction) ?: $timedate->fromDbDate($rawNextAction);
                 if ($dt) {
                     $call->date_start = $timedate->asDb($dt);
+                } else {
+                    // fallback: keep raw value if parsing fails
+                    $call->date_start = $rawNextAction;
                 }
             }
             // If still empty, fallback to now to satisfy required field

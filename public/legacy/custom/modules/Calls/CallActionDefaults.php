@@ -29,20 +29,22 @@ class CallActionDefaults
             return;
         }
 
-        // Copy the restaurant assigned user if not already set
-        if (empty($bean->assigned_user_id) && !empty($account->assigned_user_id)) {
-            $bean->assigned_user_id = $account->assigned_user_id;
-        }
+        $isUpdate = !empty($arguments['isUpdate']);
 
-        // Copy the action list selection if present on the account and not yet set on the call
-        if (empty($bean->action_list_c) && !empty($account->action_list_c)) {
-            $bean->action_list_c = $account->action_list_c;
-        }
+        // Only override on new records to avoid clobbering user edits later
+        if (!$isUpdate) {
+            // Copy the restaurant assigned user if not already set
+            if (empty($bean->assigned_user_id) && !empty($account->assigned_user_id)) {
+                $bean->assigned_user_id = $account->assigned_user_id;
+            }
 
-        // Copy next action date into call start date/time if not already set
-        if (!empty($account->next_action_date_c) && empty($bean->date_start)) {
-            // date_start expects DB datetime format
-            $bean->date_start = $account->next_action_date_c;
+            // Copy the action list selection to allow filtering by action type
+            $bean->action_list_c = $account->action_list_c ?? '';
+
+            // Copy next action date into call start date/time if provided on the restaurant
+            if (!empty($account->next_action_date_c) && $account->next_action_date_c !== 'Invalid Date' && $account->next_action_date_c !== '0000-00-00 00:00:00') {
+                $bean->date_start = $account->next_action_date_c;
+            }
         }
     }
 }
