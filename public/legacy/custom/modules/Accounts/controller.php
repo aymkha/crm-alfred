@@ -7,7 +7,13 @@ class CustomAccountsController extends AccountsController
     public function action_createActionFromAccount()
     {
         $recordId = isset($_REQUEST['record']) ? $_REQUEST['record'] : '';
+        $isAjax = !empty($_REQUEST['ajax']);
+
         if (empty($recordId)) {
+            if ($isAjax) {
+                $this->sendJson(['success' => false, 'message' => 'Missing record id'], 400);
+                return;
+            }
             SugarApplication::redirect('index.php?module=Accounts&action=DetailView');
             return;
         }
@@ -15,6 +21,10 @@ class CustomAccountsController extends AccountsController
         /** @var Account $account */
         $account = BeanFactory::getBean('Accounts', $recordId);
         if (empty($account) || empty($account->id)) {
+            if ($isAjax) {
+                $this->sendJson(['success' => false, 'message' => 'Account not found'], 404);
+                return;
+            }
             SugarApplication::redirect('index.php?module=Accounts&action=DetailView&record=' . $recordId);
             return;
         }
@@ -50,9 +60,21 @@ class CustomAccountsController extends AccountsController
         }
         $call->name = trim($account->name . ' - ' . ($actionLabel ?: 'Action'));
 
-        // Save and redirect back to Account
         $call->save();
 
+        if ($isAjax) {
+            $this->sendJson(['success' => true, 'call_id' => $call->id]);
+            return;
+        }
+
         SugarApplication::redirect('index.php?module=Accounts&action=DetailView&record=' . $account->id);
+    }
+
+    protected function sendJson(array $payload, int $status = 200)
+    {
+        http_response_code($status);
+        header('Content-Type: application/json');
+        echo json_encode($payload);
+        sugar_cleanup(true);
     }
 }

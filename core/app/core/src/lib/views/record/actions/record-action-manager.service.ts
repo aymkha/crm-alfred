@@ -33,6 +33,7 @@ import {RecordEditAction} from './edit/record-edit.action';
 import {RecordCreateAction} from './create/record-create.action';
 import {RecordSaveNewAction} from './save-new/record-save-new.action';
 import {CancelCreateAction} from './cancel-create/cancel-create.action';
+import {RecordCreateCallAction} from './create-call/record-create-call.action';
 import {BaseActionManager} from '../../../services/actions/base-action-manager.service';
 import {AsyncProcessRecordAction} from './async-process/async-process.service';
 import {ActionHandlerMap} from 'common';
@@ -51,6 +52,7 @@ export class RecordActionManager extends BaseActionManager<RecordActionData> {
         protected save: RecordSaveAction,
         protected saveNew: RecordSaveNewAction,
         protected async: AsyncProcessRecordAction,
+        protected createCall: RecordCreateCallAction,
     ) {
         super();
         edit.modes.forEach(mode => this.actions[mode][edit.key] = edit);
@@ -61,5 +63,6 @@ export class RecordActionManager extends BaseActionManager<RecordActionData> {
         saveNew.modes.forEach(mode => this.actions[mode][saveNew.key] = saveNew);
         cancelCreate.modes.forEach(mode => this.actions[mode][cancelCreate.key] = cancelCreate);
         async.modes.forEach(mode => this.actions[mode][async.key] = async);
+        createCall.modes.forEach(mode => this.actions[mode][createCall.key] = createCall);
     }
 }

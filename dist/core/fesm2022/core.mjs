@@ -54794,6 +54794,52 @@ class AsyncProcessRecordAction extends RecordActionHandler {
     }], function () { return []; }, null); })();
 
 /**
+ * Creates a Call from the current Account (restaurant) without leaving the record page.
+ */
+class RecordCreateCallAction extends RecordActionHandler {
+    http;
+    message;
+    key = 'create-call-from-account';
+    modes = ALL_VIEW_MODES;
+    constructor(http, message) {
+        super();
+        this.http = http;
+        this.message = message;
+    }
+    run(data) {
+        const record = data?.store?.recordStore?.getBaseRecord?.() ?? null;
+        const id = record?.id ?? null;
+        if (!id) {
+            this.message.addDangerMessageByKey('LBL_ERROR_PROCESSING_REQUEST');
+            return;
+        }
+        const url = `/legacy/index.php?module=Accounts&action=createActionFromAccount&record=${id}&ajax=1`;
+        this.http.get(url).subscribe({
+            next: (resp) => {
+                if (resp && resp.success) {
+                    this.message.addSuccessMessageByKey('LBL_ACTION_CREATED_SUCCESS');
+                    data?.store?.load?.(false)?.subscribe?.();
+                }
+                else {
+                    this.message.addDangerMessageByKey('LBL_ERROR_PROCESSING_REQUEST');
+                }
+            },
+            error: () => {
+                this.message.addDangerMessageByKey('LBL_ERROR_PROCESSING_REQUEST');
+            }
+        });
+    }
+    shouldDisplay(data) {
+        return !!(data?.store?.recordStore?.getBaseRecord?.()?.id);
+    }
+    static ɵfac = function RecordCreateCallAction_Factory(t) { return new (t || RecordCreateCallAction)(i0.ɵɵinject(i1$3.HttpClient), i0.ɵɵinject(MessageService)); };
+    static ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: RecordCreateCallAction, factory: RecordCreateCallAction.ɵfac });
+}
+(function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(RecordCreateCallAction, [{
+        type: Injectable
+    }], function () { return [{ type: i1$3.HttpClient }, { type: MessageService }]; }, null); })();
+
+/**
  * SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.
  * Copyright (C) 2021 SalesAgility Ltd.
  *
@@ -54827,7 +54873,8 @@ class RecordActionManager extends BaseActionManager {
     save;
     saveNew;
     async;
-    constructor(edit, create, toggleWidgets, cancel, cancelCreate, save, saveNew, async) {
+    createCall;
+    constructor(edit, create, toggleWidgets, cancel, cancelCreate, save, saveNew, async, createCall) {
         super();
         this.edit = edit;
         this.create = create;
@@ -54837,6 +54884,7 @@ class RecordActionManager extends BaseActionManager {
         this.save = save;
         this.saveNew = saveNew;
         this.async = async;
+        this.createCall = createCall;
         edit.modes.forEach(mode => this.actions[mode][edit.key] = edit);
         create.modes.forEach(mode => this.actions[mode][create.key] = create);
         toggleWidgets.modes.forEach(mode => this.actions[mode][toggleWidgets.key] = toggleWidgets);
@@ -54845,8 +54893,9 @@ class RecordActionManager extends BaseActionManager {
         saveNew.modes.forEach(mode => this.actions[mode][saveNew.key] = saveNew);
         cancelCreate.modes.forEach(mode => this.actions[mode][cancelCreate.key] = cancelCreate);
         async.modes.forEach(mode => this.actions[mode][async.key] = async);
+        createCall.modes.forEach(mode => this.actions[mode][createCall.key] = createCall);
     }
-    static ɵfac = function RecordActionManager_Factory(t) { return new (t || RecordActionManager)(i0.ɵɵinject(RecordEditAction), i0.ɵɵinject(RecordCreateAction), i0.ɵɵinject(RecordToggleWidgetsAction), i0.ɵɵinject(RecordCancelAction), i0.ɵɵinject(CancelCreateAction), i0.ɵɵinject(RecordSaveAction), i0.ɵɵinject(RecordSaveNewAction), i0.ɵɵinject(AsyncProcessRecordAction)); };
+    static ɵfac = function RecordActionManager_Factory(t) { return new (t || RecordActionManager)(i0.ɵɵinject(RecordEditAction), i0.ɵɵinject(RecordCreateAction), i0.ɵɵinject(RecordToggleWidgetsAction), i0.ɵɵinject(RecordCancelAction), i0.ɵɵinject(CancelCreateAction), i0.ɵɵinject(RecordSaveAction), i0.ɵɵinject(RecordSaveNewAction), i0.ɵɵinject(AsyncProcessRecordAction), i0.ɵɵinject(RecordCreateCallAction)); };
     static ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: RecordActionManager, factory: RecordActionManager.ɵfac, providedIn: 'root' });
 }
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(RecordActionManager, [{
@@ -54854,7 +54903,7 @@ class RecordActionManager extends BaseActionManager {
         args: [{
                 providedIn: 'root',
             }]
-    }], function () { return [{ type: RecordEditAction }, { type: RecordCreateAction }, { type: RecordToggleWidgetsAction }, { type: RecordCancelAction }, { type: CancelCreateAction }, { type: RecordSaveAction }, { type: RecordSaveNewAction }, { type: AsyncProcessRecordAction }]; }, null); })();
+    }], function () { return [{ type: RecordEditAction }, { type: RecordCreateAction }, { type: RecordToggleWidgetsAction }, { type: RecordCancelAction }, { type: CancelCreateAction }, { type: RecordSaveAction }, { type: RecordSaveNewAction }, { type: AsyncProcessRecordAction }, { type: RecordCreateCallAction }]; }, null); })();
 
 /**
  * SuiteCRM is a customer relationship management program developed by SalesAgility Ltd.
