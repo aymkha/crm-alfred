@@ -112,7 +112,25 @@ export class RecordActionsAdapter extends BaseRecordActionsAdapter<RecordActionD
                     return [];
                 }
 
-                return this.parseModeActions(meta.actions, mode, this.store.getViewContext());
+                const ctx = this.store.getViewContext();
+                const moduleName = ctx?.module ?? this.store?.getModuleName?.();
+
+                // Ensure our custom action is present for Accounts even if metadata cache missed it
+                const actions: Action[] = [...(meta.actions || [])];
+                if (moduleName && moduleName.toLowerCase() === 'accounts') {
+                    const exists = actions.some(action => action?.key === 'create-call-from-account');
+                    if (!exists) {
+                        actions.push({
+                            key: 'create-call-from-account',
+                            labelKey: 'LBL_CREATE_ACTION_BUTTON',
+                            modes: ['detail'],
+                            acl: ['create'],
+                            aclModule: 'Calls',
+                        } as Action);
+                    }
+                }
+
+                return this.parseModeActions(actions, mode, ctx);
             })
         );
     }

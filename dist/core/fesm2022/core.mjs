@@ -54833,10 +54833,13 @@ class RecordCreateCallAction extends RecordActionHandler {
         return !!(data?.store?.recordStore?.getBaseRecord?.()?.id);
     }
     static ɵfac = function RecordCreateCallAction_Factory(t) { return new (t || RecordCreateCallAction)(i0.ɵɵinject(i1$3.HttpClient), i0.ɵɵinject(MessageService)); };
-    static ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: RecordCreateCallAction, factory: RecordCreateCallAction.ɵfac });
+    static ɵprov = /*@__PURE__*/ i0.ɵɵdefineInjectable({ token: RecordCreateCallAction, factory: RecordCreateCallAction.ɵfac, providedIn: 'root' });
 }
 (function () { (typeof ngDevMode === "undefined" || ngDevMode) && i0.ɵsetClassMetadata(RecordCreateCallAction, [{
-        type: Injectable
+        type: Injectable,
+        args: [{
+                providedIn: 'root'
+            }]
     }], function () { return [{ type: i1$3.HttpClient }, { type: MessageService }]; }, null); })();
 
 /**
@@ -55595,7 +55598,23 @@ class RecordActionsAdapter extends BaseRecordActionsAdapter {
             if (!mode || !meta) {
                 return [];
             }
-            return this.parseModeActions(meta.actions, mode, this.store.getViewContext());
+            const ctx = this.store.getViewContext();
+            const moduleName = ctx?.module ?? this.store?.getModuleName?.();
+            // Ensure our custom action is present for Accounts even if metadata cache missed it
+            const actions = [...(meta.actions || [])];
+            if (moduleName && moduleName.toLowerCase() === 'accounts') {
+                const exists = actions.some(action => action?.key === 'create-call-from-account');
+                if (!exists) {
+                    actions.push({
+                        key: 'create-call-from-account',
+                        labelKey: 'LBL_CREATE_ACTION_BUTTON',
+                        modes: ['detail'],
+                        acl: ['create'],
+                        aclModule: 'Calls',
+                    });
+                }
+            }
+            return this.parseModeActions(actions, mode, ctx);
         }));
     }
     buildActionData(action, context) {
