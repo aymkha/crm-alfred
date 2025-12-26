@@ -200,12 +200,20 @@ array(
         array(
           0 =>
           array(
+            'name' => 'action_list_c',
+            'label' => 'LBL_ACTION_LIST',
+          ),
+        ),
+        4 =>
+        array(
+          0 =>
+          array(
             'name' => 'description',
             'comment' => 'Full text of the note',
             'label' => 'LBL_DESCRIPTION',
           ),
         ),
-        4 =>
+        5 =>
         array(
           0 =>
           array(
