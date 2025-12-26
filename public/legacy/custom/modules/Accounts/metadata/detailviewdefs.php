@@ -24,6 +24,7 @@ $viewdefs['Accounts'] = [
                 'LBL_EDITVIEW_PANEL3' => ['newTab' => false, 'panelDefault' => 'expanded'],
                 'LBL_ACCOUNT_INFORMATION' => ['newTab' => false, 'panelDefault' => 'expanded'],
                 'LBL_EDITVIEW_PANEL1' => ['newTab' => false, 'panelDefault' => 'expanded'],
+                'LBL_BILLING_ADDRESS_PANEL' => ['newTab' => false, 'panelDefault' => 'expanded'],
             ],
         ],
         'panels' => [
@@ -68,6 +69,19 @@ $viewdefs['Accounts'] = [
                 [
                     ['name' => 'google_reviews_range_list_c', 'label' => 'LBL_GOOGLE_REVIEWS_RANGE_LIST'],
                     ['name' => 'google_rating_range_list_c', 'label' => 'LBL_GOOGLE_RATING_RANGE_LIST'],
+                ],
+            ],
+            'lbl_billing_address_panel' => [
+                [
+                    ['name' => 'billing_address_street', 'label' => 'LBL_BILLING_ADDRESS_STREET'],
+                    ['name' => 'billing_address_city', 'label' => 'LBL_BILLING_ADDRESS_CITY'],
+                ],
+                [
+                    ['name' => 'billing_address_postalcode', 'label' => 'LBL_BILLING_ADDRESS_POSTALCODE'],
+                    ['name' => 'billing_address_state', 'label' => 'LBL_BILLING_ADDRESS_STATE'],
+                ],
+                [
+                    ['name' => 'billing_address_country', 'label' => 'LBL_BILLING_ADDRESS_COUNTRY'],
                 ],
             ],
         ],
