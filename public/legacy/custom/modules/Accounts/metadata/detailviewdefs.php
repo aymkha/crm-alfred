@@ -2,7 +2,16 @@
 $viewdefs['Accounts'] = [
     'DetailView' => [
         'templateMeta' => [
-            'form' => ['buttons' => ['EDIT', 'DUPLICATE', 'DELETE']],
+            'form' => [
+                'buttons' => [
+                    'EDIT',
+                    'DUPLICATE',
+                    'DELETE',
+                    [
+                        'customCode' => '<input title="{$MOD.LBL_CREATE_ACTION_BUTTON}" class="button" type="button" name="create_action" value="{$MOD.LBL_CREATE_ACTION_BUTTON}" onclick="window.location.href=\'index.php?module=Accounts&action=createActionFromAccount&record={$fields.id.value}\';"/>'
+                    ],
+                ]
+            ],
             'maxColumns' => '2',
             'widths' => [
                 ['label' => '10', 'field' => '30'],
