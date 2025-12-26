@@ -72,11 +72,11 @@ $app_list_strings['nb_tables_range_list_list'] = [
 ];
 
 $app_list_strings['ticket_moyen_range_c_list'] = [
-    'rapide_10_15' => 'Rapide : 10 – 15 €',
-    'populaire_16_25' => 'Populaire : 16 – 25 €',
-    'standard_26_49' => 'Standard : 26 – 49 €',
-    'superieur_50_99' => 'Supérieur : 50 – 99 €',
-    'prestige_100_300_plus' => 'Prestige : 100 – 300 €+',
+    'rapide_10_15' => 'Rapide : 10 - 15 €',
+    'populaire_16_25' => 'Populaire : 16 - 25 €',
+    'standard_26_49' => 'Standard : 26 - 49 €',
+    'superieur_50_99' => 'Supérieur : 50 - 99 €',
+    'prestige_100_300_plus' => 'Prestige : 100 - 300 €+',
 ];
 
 $app_list_strings['google_reviews_range_list_list'] = [
