@@ -1,0 +1,26 @@
+<?php
+
+$dictionary['Call']['fields']['action_list_c'] = [
+    'inline_edit' => true,
+    'labelValue' => 'Action List',
+    'required' => false,
+    'source' => 'custom_fields',
+    'name' => 'action_list_c',
+    'vname' => 'LBL_ACTION_LIST',
+    'type' => 'enum',
+    'massupdate' => false,
+    'default' => null,
+    'importable' => 'true',
+    'duplicate_merge' => 'disabled',
+    'duplicate_merge_dom_value' => '0',
+    'audited' => false,
+    'reportable' => true,
+    'unified_search' => false,
+    'merge_filter' => 'disabled',
+    'len' => 100,
+    'size' => '20',
+    'options' => 'action_list_list',
+    'studio' => 'visible',
+    'dependency' => false,
+    'custom_module' => 'Calls',
+];
