@@ -164,7 +164,14 @@ array(
                           'module' => 'AOS_PDF_Templates'
                       ]
                   ]
-              ]
+              ],
+              'create-call-from-account' => [
+                  'key' => 'create-call-from-account',
+                  'labelKey' => 'LBL_CREATE_ACTION_BUTTON',
+                  'modes' => ['detail'],
+                  'acl' => ['create'],
+                  'aclModule' => 'Calls',
+              ],
           ]
       ],
       'panels' => array(
