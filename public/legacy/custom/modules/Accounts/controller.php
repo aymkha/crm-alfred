@@ -1,10 +1,15 @@
 <?php
 
-require_once 'modules/Accounts/controller.php';
+require_once 'include/MVC/Controller/SugarController.php';
 require_once 'include/TimeDate.php';
 
-class CustomAccountsController extends AccountsController
+class CustomAccountsController extends SugarController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function action_createActionFromAccount()
     {
         $recordId = isset($_REQUEST['record']) ? $_REQUEST['record'] : '';
@@ -48,6 +53,11 @@ class CustomAccountsController extends AccountsController
                     $call->date_start = $timedate->asDb($dt);
                 }
             }
+            // If still empty, fallback to now to satisfy required field
+            if (empty($call->date_start)) {
+                $timedate = TimeDate::getInstance();
+                $call->date_start = $timedate->asDb($timedate->getNow(true));
+            }
 
             // Defaults required by Calls
             if (empty($call->status)) {
@@ -69,6 +79,8 @@ class CustomAccountsController extends AccountsController
                 $actionLabel = $GLOBALS['app_list_strings']['action_list_list'][$call->action_list_c];
             }
             $call->name = trim($account->name . ' - ' . ($actionLabel ?: 'Action'));
+
+            $GLOBALS['log']->fatal('CreateActionFromAccount: saving call with parent ' . $account->id . ' date_start=' . $call->date_start . ' action_list=' . $call->action_list_c);
 
             $call->save();
 
