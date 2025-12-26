@@ -8,7 +8,9 @@ import {HttpClient} from '@angular/common/http';
 import {RecordActionData, RecordActionHandler} from '../record.action';
 import {MessageService} from '../../../../services/message/message.service';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class RecordCreateCallAction extends RecordActionHandler {
 
     key = 'create-call-from-account';
