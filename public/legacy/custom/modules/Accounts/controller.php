@@ -60,7 +60,16 @@ class CustomAccountsController extends AccountsController
         }
         $call->name = trim($account->name . ' - ' . ($actionLabel ?: 'Action'));
 
-        $call->save();
+        try {
+            $call->save();
+        } catch (Exception $e) {
+            if ($isAjax) {
+                $this->sendJson(['success' => false, 'message' => $e->getMessage()], 500);
+                return;
+            }
+            SugarApplication::redirect('index.php?module=Accounts&action=DetailView&record=' . $account->id);
+            return;
+        }
 
         if ($isAjax) {
             $this->sendJson(['success' => true, 'call_id' => $call->id]);

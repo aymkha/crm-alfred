@@ -38,7 +38,8 @@ export class RecordCreateCallAction extends RecordActionHandler {
                     this.message.addSuccessMessageByKey('LBL_ACTION_CREATED_SUCCESS');
                     data?.store?.load?.(false)?.subscribe?.();
                 } else {
-                    this.message.addDangerMessageByKey('LBL_ERROR_PROCESSING_REQUEST');
+                    const msg = (resp && resp.message) ? resp.message : 'LBL_ERROR_PROCESSING_REQUEST';
+                    this.message.addDangerMessageByKey(msg);
                 }
             },
             error: () => {
