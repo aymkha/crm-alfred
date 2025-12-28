@@ -57648,6 +57648,9 @@ class RunBulkActionRecordPanelAction extends ListViewRecordPanelActionHandler {
      * @param {object} data ListViewRecordPanelActionData
      */
     handleProcessResult(process, data) {
+        if (!process) {
+            return;
+        }
         if (process.data && process.data.reload) {
             data.listStore.recordList.clearSelection();
             data.listStore.load(false).pipe(take(1)).subscribe();
@@ -57921,6 +57924,9 @@ class BulkActionsAdapter {
      * @param {Process} process: data returned by the process once the process is executed
      */
     handleProcessResult(process) {
+        if (!process) {
+            return;
+        }
         if (process.data && process.data.reload) {
             this.store.recordList.clearSelection();
             this.store.load(false).pipe(take(1)).subscribe();
