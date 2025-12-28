@@ -165,6 +165,10 @@ export class RunBulkActionRecordPanelAction extends ListViewRecordPanelActionHan
      */
     protected handleProcessResult(process: Process, data: ListViewRecordPanelActionData): void {
 
+        if (!process) {
+            return;
+        }
+
         if (process.data && process.data.reload) {
             data.listStore.recordList.clearSelection();
             data.listStore.load(false).pipe(take(1)).subscribe();

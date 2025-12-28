@@ -196,6 +196,10 @@ export class BulkActionsAdapter implements BulkActionDataSource {
      */
     public handleProcessResult(process: Process): void {
 
+        if (!process) {
+            return;
+        }
+
         if (process.data && process.data.reload) {
             this.store.recordList.clearSelection();
             this.store.load(false).pipe(take(1)).subscribe();
