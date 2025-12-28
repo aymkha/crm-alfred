@@ -34,6 +34,7 @@ use App\Engine\Service\AclManagerInterface;
 use App\Process\Entity\Process;
 use App\Process\Service\ProcessHandlerInterface;
 use App\Process\Service\ProcessHandlerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 
@@ -55,16 +56,22 @@ class ProcessDataPersister implements ContextAwareDataPersisterInterface
     private $acl;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * ProcessDataPersister constructor.
      * @param ProcessHandlerRegistry $registry
      * @param Security $security
      * @param AclManagerInterface $acl
      */
-    public function __construct(ProcessHandlerRegistry $registry, Security $security, AclManagerInterface $acl)
+    public function __construct(ProcessHandlerRegistry $registry, Security $security, AclManagerInterface $acl, LoggerInterface $logger)
     {
         $this->registry = $registry;
         $this->security = $security;
         $this->acl = $acl;
+        $this->logger = $logger;
     }
 
     /**
@@ -87,11 +94,39 @@ class ProcessDataPersister implements ContextAwareDataPersisterInterface
 
         $this->checkAuthentication($processHandler);
 
-        $processHandler->validate($process);
+        try {
+            $processHandler->validate($process);
+        } catch (\Throwable $exception) {
+            $this->logger->error('Process validation failed', [
+                'type' => $process->getType(),
+                'options' => $process->getOptions(),
+                'message' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
+            ]);
+
+            $process->setStatus('error');
+            $process->setMessages([$exception->getMessage()]);
+
+            return $process;
+        }
 
         $hasAccess = $this->checkACLAccess($processHandler, $process);
 
-        $processHandler->configure($process);
+        try {
+            $processHandler->configure($process);
+        } catch (\Throwable $exception) {
+            $this->logger->error('Process configuration failed', [
+                'type' => $process->getType(),
+                'options' => $process->getOptions(),
+                'message' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
+            ]);
+
+            $process->setStatus('error');
+            $process->setMessages([$exception->getMessage()]);
+
+            return $process;
+        }
 
         if (!$hasAccess) {
             $process->setMessages(['LBL_ACCESS_DENIED']);
@@ -104,7 +139,19 @@ class ProcessDataPersister implements ContextAwareDataPersisterInterface
             // Store process for background processing
             // Not supported yet
         } else {
-            $processHandler->run($process);
+            try {
+                $processHandler->run($process);
+            } catch (\Throwable $exception) {
+                $this->logger->error('Process execution failed', [
+                    'type' => $process->getType(),
+                    'options' => $process->getOptions(),
+                    'message' => $exception->getMessage(),
+                    'trace' => $exception->getTraceAsString(),
+                ]);
+
+                $process->setStatus('error');
+                $process->setMessages([$exception->getMessage()]);
+            }
         }
 
         return $process;
