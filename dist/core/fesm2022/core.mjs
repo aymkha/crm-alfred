@@ -9422,11 +9422,17 @@ class AsyncActionService {
             actionHandler.run(process.data.params);
         }), catchError((err) => {
             const errorMessage = err?.message ?? '';
+            this.message.error('[AsyncActionService] run error', err);
             if (errorMessage === 'Access Denied.') {
                 this.appStateStore.updateLoading(actionName, false);
                 return of(null);
             }
-            this.message.addDangerMessageByKey('LBL_ACTION_ERROR');
+            if (errorMessage) {
+                this.message.addDangerMessage(errorMessage);
+            }
+            else {
+                this.message.addDangerMessageByKey('LBL_ACTION_ERROR');
+            }
             this.appStateStore.updateLoading(actionName, false);
             return of(null);
         }));
@@ -54821,7 +54827,8 @@ class RecordCreateCallAction extends RecordActionHandler {
                     data?.store?.load?.(false)?.subscribe?.();
                 }
                 else {
-                    this.message.addDangerMessageByKey('LBL_ERROR_PROCESSING_REQUEST');
+                    const msg = (resp && resp.message) ? resp.message : 'LBL_ERROR_PROCESSING_REQUEST';
+                    this.message.addDangerMessageByKey(msg);
                 }
             },
             error: () => {
