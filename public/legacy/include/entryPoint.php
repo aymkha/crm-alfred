@@ -45,6 +45,11 @@ if (!defined('sugarEntry') || !sugarEntry) {
 $GLOBALS['starttTime'] = microtime(true);
 
 $legacyBase = realpath(__DIR__ . '/..');
+if ($legacyBase === false) {
+    throw new RuntimeException('Unable to resolve legacy base path');
+}
+
+chdir($legacyBase);
 
 set_include_path(
     $legacyBase . PATH_SEPARATOR .
@@ -118,7 +123,12 @@ setPhpIniSettings();
 
 set_session_name();
 
-require_once $legacyBase . '/sugar_version.php'; // provides $sugar_version, $sugar_db_version, $sugar_flavor
+$versionFile = $legacyBase . '/sugar_version.php';
+if (!is_file($versionFile)) {
+    throw new RuntimeException('Missing sugar_version.php in legacy base: ' . $legacyBase);
+}
+
+require_once $versionFile; // provides $sugar_version, $sugar_db_version, $sugar_flavor
 require_once $legacyBase . '/include/database/DBManagerFactory.php';
 require_once $legacyBase . '/include/dir_inc.php';
 
