@@ -138,7 +138,8 @@ export class RunBulkActionRecordPanelAction extends ListViewRecordPanelActionHan
         const selection = data.listStore.recordList.selection;
 
         if (selection.all && selection.count > data.listStore.recordList.records.length) {
-            asyncData.criteria = data.listStore.recordList.criteria;
+            const criteria = data.listStore.recordList.criteria;
+            asyncData.criteria = criteria && Object.keys(criteria).length ? criteria : {filters: {}};
             asyncData.sort = data.listStore.recordList.sort;
         }
 

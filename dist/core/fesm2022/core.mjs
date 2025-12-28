@@ -57633,7 +57633,8 @@ class RunBulkActionRecordPanelAction extends ListViewRecordPanelActionHandler {
         };
         const selection = data.listStore.recordList.selection;
         if (selection.all && selection.count > data.listStore.recordList.records.length) {
-            asyncData.criteria = data.listStore.recordList.criteria;
+            const criteria = data.listStore.recordList.criteria;
+            asyncData.criteria = criteria && Object.keys(criteria).length ? criteria : { filters: {} };
             asyncData.sort = data.listStore.recordList.sort;
         }
         if (selection.all && selection.count <= data.listStore.recordList.records.length) {
@@ -57857,7 +57858,9 @@ class BulkActionsAdapter {
             fields: displayedFields
         };
         if (selection.all && selection.count > this.store.recordList.records.length) {
-            data.criteria = this.store.recordList.criteria;
+            // Ensure criteria is not an empty array to satisfy backend validation
+            const criteria = this.store.recordList.criteria;
+            data.criteria = criteria && Object.keys(criteria).length ? criteria : { filters: {} };
             data.sort = this.store.recordList.sort;
         }
         if (selection.all && selection.count <= this.store.recordList.records.length) {
