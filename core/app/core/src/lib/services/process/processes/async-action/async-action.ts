@@ -133,14 +133,21 @@ export class AsyncActionService {
 
                 }),
                 catchError((err) => {
-                    const errorMessage = err?.message ?? ''
+                    const errorMessage = err?.message ?? '';
+
+                    this.message.error('[AsyncActionService] run error', err);
 
                     if (errorMessage === 'Access Denied.') {
                         this.appStateStore.updateLoading(actionName, false);
                         return of(null);
                     }
 
-                    this.message.addDangerMessageByKey('LBL_ACTION_ERROR');
+                    if (errorMessage) {
+                        this.message.addDangerMessage(errorMessage);
+                    } else {
+                        this.message.addDangerMessageByKey('LBL_ACTION_ERROR');
+                    }
+
                     this.appStateStore.updateLoading(actionName, false);
                     return of(null);
                 }),
