@@ -61,6 +61,9 @@ $app_list_strings['zone_commerciale'] = [
     'zone_2' => 'Zone 2',
     'zone_3' => 'Zone 3',
     'zone_4' => 'Zone 4',
+    'zone_5' => 'Zone 5',
+    'zone_6' => 'Zone 6',
+    'zone_7' => 'Zone 7',
 ];
 
 $app_list_strings['nb_tables_range_list_list'] = [
