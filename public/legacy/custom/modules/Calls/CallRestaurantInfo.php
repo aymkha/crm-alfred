@@ -43,9 +43,9 @@ class CallRestaurantInfo
      *
      * @param SugarBean $bean
      * @param string    $event
-     * @param array     $arguments
+     * @param array|null $arguments
      */
-    public function populateForListView(SugarBean $bean, string $event, array $arguments): void
+    public function populateForListView(SugarBean $bean, $event, $arguments = []): void
     {
         $bean->restaurant_phone_c = '';
         $bean->restaurant_email_c = '';
