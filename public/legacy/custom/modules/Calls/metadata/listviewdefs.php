@@ -1,0 +1,80 @@
+<?php
+
+$listViewDefs['Calls'] = [
+    'SET_COMPLETE' => [
+        'width' => '1%',
+        'label' => 'LBL_LIST_CLOSE',
+        'link' => true,
+        'sortable' => false,
+        'default' => true,
+        'related_fields' => ['status'],
+    ],
+    'DIRECTION' => [
+        'width' => '10%',
+        'label' => 'LBL_LIST_DIRECTION',
+        'link' => false,
+        'default' => true,
+    ],
+    'NAME' => [
+        'width' => '30%',
+        'label' => 'LBL_LIST_SUBJECT',
+        'link' => true,
+        'default' => true,
+    ],
+    'PARENT_NAME' => [
+        'width' => '15%',
+        'label' => 'LBL_LIST_RELATED_TO',
+        'dynamic_module' => 'PARENT_TYPE',
+        'id' => 'PARENT_ID',
+        'link' => true,
+        'default' => true,
+        'sortable' => false,
+        'ACLTag' => 'PARENT',
+        'related_fields' => ['parent_id', 'parent_type'],
+    ],
+    'DATE_START' => [
+        'width' => '10%',
+        'label' => 'LBL_LIST_DATE',
+        'link' => false,
+        'default' => true,
+        'related_fields' => ['time_start'],
+    ],
+    'RESTAURANT_PHONE_C' => [
+        'width' => '10%',
+        'label' => 'LBL_RESTAURANT_PHONE',
+        'default' => true,
+        'sortable' => false,
+    ],
+    'RESTAURANT_EMAIL_C' => [
+        'width' => '12%',
+        'label' => 'LBL_RESTAURANT_EMAIL',
+        'default' => true,
+        'sortable' => false,
+        'customCode' => '{if $fields.restaurant_email_c.value}<a href="mailto:{$fields.restaurant_email_c.value|escape:\'url\'}">{$fields.restaurant_email_c.value|escape}</a>{/if}',
+    ],
+    'RESTAURANT_WEBSITE_C' => [
+        'width' => '12%',
+        'label' => 'LBL_RESTAURANT_WEBSITE',
+        'default' => true,
+        'sortable' => false,
+        'customCode' => '{if $fields.restaurant_website_c.value}<a href="{$fields.restaurant_website_c.value|escape:\'url\'}" target="_blank" rel="noopener">{$fields.restaurant_website_c.value|escape}</a>{/if}',
+    ],
+    'ASSIGNED_USER_NAME' => [
+        'width' => '8%',
+        'label' => 'LBL_LIST_ASSIGNED_TO_NAME',
+        'module' => 'Employees',
+        'id' => 'ASSIGNED_USER_ID',
+        'default' => true,
+    ],
+    'STATUS' => [
+        'width' => '8%',
+        'label' => 'LBL_STATUS',
+        'link' => false,
+        'default' => false,
+    ],
+    'DATE_ENTERED' => [
+        'width' => '10%',
+        'label' => 'LBL_DATE_ENTERED',
+        'default' => true,
+    ],
+];

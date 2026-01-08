@@ -35,6 +35,37 @@ class CallRestaurantInfo
             return;
         }
 
+        $this->copyRestaurantContactInfo($bean, $account);
+    }
+
+    /**
+     * process_record logic hook for list views.
+     *
+     * @param SugarBean $bean
+     * @param string    $event
+     * @param array     $arguments
+     */
+    public function populateForListView(SugarBean $bean, string $event, array $arguments): void
+    {
+        $bean->restaurant_phone_c = '';
+        $bean->restaurant_email_c = '';
+        $bean->restaurant_website_c = '';
+
+        if ($bean->parent_type !== 'Accounts' || empty($bean->parent_id)) {
+            return;
+        }
+
+        /** @var Account $account */
+        $account = BeanFactory::getBean('Accounts', $bean->parent_id, ['disable_row_level_security' => true]);
+        if (empty($account) || empty($account->id)) {
+            return;
+        }
+
+        $this->copyRestaurantContactInfo($bean, $account);
+    }
+
+    protected function copyRestaurantContactInfo(SugarBean $bean, SugarBean $account): void
+    {
         $bean->restaurant_phone_c = (string) ($account->phone_office ?? '');
         $bean->restaurant_website_c = $this->normalizeWebsite((string) ($account->website ?? ''));
         $bean->restaurant_email_c = $this->getPrimaryEmail($account);

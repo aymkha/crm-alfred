@@ -22,3 +22,11 @@ $hook_array['after_retrieve'][] = [
     'CallRestaurantInfo',
     'addRestaurantContactInfo',
 ];
+
+$hook_array['process_record'][] = [
+    1,
+    'Load restaurant contact details for list views',
+    'custom/modules/Calls/CallRestaurantInfo.php',
+    'CallRestaurantInfo',
+    'populateForListView',
+];
