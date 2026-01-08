@@ -14,3 +14,11 @@ $hook_array['before_save'][] = [
     'CallActionDefaults',
     'populateFromAccount',
 ];
+
+$hook_array['after_retrieve'][] = [
+    1,
+    'Load restaurant contact details from related Account',
+    'custom/modules/Calls/CallRestaurantInfo.php',
+    'CallRestaurantInfo',
+    'addRestaurantContactInfo',
+];

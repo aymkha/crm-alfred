@@ -14,3 +14,6 @@ $mod_strings['LBL_LEADS_SUBPANEL_TITLE'] = 'Prospects';
 $mod_strings['LBL_RESCHEDULE_COUNT'] = 'Action Attempts';
 $mod_strings['LBL_RESCHEDULE_HISTORY'] = 'Action Attempt History';
 $mod_strings['LBL_ACTION_LIST'] = 'ACTION LIST';
+$mod_strings['LBL_RESTAURANT_PHONE'] = 'Téléphone du restaurant';
+$mod_strings['LBL_RESTAURANT_EMAIL'] = 'Email du restaurant';
+$mod_strings['LBL_RESTAURANT_WEBSITE'] = 'Site web du restaurant';

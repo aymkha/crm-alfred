@@ -181,6 +181,30 @@ array(
         array(
           0 =>
           array(
+            'name' => 'restaurant_phone_c',
+            'label' => 'LBL_RESTAURANT_PHONE',
+            'customCode' => '{if $fields.restaurant_phone_c.value}{$fields.restaurant_phone_c.value|escape:"html"}{else}&nbsp;{/if}',
+          ),
+          1 =>
+          array(
+            'name' => 'restaurant_email_c',
+            'label' => 'LBL_RESTAURANT_EMAIL',
+            'customCode' => '{if $fields.restaurant_email_c.value}<a href="mailto:{$fields.restaurant_email_c.value|escape:\'url\'}">{$fields.restaurant_email_c.value|escape}</a>{else}&nbsp;{/if}',
+          ),
+        ),
+        3 =>
+        array(
+          0 =>
+          array(
+            'name' => 'restaurant_website_c',
+            'label' => 'LBL_RESTAURANT_WEBSITE',
+            'customCode' => '{if $fields.restaurant_website_c.value}<a href="{$fields.restaurant_website_c.value|escape:\'url\'}" target="_blank" rel="noopener">{$fields.restaurant_website_c.value|escape}</a>{else}&nbsp;{/if}',
+          ),
+        ),
+        4 =>
+        array(
+          0 =>
+          array(
             'name' => 'duration_hours',
             'customCode' => '{$fields.duration_hours.value}{$MOD.LBL_HOURS_ABBREV} {$fields.duration_minutes.value}{$MOD.LBL_MINSS_ABBREV}&nbsp;',
             'label' => 'LBL_DURATION',
@@ -196,7 +220,7 @@ array(
                     'label' => 'LBL_REMINDERS',
                 ),
         ),
-        3 =>
+        5 =>
         array(
           0 =>
           array(
@@ -204,7 +228,7 @@ array(
             'label' => 'LBL_ACTION_LIST',
           ),
         ),
-        4 =>
+        6 =>
         array(
           0 =>
           array(
@@ -213,7 +237,7 @@ array(
             'label' => 'LBL_DESCRIPTION',
           ),
         ),
-        5 =>
+        7 =>
         array(
           0 =>
           array(
